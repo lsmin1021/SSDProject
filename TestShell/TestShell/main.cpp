@@ -1,6 +1,17 @@
-#include "gmock/gmock.h"
+#include <iostream>
+#ifdef _DEBUG
+#include <gmock/gmock.h>
+#endif
+#include "test_shell_app.h"
 
-int main() {
-	::testing::InitGoogleMock();
-	return RUN_ALL_TESTS();
+int main(int argc, char* argv[]) {
+#ifdef _DEBUG
+    ::testing::InitGoogleMock(&argc, argv);
+    return RUN_ALL_TESTS();
+#else
+    //TestShellApp testShell{ssdInterface};
+    //testShell.argParser(&argc, argv);
+
+    return 0;
+#endif
 }
