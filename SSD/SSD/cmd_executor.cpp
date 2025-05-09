@@ -12,6 +12,10 @@ public:
 		}
 	}
 
+	string read(int lba) {
+		return m_ssdDevice[lba];
+	}
+
 	void write(int lba, string value) {
 		if (false == isValidLBA(lba)) {
 			throw std::exception("[WRITE ERROR] Out of lba");

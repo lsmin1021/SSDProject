@@ -27,3 +27,11 @@ TEST_F(CmdExecutorFixture, WriteInvalidValueRange) {
 TEST_F(CmdExecutorFixture, WriteInvalidValueNumber) {
 	EXPECT_THROW(cmdExecutor.write(3, "0x123.1r3e"), std::exception);
 }
+
+TEST_F(CmdExecutorFixture, ReadMain) {
+	cmdExecutor.write(3, "0x12341234");
+
+	string ret = cmdExecutor.read(3);
+
+	EXPECT_EQ("0x12341234", ret);
+}
