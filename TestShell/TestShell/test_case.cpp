@@ -6,23 +6,31 @@
 #include "test_shell_app.h"
 
 class MockSddFixture : public ::testing::Test {
-public:
-	MockSsd mockSsd;
+protected:
+	void SetUp() {
+		m_tespApp = new TestShellApp(&m_mockSsd);
+	}
 
+public:
+	const string READ_CMD = "read";
+	const string WRITE_CMD = "write";
 	const string TEST_LBA = "0";
 	const string TEST_DATA = "0x00000000";
+
+	MockSsd m_mockSsd;
+	TestShellApp* m_tespApp;
 };
 
 TEST_F(MockSddFixture, MockRead) {
 	// Arrange
-	EXPECT_CALL(mockSsd, readData(TEST_LBA)).Times(1);
+	EXPECT_CALL(m_mockSsd, readData(TEST_LBA)).Times(1);
 	// Act
-	mockSsd.readData(TEST_LBA);
+	m_tespApp->readCommand(TEST_LBA);
 }
 
 TEST_F(MockSddFixture, MockWrite) {
 	// Arrange
-	EXPECT_CALL(mockSsd, writeData(TEST_LBA, TEST_DATA)).Times(1);
+	EXPECT_CALL(m_mockSsd, writeData(TEST_LBA, TEST_DATA)).Times(1);
 	// Act
-	mockSsd.writeData(TEST_LBA, TEST_DATA);
+	m_tespApp->writeCommand(TEST_LBA, TEST_DATA);
 }
