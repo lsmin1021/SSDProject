@@ -12,12 +12,12 @@ public:
 		: m_ssd(m_ssd) {
 	}
 
+	bool argParser(int argc, char* argv[]);
 	void writeCommand(const string& lba, const string& value);
 	void readCommand(const string& lba);
 	void fullWriteCommand();
 	void fullReadCommand();
 	void helpCommand();
-	bool argParser(int argc, char* argv[]);
 private:
 	SsdInterface* m_ssd;	
 };
