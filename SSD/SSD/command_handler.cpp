@@ -15,6 +15,7 @@ public:
 			if (isValidValue(cmdArr[VALUE_INDEX]) == false) return false;
 			return true;
 		}
+		if (cmdArr[0] == "R") return true;
 
 		return false;
 	}
