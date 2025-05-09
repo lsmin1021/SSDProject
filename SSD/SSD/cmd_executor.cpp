@@ -1,6 +1,8 @@
 #include <vector>
 #include <string>
 
+#include "nand_handler.cpp"
+
 using std::string;
 using std::vector;
 
@@ -33,9 +35,31 @@ public:
 		}
 
 		m_ssdDevice[lba] = value;
+
+		m_nandHandler->write(storageToString());
+	}
+
+	void setNandHandler(FileHandler* handler) {
+		m_nandHandler = handler;
+	}
+
+	void setOutputHandler(FileHandler* handler) {
+		m_outputHandler = handler;
 	}
 
 private:
+	string storageToString() {
+		string ret;
+
+		for (int i = 0; i < m_ssdDevice.size(); i++) {
+			ret.append(std::to_string(i));
+			ret.append(" ");
+			ret.append(m_ssdDevice[i]);
+			ret.append("\n");
+		}
+
+		return ret;
+	}
 	bool isEmptyLBA(int lba) {
 		if (true == m_ssdDevice[lba].empty()) {
 			return true;
@@ -62,8 +86,8 @@ private:
 		else {
 			for (int i = 0; i < value.length(); i++) {
 				if (('0' <= value[i] && '9' >= value[i]) ||
-					('a' <= value[i] && 'z' >= value[i]) ||
-					('A' <= value[i] && 'Z' >= value[i])) {
+					('a' <= value[i] && 'f' >= value[i]) ||
+					('A' <= value[i] && 'F' >= value[i])) {
 					continue;
 				}
 
@@ -76,5 +100,10 @@ private:
 
 	vector<string> m_ssdDevice;
 
+	FileHandler* m_nandHandler = nullptr;
+	FileHandler* m_outputHandler = nullptr;
+
 	const string EMPTY_VALUE = "0x00000000";
+
+
 };
