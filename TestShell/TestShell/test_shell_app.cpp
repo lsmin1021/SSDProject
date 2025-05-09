@@ -1,28 +1,27 @@
 #include "test_shell_app.h"
 
-// 함수 선언 (구현은 필요에 따라 작성)
 void TestShellApp::writeCommand(const string& lba, const string& value) {
     cout << "[write] LBA: " << lba << ", Value: " << value << std::endl;
-    // TODO: write 로직 구현
+    // TODO: write
 }
 
 void TestShellApp::readCommand(const string& lba) {
     cout << "[read] LBA: " << lba << std::endl;
-    // TODO: read 로직 구현
+    // TODO: read
 }
 
 void TestShellApp::fullWriteCommand() {
     cout << "[fullwrite] All LBA writing..." << std::endl;
-    // TODO: fullwrite 로직 구현
+    // TODO: fullwrite
 }
 
 void TestShellApp::fullReadCommand() {
     cout << "[fullread] All LBA reading..." << std::endl;
-    // TODO: fullread 로직 구현
+    // TODO: fullread
 }
 
 void TestShellApp::helpCommand() {
-    cout << "[help] 명령어 사용법:\n";
+    cout << "[help] command usage:\n";
     cout << "write <lba> <value>\n";
     cout << "read <lba>\n";
     cout << "fullwrite\n";
@@ -39,7 +38,7 @@ bool TestShellApp::argParser(int argc, char* argv[])
     }
 
     string command = argv[1];
-    //TOdO : 파라미터의Format이 정확해야 함, check 루틴 추가 필요
+    //TODO : need to check parameter format
 
     if (command == "write") {
         if (argc != 4) {
