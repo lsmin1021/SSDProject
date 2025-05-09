@@ -17,6 +17,7 @@ public:
 	const string TEST_LBA = "0";
 	const string TEST_DATA = "0x00000000";
 
+	const string IVALID_TEST_LBA = "100";
 	MockSsd m_mockSsd;
 	TestShellApp* m_tespApp;
 };
@@ -26,6 +27,12 @@ TEST_F(MockSddFixture, ReadSuccess) {
 	EXPECT_CALL(m_mockSsd, readData(TEST_LBA)).Times(1);
 	// Act
 	m_tespApp->readCommand(TEST_LBA);
+}
+TEST_F(MockSddFixture, ReadFail) {
+	// Arrange
+	EXPECT_CALL(m_mockSsd, readData(TEST_LBA)).Times(0);
+	// Act
+	m_tespApp->readCommand(IVALID_TEST_LBA);
 }
 
 TEST_F(MockSddFixture, MockWrite) {

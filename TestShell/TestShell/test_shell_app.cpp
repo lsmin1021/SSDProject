@@ -5,8 +5,13 @@ void TestShellApp::writeCommand(const string& lba, const string& value) {
     // TODO: write
 }
 
-void TestShellApp::readCommand(const string& lba) {
-	m_ssd->readData(lba);
+void TestShellApp::readCommand(const string& lbaString) {
+    int lba = std::stoi(lbaString);
+    if(lba > 99){
+		cout << "INVALID COMMEND" << std::endl;
+		return;
+	}
+	m_ssd->readData(lbaString);
 }
 
 void TestShellApp::fullWriteCommand() {
