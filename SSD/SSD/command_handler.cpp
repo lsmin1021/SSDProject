@@ -15,6 +15,20 @@ public:
 		if (isEmptyCmd(cmdArr)) return false;
 		if (isValidWriteCommand(cmdArr)) {
 			if (isValidLBA(cmdArr) == false) return false;
+
+			if (cmdArr[2].length() != 10) return false;
+			if (0 != cmdArr[2].find("0x")) return false;
+
+			for (int i = 2; i < cmdArr[2].length(); i++) {
+				char ch = cmdArr[2][i];
+				if (('0' <= ch && '9' >= ch) ||
+					('a' <= ch && 'f' >= ch) ||
+					('A' <= ch && 'F' >= ch)) {
+					continue;
+				}
+				return false;
+			}
+
 			return true;
 		}
 

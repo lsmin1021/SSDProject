@@ -47,3 +47,10 @@ TEST_F(CommandHandlerFixture, ValidCommandCheck_Write_Fail_InvalidLBA_NotInteger
 	isValidCommand(false, { WRITE_COMMAND, "123fe", VALID_VALUE });
 	isValidCommand(false, { WRITE_COMMAND, "0.2", VALID_VALUE });
 }
+
+TEST_F(CommandHandlerFixture, ValidCommandCheck_Write_Fail_InvalidValue) {
+	isValidCommand(false, { WRITE_COMMAND, VALID_LBA, "00000000"});
+	isValidCommand(false, { WRITE_COMMAND, VALID_LBA, "0x0000" });
+	isValidCommand(false, { WRITE_COMMAND, VALID_LBA, "0x1234567890" });
+	isValidCommand(false, { WRITE_COMMAND, VALID_LBA, "0x12345XYZ" });
+}
