@@ -3,7 +3,7 @@
 
 TEST(CommandHandler, ValidCommandCheck_Write_Success) {
 	CommandHandler app;
-	
+
 	vector<string> cmd = { "W", "0", "0x12345678" };
 
 	bool expected = true;
@@ -24,7 +24,7 @@ TEST(CommandHandler, ValidCommandCheck_Write_Fail_LessArgument) {
 TEST(CommandHandler, ValidCommandCheck_Write_Fail_InvalidLBA_LargeValue) {
 	CommandHandler app;
 
-	vector<string> cmd = { "W", "120", "0x12345678"};
+	vector<string> cmd = { "W", "120", "0x12345678" };
 
 	bool expected = false;
 	bool actual = app.isValidCommand(cmd);

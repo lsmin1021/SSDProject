@@ -118,6 +118,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <Optimization>Disabled</Optimization>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -128,14 +129,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="cmd_executor.cpp" />
+    <ClCompile Include="cmd_exec_testcase.cpp" />
     <ClCompile Include="command_handler.cpp">
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'"> %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <ClCompile Include="command_handler_test_case.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="cmd_exec_testcase.cpp">
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'"> %(AdditionalOptions)</AdditionalOptions>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />
