@@ -30,49 +30,65 @@ void TestShellApp::helpCommand() {
     cout << "exit\n";
 }
 
-bool TestShellApp::argParser(int argc, char* argv[])
+bool TestShellApp::cmdParserAndExcute(const string& cmd)
 {
-    if (argc < 2) {
-        cout << "command needed.. (Please refer help)" << std::endl;
-        return 1;
+    std::istringstream iss(cmd);
+    vector<string> tokens;
+    string token;
+
+    while (iss >> token) {
+        tokens.push_back(token);
     }
 
-    string command = argv[1];
-    //TODO : need to check parameter format
+    if (tokens.empty()) {
+        throw std::invalid_argument("Empty command");
+    }
+
+    const string& command = tokens[0];
 
     if (command == "write") {
-        if (argc != 4) {
-            cout << "Usage: write <lba> <value>" << std::endl;
-            return 1;
+        if (tokens.size() != 3) {
+            throw std::invalid_argument("Usage: write <lba> <value>");
         }
-        string lba = argv[2];
-        string value = argv[3];
-        //writeCommand(lba, value);
+        string lba = tokens[1];
+        string value = tokens[2];
+        writeCommand(lba, value);
     }
     else if (command == "read") {
-        if (argc != 3) {
-            cout << "Usage: read <lba>" << std::endl;
-            return 1;
+        if (tokens.size() != 2) {
+            throw std::invalid_argument("Usage: read <lba>");
         }
-        int lba = std::stoi(argv[2]);
-        //readCommand(lba);
+        string lba = tokens[1];
+        readCommand(lba);
     }
     else if (command == "fullwrite") {
-        //fullWriteCommand();
+        if (tokens.size() != 1) {
+            throw std::invalid_argument("Usage: fullwrite");
+        }
+        fullWriteCommand();
     }
     else if (command == "fullread") {
-        //fullReadCommand();
+        if (tokens.size() != 1) {
+            throw std::invalid_argument("Usage: fullread");
+        }
+        fullReadCommand();
     }
     else if (command == "help") {
-        //helpCommand();
+        if (tokens.size() != 1) {
+            throw std::invalid_argument("Usage: help");
+        }
+        helpCommand();
     }
     else if (command == "exit") {
-        cout << "exit." << std::endl;
-        return 0;
+        if (tokens.size() != 1) {
+            throw std::invalid_argument("Usage: exit");
+        }
+        std::cout << "Exiting program." << std::endl;
+        return false;
     }
     else {
-        cout << "INVALID COMMAND" << std::endl;
-        return 1;
+        throw std::invalid_argument("Invalid command: " + command);
     }
 
+    return true;
 }
