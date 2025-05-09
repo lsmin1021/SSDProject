@@ -7,9 +7,6 @@ using std::vector;
 using std::string;
 
 class CommandHandler {
-private:
-	const int MAX_LBA = 99;
-	const int MIN_LBA = 0;
 public:
 	bool isValidCommand(vector<string> cmdArr) {
 		if (isEmptyCmd(cmdArr)) return false;
@@ -23,6 +20,13 @@ public:
 		return false;
 	}
 
+	void execute(const vector<string>& cmd) {
+		CmdExecutor app;
+		if (cmd[0] == "W") {
+			app.write(std::stoi(cmd[1]), cmd[2]);
+		}
+	}
+private:
 	bool isValidValue(const string& value) {
 		if (value.length() != 10) return false;
 		if (0 != value.find("0x")) return false;
@@ -63,10 +67,6 @@ public:
 		return true;
 	}
 
-	void execute(const vector<string>& cmd) {
-		CmdExecutor app;
-		if (cmd[0] == "W") {
-			app.write(std::stoi(cmd[1]), cmd[2]);
-		}
-	}
+	const int MAX_LBA = 99;
+	const int MIN_LBA = 0;
 };
