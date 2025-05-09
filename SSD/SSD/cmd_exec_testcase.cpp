@@ -1,6 +1,12 @@
 #include "cmd_executor.cpp"
 #include "gmock/gmock.h"
 
+class mockNandHandler : public FileHandler {
+public:
+	MOCK_METHOD(string, read, (), (override));
+	MOCK_METHOD(void, write, (string), (override));
+};
+
 class CmdExecutorFixture : public testing::Test {
 public:
 	CmdExecutor cmdExecutor;

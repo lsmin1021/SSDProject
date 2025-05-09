@@ -1,6 +1,8 @@
 #include <vector>
 #include <string>
 
+#include "nand_handler.cpp"
+
 using std::string;
 using std::vector;
 
@@ -10,6 +12,9 @@ public:
 		for (int i = 0; i < 100; i++) {
 			m_ssdDevice.push_back("");
 		}
+
+		m_nandHandler = new NandHandler();
+		m_outputHandler = new OutputHandler();
 	}
 
 	string read(int lba) {
@@ -33,6 +38,14 @@ public:
 		}
 
 		m_ssdDevice[lba] = value;
+	}
+
+	void setNandHandler(FileHandler* handler) {
+		m_nandHandler = handler;
+	}
+
+	void setOutputHandler(FileHandler* handler) {
+		m_outputHandler = handler;
 	}
 
 private:
@@ -76,5 +89,10 @@ private:
 
 	vector<string> m_ssdDevice;
 
+	FileHandler* m_nandHandler = nullptr;
+	FileHandler* m_outputHandler = nullptr;
+
 	const string EMPTY_VALUE = "0x00000000";
+
+
 };
