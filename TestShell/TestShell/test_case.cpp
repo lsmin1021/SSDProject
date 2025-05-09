@@ -16,6 +16,7 @@ public:
 	const string WRITE_CMD = "write";
 	const string TEST_LBA = "0";
 	const string TEST_DATA = "0x00000000";
+	const string INVALID_CMD = "test";
 
 	const string IVALID_TEST_LBA = "100";
 	MockSsd m_mockSsd;
@@ -47,4 +48,9 @@ TEST_F(MockSddFixture, MockWrite) {
 	EXPECT_CALL(m_mockSsd, writeData(TEST_LBA, TEST_DATA)).Times(1);
 	// Act
 	m_tespApp->writeCommand(TEST_LBA, TEST_DATA);
+}
+
+TEST_F(MockSddFixture, InavlidCmd) {
+	// Arrange, Act
+	EXPECT_THROW(m_tespApp->cmdParserAndExcute(INVALID_CMD), std::invalid_argument);
 }
