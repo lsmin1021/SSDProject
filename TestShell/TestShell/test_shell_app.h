@@ -1,10 +1,14 @@
 #pragma once
 #include <iostream>
 #include <string>
+#include <sstream>
 #include <algorithm>
+#include <vector>
 #include "ssd_interface.h"
-using std::string;
+
 using std::cout;
+using std::string;
+using std::vector;
 
 class TestShellApp {
 public:
@@ -12,7 +16,7 @@ public:
 		: m_ssd(m_ssd) {
 	}
 
-	bool argParser(int argc, char* argv[]);
+	bool cmdParserAndExcute(const string& cmd);
 	void writeCommand(const string& lba, const string& value);
 	void readCommand(const string& lba);
 	void fullWriteCommand();
