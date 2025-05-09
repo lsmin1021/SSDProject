@@ -31,7 +31,7 @@ private:
 	}
 
 	bool isValidWriteCommand(const vector<string>& cmdArr) {
-		return cmdArr[COMMAND_INDEX] == WRITE_COMMAND && cmdArr.size() == WRITE_ARGUMENT_COUNT;
+		return (cmdArr[COMMAND_INDEX] == WRITE_COMMAND && cmdArr.size() == WRITE_ARGUMENT_COUNT);
 	}
 
 	bool isValidLBA(const string& lbaString) {
