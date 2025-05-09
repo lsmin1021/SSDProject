@@ -84,7 +84,7 @@ private:
 			return false;
 		}
 		else {
-			for (int i = 0; i < value.length(); i++) {
+			for (int i = 2; i < value.length(); i++) {
 				if (('0' <= value[i] && '9' >= value[i]) ||
 					('a' <= value[i] && 'f' >= value[i]) ||
 					('A' <= value[i] && 'F' >= value[i])) {
