@@ -12,6 +12,18 @@ public:
 		}
 	}
 
+	string read(int lba) {
+		if (false == isValidLBA(lba)) {
+			throw std::exception("[READ ERROR] Out of lba");
+		}
+
+		if (true == isEmptyLBA(lba)) {
+			return EMPTY_VALUE;
+		}
+
+		return m_ssdDevice[lba];
+	}
+
 	void write(int lba, string value) {
 		if (false == isValidLBA(lba)) {
 			throw std::exception("[WRITE ERROR] Out of lba");
@@ -24,6 +36,14 @@ public:
 	}
 
 private:
+	bool isEmptyLBA(int lba) {
+		if (true == m_ssdDevice[lba].empty()) {
+			return true;
+		}
+
+		return false;
+	}
+
 	bool isValidLBA(int lba) {
 		if (0 > lba || 100 <= lba) {
 			return false;
@@ -55,4 +75,6 @@ private:
 	}
 
 	vector<string> m_ssdDevice;
+
+	const string EMPTY_VALUE = "0x00000000";
 };
