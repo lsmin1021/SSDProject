@@ -24,9 +24,10 @@ public:
 			catch (std::out_of_range&) {
 				return false;
 			}
+			return true;
 		}
 
-		return true;
+		return false;
 	}
 
 	void execute(vector<string> cmd) {
