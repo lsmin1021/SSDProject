@@ -1,4 +1,4 @@
-# SSD Project
+# 팀명 : **CleanCode**
 
 ## 📌 프로젝트 개요
 이 프로젝트는 SSD 시뮬레이션을 위한 프로그램으로, 명령어 기반의 **Test Shell**과 **SSD 기능 구현 (Write/Read)** 기능을 제공합니다.  
