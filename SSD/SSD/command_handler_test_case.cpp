@@ -21,21 +21,29 @@ TEST_F(CommandHandlerFixture, ValidCommandCheck_Write_Success) {
 }
 
 TEST_F(CommandHandlerFixture, ValidCommandCheck_Write_Fail_LessArgument) {
+	isValidCommand(false, {});
+	isValidCommand(false, { WRITE_COMMAND });
 	isValidCommand(false, { WRITE_COMMAND, VALID_LBA });
+	isValidCommand(false, { WRITE_COMMAND, VALID_VALUE });
+}
+
+TEST_F(CommandHandlerFixture, ValidCommandCheck_Write_Fail_ManyArgument) {
+	isValidCommand(false, { WRITE_COMMAND, VALID_LBA, VALID_VALUE, VALID_VALUE });
+	isValidCommand(false, { WRITE_COMMAND, WRITE_COMMAND, VALID_LBA, VALID_VALUE, VALID_VALUE });
 }
 
 TEST_F(CommandHandlerFixture, ValidCommandCheck_Write_Fail_InvalidLBA_LargeValue) {
 	isValidCommand(false, { WRITE_COMMAND, "120", VALID_VALUE });
+	isValidCommand(false, { WRITE_COMMAND, "9999", VALID_VALUE });
 }
 
 TEST_F(CommandHandlerFixture, ValidCommandCheck_Write_Fail_InvalidLBA_NegativeValue) {
 	isValidCommand(false, { WRITE_COMMAND, "-1", VALID_VALUE });
 }
 
-TEST_F(CommandHandlerFixture, ValidCommandCheck_Write_Fail_InvalidLBA_NotInteger1) {
+TEST_F(CommandHandlerFixture, ValidCommandCheck_Write_Fail_InvalidLBA_NotInteger) {
 	isValidCommand(false, { WRITE_COMMAND, "3.14", VALID_VALUE });
-}
-
-TEST_F(CommandHandlerFixture, ValidCommandCheck_Write_Fail_InvalidLBA_NotInteger2) {
 	isValidCommand(false, { WRITE_COMMAND, "abc", VALID_VALUE });
+	isValidCommand(false, { WRITE_COMMAND, "123fe", VALID_VALUE });
+	isValidCommand(false, { WRITE_COMMAND, "0.2", VALID_VALUE });
 }
