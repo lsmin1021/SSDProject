@@ -15,3 +15,15 @@ TEST_F(CmdExecutorFixture, WriteMain) {
 TEST_F(CmdExecutorFixture, WriteOutOfLBA) {
 	EXPECT_THROW(cmdExecutor.write(101, "0x12341234"), std::exception);
 }
+
+TEST_F(CmdExecutorFixture, WriteInvalidValueFormat) {
+	EXPECT_THROW(cmdExecutor.write(3, "12341234"), std::exception);
+}
+
+TEST_F(CmdExecutorFixture, WriteInvalidValueRange) {
+	EXPECT_THROW(cmdExecutor.write(3, "0x1234123er3e"), std::exception);
+}
+
+TEST_F(CmdExecutorFixture, WriteInvalidValueNumber) {
+	EXPECT_THROW(cmdExecutor.write(3, "0x123.1r3e"), std::exception);
+}

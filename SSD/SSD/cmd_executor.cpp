@@ -17,6 +17,24 @@ public:
 			throw std::exception("[WRITE ERROR] Out of lba");
 		}
 
+		if (0 != value.find("0x")) {
+			throw std::exception("[WRITE ERROR] Invalid value to write. Not start with 0x");
+		}
+		else if (10 != value.length()) {
+			throw std::exception("[WRITE ERROR] Invalid value to write. Value's length must be 10.");
+		}
+		else {
+			for (int i = 0; i < value.length(); i++) {
+				if (('0' <= value[i] && '9' >= value[i]) ||
+					('a' <= value[i] && 'z' >= value[i]) ||
+					('A' <= value[i] && 'Z' >= value[i])) {
+					continue;
+				}
+
+				throw std::exception("[WRITE ERROR] Invalid value to write. Value must be hexa number.");
+			}
+		}
+
 		m_ssdDevice[lba] = value;
 	}
 
@@ -28,5 +46,6 @@ private:
 
 		return true;
 	}
+
 	vector<string> m_ssdDevice;
 };
