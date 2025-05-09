@@ -1,11 +1,11 @@
-#include "cmd_executer.cpp"
+#include "cmd_executor.cpp"
 #include "gmock/gmock.h"
 
 
-TEST(TS, TC1) {
-	CmdExecuter cmdExecuter;
+TEST(CommandExecutor, TC1) {
+	CmdExecutor cmdExecutor;
 
-	cmdExecuter.write(3, "0x12341234");
+	cmdExecutor.write(3, "0x12341234");
 
 	EXPECT_NO_THROW(std::exception);
 }
