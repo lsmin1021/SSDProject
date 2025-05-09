@@ -13,6 +13,10 @@ public:
 	}
 
 	string read(int lba) {
+		if (false == isValidLBA(lba)) {
+			throw std::exception("[READ ERROR] Out of lba");
+		}
+
 		return m_ssdDevice[lba];
 	}
 
