@@ -5,11 +5,11 @@ class CmdExecutorFixture : public testing::Test {
 public:
 	CmdExecutor cmdExecutor;
 
-	string VALID_VALUE = "0x12341234";
-	string EMPTY_VALUE = "0x00000000";
-	string INVAID_VALUE_FORMET = "12341234";
-	string INVAID_VALUE_RANGE = "0x1234123er3e";
-	string INVAID_VALUE_NUMBER = "0x123.1r3e";
+	const string VALID_VALUE = "0x12341234";
+	const string EMPTY_VALUE = "0x00000000";
+	const string INVAID_VALUE_FORMET = "12341234";
+	const string INVAID_VALUE_RANGE = "0x1234123er3e";
+	const string INVAID_VALUE_NUMBER = "0x123.1r3e";
 };
 
 TEST_F(CmdExecutorFixture, WriteMain) {
