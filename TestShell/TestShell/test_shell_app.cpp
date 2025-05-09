@@ -6,8 +6,7 @@ void TestShellApp::writeCommand(const string& lba, const string& value) {
 }
 
 void TestShellApp::readCommand(const string& lba) {
-    cout << "[read] LBA: " << lba << std::endl;
-    // TODO: read
+	m_ssd->readData(lba);
 }
 
 void TestShellApp::fullWriteCommand() {

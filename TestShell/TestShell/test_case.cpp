@@ -21,7 +21,7 @@ public:
 	TestShellApp* m_tespApp;
 };
 
-TEST_F(MockSddFixture, MockRead) {
+TEST_F(MockSddFixture, ReadSuccess) {
 	// Arrange
 	EXPECT_CALL(m_mockSsd, readData(TEST_LBA)).Times(1);
 	// Act
