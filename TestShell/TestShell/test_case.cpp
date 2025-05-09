@@ -5,18 +5,24 @@
 #include "ssd_driver.h"
 #include "test_shell_app.h"
 
-TEST(TestShell, MockRead) {
-	// Arrange
+class MockSddFixture : public ::testing::Test {
+public:
 	MockSsd mockSsd;
-	EXPECT_CALL(mockSsd, readData("0")).Times(1);
+
+	const string TEST_LBA = "0";
+	const string TEST_DATA = "0x00000000";
+};
+
+TEST_F(MockSddFixture, MockRead) {
+	// Arrange
+	EXPECT_CALL(mockSsd, readData(TEST_LBA)).Times(1);
 	// Act
-	mockSsd.readData("0");
+	mockSsd.readData(TEST_LBA);
 }
 
-TEST(TestShell, MockWrite) {
+TEST_F(MockSddFixture, MockWrite) {
 	// Arrange
-	MockSsd mockSsd;
-	EXPECT_CALL(mockSsd, writeData("0", "0x00000000")).Times(1);
+	EXPECT_CALL(mockSsd, writeData(TEST_LBA, TEST_DATA)).Times(1);
 	// Act
-	mockSsd.writeData("0", "0x00000000");
+	mockSsd.writeData(TEST_LBA, TEST_DATA);
 }
