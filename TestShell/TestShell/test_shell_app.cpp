@@ -20,8 +20,8 @@ void TestShellApp::fullWriteCommand() {
 }
 
 void TestShellApp::fullReadCommand() {
-    cout << "[fullread] All LBA reading..." << std::endl;
-    // TODO: fullread
+    for(int ibs = 0; ibs < 100 ; ++ibs)
+        m_ssd->readData(std::to_string(ibs));
 }
 
 void TestShellApp::helpCommand() {

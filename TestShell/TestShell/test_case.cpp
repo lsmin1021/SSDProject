@@ -35,6 +35,13 @@ TEST_F(MockSddFixture, ReadFail) {
 	m_tespApp->readCommand(IVALID_TEST_LBA);
 }
 
+TEST_F(MockSddFixture, FullReadSuccess) {
+	// Arrange
+	EXPECT_CALL(m_mockSsd, readData(testing::_)).Times(100);
+	// Act
+	m_tespApp->fullReadCommand();
+}
+
 TEST_F(MockSddFixture, MockWrite) {
 	// Arrange
 	EXPECT_CALL(m_mockSsd, writeData(TEST_LBA, TEST_DATA)).Times(1);
