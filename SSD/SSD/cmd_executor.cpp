@@ -17,6 +17,10 @@ public:
 			throw std::exception("[READ ERROR] Out of lba");
 		}
 
+		if (true == m_ssdDevice[lba].empty()) {
+			return "0x00000000";
+		}
+
 		return m_ssdDevice[lba];
 	}
 
