@@ -13,12 +13,20 @@ public:
 	}
 
 	void write(int lba, string value) {
-		if (0 > lba || 100 <= lba) {
+		if (false == isValidLBA(lba)) {
 			throw std::exception("[WRITE ERROR] Out of lba");
 		}
+
 		m_ssdDevice[lba] = value;
 	}
 
 private:
+	bool isValidLBA(int lba) {
+		if (0 > lba || 100 <= lba) {
+			return false;
+		}
+
+		return true;
+	}
 	vector<string> m_ssdDevice;
 };
