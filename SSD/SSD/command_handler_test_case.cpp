@@ -10,34 +10,32 @@ public:
 	}
 
 	CommandHandler app;
+	
+	const string WRITE_COMMAND = "W";
+	const string VALID_LBA = "0";
+	const string VALID_VALUE = "0x12345678";
 };
 
 TEST_F(CommandHandlerFixture, ValidCommandCheck_Write_Success) {
-	vector<string> cmd = { "W", "0", "0x12345678" };
-	isValidCommand(true, cmd);
+	isValidCommand(true, { WRITE_COMMAND, VALID_LBA, VALID_VALUE });
 }
 
 TEST_F(CommandHandlerFixture, ValidCommandCheck_Write_Fail_LessArgument) {
-	vector<string> cmd = { "W", "0" };
-	isValidCommand(false, cmd);
+	isValidCommand(false, { WRITE_COMMAND, VALID_LBA });
 }
 
 TEST_F(CommandHandlerFixture, ValidCommandCheck_Write_Fail_InvalidLBA_LargeValue) {
-	vector<string> cmd = { "W", "120", "0x12345678" };
-	isValidCommand(false, cmd);
+	isValidCommand(false, { WRITE_COMMAND, "120", VALID_VALUE });
 }
 
 TEST_F(CommandHandlerFixture, ValidCommandCheck_Write_Fail_InvalidLBA_NegativeValue) {
-	vector<string> cmd = { "W", "-1", "0x12345678" };
-	isValidCommand(false, cmd);
+	isValidCommand(false, { WRITE_COMMAND, "-1", VALID_VALUE });
 }
 
 TEST_F(CommandHandlerFixture, ValidCommandCheck_Write_Fail_InvalidLBA_NotInteger1) {
-	vector<string> cmd = { "W", "3.14", "0x12345678" };
-	isValidCommand(false, cmd);
+	isValidCommand(false, { WRITE_COMMAND, "3.14", VALID_VALUE });
 }
 
 TEST_F(CommandHandlerFixture, ValidCommandCheck_Write_Fail_InvalidLBA_NotInteger2) {
-	vector<string> cmd = { "W", "abc", "0x12345678" };
-	isValidCommand(false, cmd);
+	isValidCommand(false, { WRITE_COMMAND, "abc", VALID_VALUE });
 }
