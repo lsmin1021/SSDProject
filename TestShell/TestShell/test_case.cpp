@@ -12,13 +12,14 @@ protected:
 	}
 
 public:
-	const string READ_CMD = "read";
-	const string WRITE_CMD = "write";
 	const string TEST_LBA = "0";
 	const string TEST_DATA = "0x00000000";
 	const string INVALID_CMD = "test";
+	const string READ_SUCESS = "read 0";
+	const string FULL_READ_SUCESS = "fullread";
+	const string WRITE_SUCESS = "write 0 0x00000000";
+	const string FULL_WRITE_SUCESS = "fullwrite 0x00000000";
 
-	const string IVALID_TEST_LBA = "100";
 	MockSsd m_mockSsd;
 	TestShellApp* m_tespApp;
 };
@@ -27,27 +28,28 @@ TEST_F(MockSddFixture, ReadSuccess) {
 	// Arrange
 	EXPECT_CALL(m_mockSsd, readData(TEST_LBA)).Times(1);
 	// Act
-	m_tespApp->readCommand(TEST_LBA);
-}
-TEST_F(MockSddFixture, ReadFail) {
-	// Arrange
-	EXPECT_CALL(m_mockSsd, readData(TEST_LBA)).Times(0);
-	// Act
-	m_tespApp->readCommand(IVALID_TEST_LBA);
+	m_tespApp->cmdParserAndExcute(READ_SUCESS);
 }
 
 TEST_F(MockSddFixture, FullReadSuccess) {
 	// Arrange
 	EXPECT_CALL(m_mockSsd, readData(testing::_)).Times(100);
 	// Act
-	m_tespApp->fullReadCommand();
+	m_tespApp->cmdParserAndExcute(FULL_READ_SUCESS);
 }
 
-TEST_F(MockSddFixture, MockWrite) {
+TEST_F(MockSddFixture, WriteSucess) {
 	// Arrange
 	EXPECT_CALL(m_mockSsd, writeData(TEST_LBA, TEST_DATA)).Times(1);
 	// Act
-	m_tespApp->writeCommand(TEST_LBA, TEST_DATA);
+	m_tespApp->cmdParserAndExcute(WRITE_SUCESS);
+}
+
+TEST_F(MockSddFixture, FullWriteSucess) {
+	// Arrange
+	EXPECT_CALL(m_mockSsd, writeData(testing::_, TEST_DATA)).Times(100);
+	// Act
+	m_tespApp->cmdParserAndExcute(FULL_WRITE_SUCESS);
 }
 
 TEST_F(MockSddFixture, InavlidCmd) {

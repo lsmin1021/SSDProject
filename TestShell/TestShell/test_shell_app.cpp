@@ -1,8 +1,8 @@
 #include "test_shell_app.h"
 
 void TestShellApp::writeCommand(const string& lba, const string& value) {
-    cout << "[write] LBA: " << lba << ", Value: " << value << std::endl;
-    // TODO: write
+    m_ssd->writeData(lba, value);
+    cout << "write " << lba << " " << value << std::endl;
 }
 
 void TestShellApp::readCommand(const string& lbaString) {
@@ -14,14 +14,14 @@ void TestShellApp::readCommand(const string& lbaString) {
 	m_ssd->readData(lbaString);
 }
 
-void TestShellApp::fullWriteCommand() {
-    cout << "[fullwrite] All LBA writing..." << std::endl;
-    // TODO: fullwrite
+void TestShellApp::fullWriteCommand(const string& value) {
+    for (int lba = 0; lba < m_MAX_LBA; ++lba)
+        m_ssd->writeData(std::to_string(lba), value);
 }
 
 void TestShellApp::fullReadCommand() {
-    for(int ibs = 0; ibs < m_MAX_LBA; ++ibs)
-        m_ssd->readData(std::to_string(ibs));
+    for(int lba = 0; lba < m_MAX_LBA; ++lba)
+        m_ssd->readData(std::to_string(lba));
 }
 
 void TestShellApp::helpCommand() {
@@ -66,10 +66,11 @@ bool TestShellApp::cmdParserAndExcute(const string& cmd)
         readCommand(lba);
     }
     else if (command == "fullwrite") {
-        if (tokens.size() != 1) {
-            throw std::invalid_argument("Usage: fullwrite");
+        if (tokens.size() != 2) {
+            throw std::invalid_argument("Usage: fullwrite <value>");
         }
-        fullWriteCommand();
+        string value = tokens[1];
+        fullWriteCommand(value);
     }
     else if (command == "fullread") {
         if (tokens.size() != 1) {
