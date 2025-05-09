@@ -18,6 +18,8 @@ public:
 	void fullWriteCommand();
 	void fullReadCommand();
 	void helpCommand();
+
+	const int m_MAX_LBA = 100;
 private:
-	SsdInterface* m_ssd;	
+	SsdInterface* m_ssd;
 };

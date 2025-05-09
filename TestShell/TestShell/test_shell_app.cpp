@@ -7,7 +7,7 @@ void TestShellApp::writeCommand(const string& lba, const string& value) {
 
 void TestShellApp::readCommand(const string& lbaString) {
     int lba = std::stoi(lbaString);
-    if(lba > 99){
+    if(lba >= m_MAX_LBA){
 		cout << "INVALID COMMEND" << std::endl;
 		return;
 	}
@@ -20,7 +20,7 @@ void TestShellApp::fullWriteCommand() {
 }
 
 void TestShellApp::fullReadCommand() {
-    for(int ibs = 0; ibs < 100 ; ++ibs)
+    for(int ibs = 0; ibs < m_MAX_LBA; ++ibs)
         m_ssd->readData(std::to_string(ibs));
 }
 
