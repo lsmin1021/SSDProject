@@ -21,10 +21,40 @@ TEST(CommandHandler, ValidCommandCheck_Write_Fail_LessArgument) {
 	EXPECT_EQ(expected, actual);
 }
 
-TEST(CommandHandler, ValidCommandCheck_Write_Fail_InvalidLBA) {
+TEST(CommandHandler, ValidCommandCheck_Write_Fail_InvalidLBA_LargeValue) {
 	CommandHandler app;
 
 	vector<string> cmd = { "W", "120", "0x12345678"};
+
+	bool expected = false;
+	bool actual = app.isValidCommand(cmd);
+	EXPECT_EQ(expected, actual);
+}
+
+TEST(CommandHandler, ValidCommandCheck_Write_Fail_InvalidLBA_NegativeValue) {
+	CommandHandler app;
+
+	vector<string> cmd = { "W", "-1", "0x12345678" };
+
+	bool expected = false;
+	bool actual = app.isValidCommand(cmd);
+	EXPECT_EQ(expected, actual);
+}
+
+TEST(CommandHandler, ValidCommandCheck_Write_Fail_InvalidLBA_NotInteger1) {
+	CommandHandler app;
+
+	vector<string> cmd = { "W", "3.14", "0x12345678" };
+
+	bool expected = false;
+	bool actual = app.isValidCommand(cmd);
+	EXPECT_EQ(expected, actual);
+}
+
+TEST(CommandHandler, ValidCommandCheck_Write_Fail_InvalidLBA_NotInteger2) {
+	CommandHandler app;
+
+	vector<string> cmd = { "W", "abc", "0x12345678" };
 
 	bool expected = false;
 	bool actual = app.isValidCommand(cmd);
