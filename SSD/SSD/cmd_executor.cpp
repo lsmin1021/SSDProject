@@ -12,9 +12,6 @@ public:
 		for (int i = 0; i < 100; i++) {
 			m_ssdDevice.push_back("");
 		}
-
-		m_nandHandler = new NandHandler();
-		m_outputHandler = new OutputHandler();
 	}
 
 	string read(int lba) {
@@ -38,6 +35,15 @@ public:
 		}
 
 		m_ssdDevice[lba] = value;
+
+		string ret;
+		for (int i = 0; i < m_ssdDevice.size(); i++) {
+			ret.append(std::to_string(i));
+			ret.append(" ");
+			ret.append(m_ssdDevice[i]);
+			ret.append("\n");
+		}
+		m_nandHandler->write(ret);
 	}
 
 	void setNandHandler(FileHandler* handler) {

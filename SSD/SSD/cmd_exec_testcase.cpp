@@ -1,15 +1,24 @@
 #include "cmd_executor.cpp"
 #include "gmock/gmock.h"
 
-class mockNandHandler : public FileHandler {
+using namespace testing;
+
+class MockNandHandler : public FileHandler {
 public:
 	MOCK_METHOD(string, read, (), (override));
 	MOCK_METHOD(void, write, (string), (override));
 };
 
-class CmdExecutorFixture : public testing::Test {
+class CmdExecutorFixture : public Test {
+protected:
+	void SetUp() override {
+		cmdExecutor.setNandHandler(&mockHandler);
+		cmdExecutor.setOutputHandler(&mockHandler);
+	}
+
 public:
 	CmdExecutor cmdExecutor;
+	NiceMock<MockNandHandler> mockHandler;
 
 	const string VALID_VALUE = "0x12341234";
 	const string EMPTY_VALUE = "0x00000000";
@@ -58,4 +67,10 @@ TEST_F(CmdExecutorFixture, ReadOutOfLBA) {
 	cmdExecutor.write(3, VALID_VALUE);
 
 	EXPECT_THROW(cmdExecutor.read(101), std::exception);
+}
+
+TEST_F(CmdExecutorFixture, StoreWrittenValue) {
+	EXPECT_CALL(mockHandler, write).Times(1);
+
+	cmdExecutor.write(3, VALID_VALUE);
 }

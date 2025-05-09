@@ -9,7 +9,7 @@ public:
 	virtual string read() = 0;
 	virtual void write(string content) = 0;
 };
-
+/*
 class NandHandler : public FileHandler {
 public:
 	string read() {
@@ -37,3 +37,4 @@ public:
 private:
 	const string fileName = "output.txt";
 };
+*/
