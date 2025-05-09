@@ -12,8 +12,8 @@ public:
 		: m_ssd(m_ssd) {
 	}
 
-	void writeCommand(int lba, const std::string& value);
-	void readCommand(int lba);
+	void writeCommand(const string& lba, const string& value);
+	void readCommand(const string& lba);
 	void fullWriteCommand();
 	void fullReadCommand();
 	void helpCommand();
