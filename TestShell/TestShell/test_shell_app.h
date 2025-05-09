@@ -18,7 +18,7 @@ public:
 	bool cmdParserAndExcute(const string& cmd);
 	void writeCommand(const string& lba, const string& value);
 	void readCommand(const string& lba);
-	void fullWriteCommand();
+	void fullWriteCommand(const string& value);
 	void fullReadCommand();
 	void helpCommand();
 
