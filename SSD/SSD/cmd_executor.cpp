@@ -36,14 +36,7 @@ public:
 
 		m_ssdDevice[lba] = value;
 
-		string ret;
-		for (int i = 0; i < m_ssdDevice.size(); i++) {
-			ret.append(std::to_string(i));
-			ret.append(" ");
-			ret.append(m_ssdDevice[i]);
-			ret.append("\n");
-		}
-		m_nandHandler->write(ret);
+		m_nandHandler->write(storageToString());
 	}
 
 	void setNandHandler(FileHandler* handler) {
@@ -55,6 +48,18 @@ public:
 	}
 
 private:
+	string storageToString() {
+		string ret;
+
+		for (int i = 0; i < m_ssdDevice.size(); i++) {
+			ret.append(std::to_string(i));
+			ret.append(" ");
+			ret.append(m_ssdDevice[i]);
+			ret.append("\n");
+		}
+
+		return ret;
+	}
 	bool isEmptyLBA(int lba) {
 		if (true == m_ssdDevice[lba].empty()) {
 			return true;
@@ -81,8 +86,8 @@ private:
 		else {
 			for (int i = 0; i < value.length(); i++) {
 				if (('0' <= value[i] && '9' >= value[i]) ||
-					('a' <= value[i] && 'z' >= value[i]) ||
-					('A' <= value[i] && 'Z' >= value[i])) {
+					('a' <= value[i] && 'f' >= value[i]) ||
+					('A' <= value[i] && 'F' >= value[i])) {
 					continue;
 				}
 
