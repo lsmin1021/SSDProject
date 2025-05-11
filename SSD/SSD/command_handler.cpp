@@ -17,7 +17,7 @@ public:
 		}
 		if (cmdArr[0] == "R") {
 			if (cmdArr.size() != 2) return false;
-			
+			if (isValidLBA(cmdArr[LBA_INDEX]) == false) return false;
 			return true;
 		}
 

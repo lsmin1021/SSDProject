@@ -71,7 +71,7 @@ TEST_F(CommandHandlerFixture, ValidCommandCheck_Read_Fail_ManyArgument) {
 	isInvalidCommand({ READ_COMMAND, VALID_LBA, VALID_VALUE });
 	isInvalidCommand({ READ_COMMAND, READ_COMMAND, VALID_LBA, VALID_VALUE });
 }
-/*
+
 TEST_F(CommandHandlerFixture, ValidCommandCheck_Read_Fail_InvalidLBA_LargeValue) {
 	isInvalidCommand({ READ_COMMAND, "120", VALID_VALUE });
 	isInvalidCommand({ READ_COMMAND, "9999", VALID_VALUE });
@@ -86,4 +86,4 @@ TEST_F(CommandHandlerFixture, ValidCommandCheck_Read_Fail_InvalidLBA_NotInteger)
 	isInvalidCommand({ READ_COMMAND, "abc" });
 	isInvalidCommand({ READ_COMMAND, "123fe" });
 	isInvalidCommand({ READ_COMMAND, "0.2" });
-}*/
+}
