@@ -21,6 +21,9 @@ public:
 		if (cmd[COMMAND_INDEX] == WRITE_COMMAND) {
 			app.write(std::stoi(cmd[LBA_INDEX]), cmd[VALUE_INDEX]);
 		}
+		if (cmd[COMMAND_INDEX] == READ_COMMAND) {
+			app.read(std::stoi(cmd[LBA_INDEX]));
+		}
 	}
 private:
 	bool isEmptyCmd(const vector<string>& cmdArr) {
