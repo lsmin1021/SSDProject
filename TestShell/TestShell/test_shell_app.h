@@ -22,7 +22,7 @@ public:
 	void fullReadCommand();
 	void helpCommand();
 
-	const int m_MAX_LBA = 100;
+	const int m_MAX_LBA = 99;
 private:
 	SsdInterface* m_ssd;
 };

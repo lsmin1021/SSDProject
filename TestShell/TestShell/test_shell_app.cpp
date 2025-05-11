@@ -6,21 +6,16 @@ void TestShellApp::writeCommand(const string& lba, const string& value) {
 }
 
 void TestShellApp::readCommand(const string& lbaString) {
-    int lba = std::stoi(lbaString);
-    if(lba >= m_MAX_LBA){
-		cout << "INVALID COMMEND" << std::endl;
-		return;
-	}
 	m_ssd->readData(lbaString);
 }
 
 void TestShellApp::fullWriteCommand(const string& value) {
-    for (int lba = 0; lba < m_MAX_LBA; ++lba)
+    for (int lba = 0; lba <= m_MAX_LBA; ++lba)
         m_ssd->writeData(std::to_string(lba), value);
 }
 
 void TestShellApp::fullReadCommand() {
-    for(int lba = 0; lba < m_MAX_LBA; ++lba)
+    for(int lba = 0; lba <= m_MAX_LBA; ++lba)
         m_ssd->readData(std::to_string(lba));
 }
 
@@ -54,45 +49,69 @@ bool TestShellApp::cmdParserAndExcute(const string& cmd)
         if (tokens.size() != 3) {
             throw std::invalid_argument("Usage: write <lba> <value>");
         }
-        string lba = tokens[1];
-        string value = tokens[2];
-        writeCommand(lba, value);
     }
     else if (command == "read") {
         if (tokens.size() != 2) {
             throw std::invalid_argument("Usage: read <lba>");
         }
-        string lba = tokens[1];
-        readCommand(lba);
+        string lbaString = tokens[1];
+        std::size_t errorPos = 0;
+        int lba = std::stoi(lbaString,&errorPos);
+        if (errorPos != lbaString.size())
+        {
+            throw std::invalid_argument("Usage: decimal LBA");
+        }
+        if (lba > m_MAX_LBA || lba < 0) {
+            throw std::invalid_argument("Usage: 0 <= LBA < 100");
+        }
     }
     else if (command == "fullwrite") {
         if (tokens.size() != 2) {
             throw std::invalid_argument("Usage: fullwrite <value>");
         }
-        string value = tokens[1];
-        fullWriteCommand(value);
     }
     else if (command == "fullread") {
         if (tokens.size() != 1) {
             throw std::invalid_argument("Usage: fullread");
         }
-        fullReadCommand();
     }
     else if (command == "help") {
         if (tokens.size() != 1) {
             throw std::invalid_argument("Usage: help");
         }
-        helpCommand();
     }
     else if (command == "exit") {
         if (tokens.size() != 1) {
             throw std::invalid_argument("Usage: exit");
         }
-        std::cout << "Exiting program." << std::endl;
-        return false;
     }
     else {
         throw std::invalid_argument("Invalid command: " + command);
+    }
+
+
+    if (command == "write") {
+        string lba = tokens[1];
+        string value = tokens[2];
+        writeCommand(lba, value);
+    }
+    else if (command == "read") {
+        string lba = tokens[1];
+        readCommand(lba);
+    }
+    else if (command == "fullwrite") {
+        string value = tokens[1];
+        fullWriteCommand(value);
+    }
+    else if (command == "fullread") {
+        fullReadCommand();
+    }
+    else if (command == "help") {
+        helpCommand();
+    }
+    else if (command == "exit") {
+        std::cout << "Exiting program." << std::endl;
+        return false;
     }
 
     return true;
