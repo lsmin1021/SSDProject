@@ -18,7 +18,7 @@ public:
 	const string READ_SUCESS = "read 0";
 	const string READ_FALL_LESS_NUM_ARG = "read";
 	const string READ_FALL_MORE_NUM_ARG = "read 0 1";
-	const string READ_FALL_INVALE_LAB = "read 100";
+	const string READ_FALL_INVALE_LBA = "read 100";
 	const string FULL_READ_SUCESS = "fullread";
 	const string WRITE_SUCESS = "write 0 0x00000000";
 	const string FULL_WRITE_SUCESS = "fullwrite 0x00000000";
@@ -66,6 +66,6 @@ TEST_F(MockSddFixture, InvalidReadMoreNumAra) {
 TEST_F(MockSddFixture, InvalidReadLessNumAra) {
 	EXPECT_THROW({ m_tespApp->cmdParserAndExcute(READ_FALL_LESS_NUM_ARG); }, std::invalid_argument);
 }
-TEST_F(MockSddFixture, InvalidReadInvalidLAB) {
-	EXPECT_THROW({ m_tespApp->cmdParserAndExcute(READ_FALL_INVALE_LAB); }, std::invalid_argument);
+TEST_F(MockSddFixture, InvalidReadInvalidLba) {
+	EXPECT_THROW({ m_tespApp->cmdParserAndExcute(READ_FALL_INVALE_LBA); }, std::invalid_argument);
 }

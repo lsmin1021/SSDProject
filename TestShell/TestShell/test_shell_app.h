@@ -25,4 +25,7 @@ public:
 	const int m_MAX_LBA = 99;
 private:
 	SsdInterface* m_ssd;
+
+	void checkLbaArg(const string& lbaString);
+	void checkReadCmNumdArg(const vector<string>& tokens);
 };

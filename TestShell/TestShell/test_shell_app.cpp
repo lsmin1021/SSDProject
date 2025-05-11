@@ -51,19 +51,8 @@ bool TestShellApp::cmdParserAndExcute(const string& cmd)
         }
     }
     else if (command == "read") {
-        if (tokens.size() != 2) {
-            throw std::invalid_argument("Usage: read <lba>");
-        }
-        string lbaString = tokens[1];
-        std::size_t errorPos = 0;
-        int lba = std::stoi(lbaString,&errorPos);
-        if (errorPos != lbaString.size())
-        {
-            throw std::invalid_argument("Usage: decimal LBA");
-        }
-        if (lba > m_MAX_LBA || lba < 0) {
-            throw std::invalid_argument("Usage: 0 <= LBA < 100");
-        }
+        checkReadCmNumdArg(tokens);
+        checkLbaArg(tokens[1]);
     }
     else if (command == "fullwrite") {
         if (tokens.size() != 2) {
@@ -115,4 +104,24 @@ bool TestShellApp::cmdParserAndExcute(const string& cmd)
     }
 
     return true;
+}
+
+void TestShellApp::checkLbaArg(const string& lbaString)
+{
+    std::size_t errorPos = 0;
+    int lba = std::stoi(lbaString, &errorPos);
+    if (errorPos != lbaString.size())
+    {
+        throw std::invalid_argument("Usage: decimal LBA");
+    }
+    if (lba > m_MAX_LBA || lba < 0) {
+        throw std::invalid_argument("Usage: 0 <= LBA < 100");
+    }
+}
+
+void TestShellApp::checkReadCmNumdArg(const vector<string>& tokens)
+{
+    if (tokens.size() != 2) {
+        throw std::invalid_argument("Usage: read <lba>");
+    }
 }
