@@ -15,8 +15,7 @@ public:
 			if (isValidValue(cmdArr[VALUE_INDEX]) == false) return false;
 			return true;
 		}
-		if (cmdArr[0] == "R") {
-			if (cmdArr.size() != 2) return false;
+		if (isValidReadCommand(cmdArr)) {
 			if (isValidLBA(cmdArr[LBA_INDEX]) == false) return false;
 			return true;
 		}
@@ -26,7 +25,7 @@ public:
 
 	void execute(const vector<string>& cmd) {
 		CmdExecutor app;
-		if (cmd[COMMAND_INDEX] == "W") {
+		if (cmd[COMMAND_INDEX] == WRITE_COMMAND) {
 			app.write(std::stoi(cmd[LBA_INDEX]), cmd[VALUE_INDEX]);
 		}
 	}
@@ -38,6 +37,10 @@ private:
 	bool isValidWriteCommand(const vector<string>& cmdArr) {
 		return (cmdArr[COMMAND_INDEX] == WRITE_COMMAND && cmdArr.size() == WRITE_ARGUMENT_COUNT);
 	}
+	bool isValidReadCommand(const vector<string>& cmdArr) {
+		return (cmdArr[COMMAND_INDEX] == READ_COMMAND && cmdArr.size() == READ_ARGUMENT_COUNT);
+	}
+
 
 	bool isValidLBA(const string& lbaString) {
 		try {
@@ -56,7 +59,7 @@ private:
 	}
 
 	bool isValidValue(const string& valueString) {
-		if (valueString.length() != 10) return false;
+		if (valueString.length() != LBA_STRING_LENGTH) return false;
 		if (0 != valueString.find("0x")) return false;
 
 		for (int i = 2; i < valueString.length(); i++) {
@@ -74,9 +77,13 @@ private:
 
 	const int MAX_LBA = 99;
 	const int MIN_LBA = 0;
+	const int LBA_STRING_LENGTH = 10;
 
 	const string WRITE_COMMAND = "W";
+	const string READ_COMMAND = "R";
 	const int WRITE_ARGUMENT_COUNT = 3;
+	const int READ_ARGUMENT_COUNT = 2;
+
 
 	const int COMMAND_INDEX = 0;
 	const int LBA_INDEX = 1;
