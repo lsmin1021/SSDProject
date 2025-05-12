@@ -5,9 +5,8 @@ using namespace testing;
 
 class MockNand : public NandHandler {
 public:
-	MOCK_METHOD(void, read, (), (override));
 	MOCK_METHOD(void, write, (int, string), (override));
-	MOCK_METHOD(string, getData, (int), (override));
+	MOCK_METHOD(string, read, (int), (override));
 };
 
 class CommandHandlerFixture : public Test {
@@ -27,7 +26,6 @@ public:
 	void handleCommand(const vector<string>& cmd) {
 		m_handler->handleCommand(cmd);
 	}
-
 
 	CommandHandler* m_handler = nullptr;
 	NiceMock<MockNand> m_mockNand;
@@ -74,7 +72,6 @@ TEST_F(CommandHandlerFixture, WriteValidCheckFail_InvalidValue) {
 }
 
 TEST_F(CommandHandlerFixture, WriteCommandExecute) {
-	EXPECT_CALL(m_mockNand, read).Times(1);
 	EXPECT_CALL(m_mockNand, write).Times(1);
 
 	handleCommand(VALID_WRITE_CMD);
@@ -101,7 +98,7 @@ TEST_F(CommandHandlerFixture, ReadValidCheckFail_InvalidLBA) {
 }
 
 TEST_F(CommandHandlerFixture, ReadCommandExecute) {
-	EXPECT_CALL(m_mockNand, getData)
+	EXPECT_CALL(m_mockNand, read)
 		.Times(1)
 		.WillRepeatedly(Return(VALID_VALUE));
 
@@ -109,15 +106,13 @@ TEST_F(CommandHandlerFixture, ReadCommandExecute) {
 }
 
 TEST_F(CommandHandlerFixture, HandleWriteCommand) {
-	EXPECT_CALL(m_mockNand, read).Times(1);
 	EXPECT_CALL(m_mockNand, write).Times(1);
 
 	handleCommand(VALID_WRITE_CMD);
 }
 
 TEST_F(CommandHandlerFixture, HandleReadCommand) {
-	EXPECT_CALL(m_mockNand, read).Times(1);
-	EXPECT_CALL(m_mockNand, getData)
+	EXPECT_CALL(m_mockNand, read)
 		.Times(1)
 		.WillRepeatedly(Return(VALID_VALUE));
 

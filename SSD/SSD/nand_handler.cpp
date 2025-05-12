@@ -10,12 +10,11 @@ using std::map;
 
 class NandHandler {
 public:
-	virtual void read() {
-		string ssdDataStr = readNand();
-		m_ssdData = getSSDData(ssdDataStr);
+	NandHandler() {
+		m_ssdData = getSSDData(readNand());
 	}
 
-	virtual string getData(int lba) {
+	virtual string read(int lba) {
 		if (m_ssdData.find(lba) == m_ssdData.end()) {
 			return EMPTY_VALUE;
 		}
