@@ -7,26 +7,6 @@ TestShellApp::TestShellApp(SsdInterface* m_ssd): m_ssd(m_ssd) {
 }
 
 
-void TestShellApp::helpCommand() {
-    cout << "[Team Name] Clean Code\n\n";
-    cout << ".######..##.......########....###....##....##.....######...#######..########..######## \n";
-    cout << ".##....##.##.......##.........##.##...###...##....##....##.##.....##.##.....##.##......\n";
-    cout << ".##.......##.......##........##...##..####..##....##.......##.....##.##.....##.##......\n";
-    cout << ".##.......##.......######...##.....##.##.##.##....##.......##.....##.##.....##.######..\n";
-    cout << ".##.......##.......##.......#########.##..####....##.......##.....##.##.....##.##......\n";
-    cout << ".##....##.##.......##.......##.....##.##...###....##....##.##.....##.##.....##.##......\n";
-    cout << "..######..########.########.##.....##.##....##.....######...#######..########..########\n\n";
-
-    cout << "[Team Member] : lsmin1021 leedoyoung1234 akachoochoo CHANGHEE-H \n\n";
-
-    cout << "[command usage]\n";
-    cout << "  write <LBA> <DATA>       Write 4-byte DATA to logical block address (LBA)\n";
-    cout << "  read <LBA>               Read data from the specified LBA\n";
-    cout << "  fullwrite                Write default data to all LBA addresses (0 ~ 99)\n";
-    cout << "  fullread                 Read all data from LBA addresses (0 ~ 99)\n";
-    cout << "  exit                     Exit the shell\n";
-    cout << "  help                     Show this help message\n\n";
-}
 
 bool TestShellApp::cmdParserAndExcute(const string& cmdString)
 {
@@ -39,10 +19,7 @@ bool TestShellApp::cmdParserAndExcute(const string& cmdString)
     cmdObj->excuteCmd(tokens);
 
     const string& command = tokens[0];
-    if (command == "help") {
-        helpCommand();
-    }
-    else if (command == "1_FullWriteAndReadCompare" || command == "1_") {
+    if (command == "1_FullWriteAndReadCompare" || command == "1_") {
         
     }
     else if (command == "2_PartialLBAWrite" || command == "2_") {
