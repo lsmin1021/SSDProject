@@ -5,6 +5,7 @@
 using std::string;
 using std::vector;
 
+class CmdInterface;
 class SsdInterface;
 
 class CmdFactory {

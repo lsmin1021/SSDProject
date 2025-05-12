@@ -7,4 +7,6 @@ public:
 	void checkInvalidCmd(const vector<string>& tokens) override;
 	void excuteCmd(const vector<string>& tokens) override;
 	void helpCmd() override;
+private :
+	void fullWrite(const string& value);
 };
