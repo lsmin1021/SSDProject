@@ -35,7 +35,7 @@ private:
 		if (cmdArr[COMMAND_INDEX] != WRITE_COMMAND) return false;
 		if (cmdArr.size() != WRITE_ARGUMENT_COUNT) return false;
 		if (isInvalidLBA(cmdArr[LBA_INDEX])) return false;
-		if (isInvalidValue(cmdArr[VALUE_INDEX])) return false;
+		if (isInvalidDataValue(cmdArr[VALUE_INDEX])) return false;
 		return true;
 	}
 
@@ -62,28 +62,21 @@ private:
 		return false;
 	}
 
-	bool isInvalidValue(const string& valueString) {
-		if (valueString.length() != LBA_STRING_LENGTH) return true;
-		if (0 != valueString.find("0x")) return true;
+	bool isInvalidDataValue(const string& valueString) {
+		if (valueString.length() != DATA_VALUE_LENGTH) return true;
+		if (valueString.find("0x") != 0) return true;
 
-		for (int i = 2; i < valueString.length(); i++) {
-			if (isValidCharcter(valueString[i])) continue;
-			return true;
+		for (char ch : valueString.substr(2)) {
+			if (!isxdigit(static_cast<unsigned char>(ch))) return false;
 		}
-		return false;
-	}
-
-	bool isValidCharcter(char ch) {
-		return ('0' <= ch && '9' >= ch) ||
-			('a' <= ch && 'f' >= ch) ||
-			('A' <= ch && 'F' >= ch);
+		return true;
 	}
 
 	CmdExecutor* app = nullptr;
 
 	const int MAX_LBA = 99;
 	const int MIN_LBA = 0;
-	const int LBA_STRING_LENGTH = 10;
+	const int DATA_VALUE_LENGTH = 10;
 
 	const string WRITE_COMMAND = "W";
 	const string READ_COMMAND = "R";

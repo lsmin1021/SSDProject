@@ -29,7 +29,7 @@ public:
 	const string WRITE_COMMAND = "W";
 	const string READ_COMMAND = "R";
 	const string VALID_LBA = "0";
-	const string VALID_VALUE = "0x12345678";
+	const string VALID_VALUE = "0x1A2B3E4F";
 };
 
 TEST_F(CommandHandlerFixture, ValidCommandCheck_Write_Success) {
