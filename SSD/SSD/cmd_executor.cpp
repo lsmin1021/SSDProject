@@ -75,13 +75,10 @@ public:
 
 private:
 	string readDataOnAddr(int lba) {
-		m_nandHandler->read();
-
-		return m_nandHandler->getData(lba);
+		return m_nandHandler->read(lba);
 	}
 
 	const int PARAMETER_COUNT = 2;
-
 };
 
 class WriteCommand : public ICommand {
@@ -110,8 +107,6 @@ public:
 
 private:
 	void writeDataOnAddr(int lba, string value) {
-		m_nandHandler->read();
-
 		m_nandHandler->write(lba, value);
 	}
 
