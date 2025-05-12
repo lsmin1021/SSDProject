@@ -10,7 +10,7 @@ class CommandHandler {
 public:
 	CommandHandler(CmdExecutor* executor) : m_executor(executor) { }
 
-	bool isValidCommand(vector<string> cmdArr) {
+	bool isValidCommand(const vector<string>& cmdArr) {
 		if (isEmptyCmd(cmdArr)) return false;
 		if (isValidWriteCommand(cmdArr)) return true;
 		if (isValidReadCommand(cmdArr)) return true;
@@ -22,7 +22,7 @@ public:
 		if (cmd[COMMAND_INDEX] == WRITE_COMMAND) {
 			m_executor->write(std::stoi(cmd[LBA_INDEX]), cmd[VALUE_INDEX]);
 		}
-		if (cmd[COMMAND_INDEX] == READ_COMMAND) {
+		else if (cmd[COMMAND_INDEX] == READ_COMMAND) {
 			m_executor->read(std::stoi(cmd[LBA_INDEX]));
 		}
 	}
@@ -67,9 +67,9 @@ private:
 		if (valueString.find("0x") != 0) return true;
 
 		for (char ch : valueString.substr(2)) {
-			if (!isxdigit(static_cast<unsigned char>(ch))) return false;
+			if (!isxdigit(static_cast<unsigned char>(ch))) return true;
 		}
-		return true;
+		return false;
 	}
 
 	CmdExecutor* m_executor = nullptr;
@@ -80,6 +80,7 @@ private:
 
 	const string WRITE_COMMAND = "W";
 	const string READ_COMMAND = "R";
+
 	const int WRITE_ARGUMENT_COUNT = 3;
 	const int READ_ARGUMENT_COUNT = 2;
 

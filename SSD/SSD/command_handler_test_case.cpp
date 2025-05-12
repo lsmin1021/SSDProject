@@ -5,8 +5,8 @@ using namespace testing;
 
 class MockCmdExecutor : public CmdExecutor {
 public:
-	MOCK_METHOD(string, read, (int), ());
-	MOCK_METHOD(void, write, (int, string), ());
+	MOCK_METHOD(string, read, (int), (override));
+	MOCK_METHOD(void, write, (int, string), (override));
 };
 
 class CommandHandlerFixture : public Test {
@@ -22,6 +22,11 @@ public:
 	void isInvalidCommand(const vector<string>& cmd) {
 		EXPECT_FALSE(m_handler->isValidCommand(cmd));
 	}
+
+	void execute(const vector<string>& cmd) {
+		m_handler->execute(cmd);
+	}
+
 
 	CommandHandler* m_handler = nullptr;
 	NiceMock<MockCmdExecutor> m_mockExecutor;
@@ -99,4 +104,16 @@ TEST_F(CommandHandlerFixture, ValidCommandCheck_Read_Fail_InvalidLBA_NotInteger)
 	isInvalidCommand({ READ_COMMAND, "abc" });
 	isInvalidCommand({ READ_COMMAND, "123fe" });
 	isInvalidCommand({ READ_COMMAND, "0.2" });
+}
+
+TEST_F(CommandHandlerFixture, WriteCommandExecute) {
+	EXPECT_CALL(m_mockExecutor, write(_, _));
+
+	execute({ WRITE_COMMAND, VALID_LBA, VALID_VALUE});
+}
+
+TEST_F(CommandHandlerFixture, ReadCommandExecute) {
+	EXPECT_CALL(m_mockExecutor, read(_));
+
+	execute({ READ_COMMAND, VALID_LBA});
 }
