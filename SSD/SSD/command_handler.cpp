@@ -1,42 +1,74 @@
 #include "cmd_executor.cpp"
 
+class CommandFactory {
+public:
+    static std::unique_ptr<ICommand> makeCommand(const string& cmd) {
+        if ("W" == cmd) {
+            return std::make_unique<WriteCommand>(new NandHandler());
+        }
+        else if ("R" == cmd) {
+            return std::make_unique<ReadCommand>(new NandHandler());
+        }
+
+        return nullptr;
+    }
+
+    static std::unique_ptr<ICommand> makeCommand(const string& cmd, NandHandler* handler) {
+        if (nullptr == handler) {
+            return makeCommand(cmd);
+        }
+        if ("W" == cmd) {
+            return std::make_unique<WriteCommand>(handler);
+        }
+        else if ("R" == cmd) {
+            return std::make_unique<ReadCommand>(handler);
+        }
+
+        return nullptr;
+    }
+};
+
 class CommandHandler {
 public:
     CommandHandler() {
-        NandHandler* nandHandler = new NandHandler();
-        m_writeCommand = std::make_unique<WriteCommand>(nandHandler);
-        m_readCommand = std::make_unique<ReadCommand>(nandHandler);
     }
 
-    CommandHandler(NandHandler* nandHandler) {
-        m_writeCommand = std::make_unique<WriteCommand>(nandHandler);
-        m_readCommand = std::make_unique<ReadCommand>(nandHandler);
+    CommandHandler(NandHandler* handler) {
+        m_nandHandler = handler;
     }
 
-    bool isValidCommand(const vector<string>& cmdArr) {
-        if (cmdArr.empty()) return false;
-
-        if (cmdArr[0] == "W") return m_writeCommand->isValid(cmdArr);
-        if (cmdArr[0] == "R") return m_readCommand->isValid(cmdArr);
-
-        return false;
-    }
-
-    void executeCommand(const vector<string>& cmdArr) {
-        if (cmdArr[0] == "W") m_writeCommand->execute(cmdArr);
-        else if (cmdArr[0] == "R") m_readCommand->execute(cmdArr);
-    }
-
-    void handleCommand(const vector<string>& cmdArr) {
-        if (isValidCommand(cmdArr)) {
-            executeCommand(cmdArr);
-        }
-        else {
+    bool handleCommand(const vector<string>& cmdArr) {
+        if (false == isValidCommand(cmdArr)) {
             OutputHandler::getInstance().write("ERROR");
+            return false;
         }
+
+        executeCommand(cmdArr);
+
+        return true;
     }
 
 private:
-    std::unique_ptr<ICommand> m_writeCommand;
-    std::unique_ptr<ICommand> m_readCommand;
+    bool isValidCommand(const vector<string>& cmdArr) {
+        if (cmdArr.empty()) return false;
+
+        m_command = CommandFactory::makeCommand(cmdArr[0], m_nandHandler);
+        if (nullptr == m_command) {
+            return false;
+        }
+
+        if (false == m_command->isValid(cmdArr)) {
+            OutputHandler::getInstance().write("ERROR");
+            return false;
+        }
+
+        return true;
+    }
+
+    void executeCommand(const vector<string>& cmdArr) {
+        m_command->execute(cmdArr);
+    }
+
+    std::unique_ptr<ICommand> m_command;
+    NandHandler* m_nandHandler = nullptr;
 };
