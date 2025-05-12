@@ -19,6 +19,7 @@ public:
 	const string FULL_READ_SUCESS = "fullread";
 	const string WRITE_SUCESS = "write 0 0x00000000";
 	const string FULL_WRITE_SUCESS = "fullwrite 0x00000000";
+	const string HELP_CMD = "help";
 
 	MockSsd m_mockSsd;
 	TestShellApp* m_tespApp;
@@ -55,4 +56,9 @@ TEST_F(MockSddFixture, FullWriteSucess) {
 TEST_F(MockSddFixture, InavlidCmd) {
 	// Arrange, Act
 	EXPECT_THROW(m_tespApp->cmdParserAndExcute(INVALID_CMD), std::invalid_argument);
+}
+
+TEST_F(MockSddFixture, helpTest) {
+	// Arrange, Act
+	EXPECT_NO_THROW(m_tespApp->cmdParserAndExcute(HELP_CMD));
 }
