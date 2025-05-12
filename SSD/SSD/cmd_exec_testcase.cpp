@@ -84,3 +84,15 @@ TEST_F(CmdExecutorFixture, ReadEmptyLBA) {
 TEST_F(CmdExecutorFixture, ReadOutOfLBA) {
 	EXPECT_THROW(cmdExecutor.read(OUT_OF_RANGE_LBA), std::exception);
 }
+
+TEST_F(CmdExecutorFixture, WriteOutputError) {
+	EXPECT_CALL(mockOutputHandler, write).Times(1);
+
+	cmdExecutor.setError();
+}
+
+TEST_F(CmdExecutorFixture, WriteOutputValue) {
+	EXPECT_CALL(mockOutputHandler, write).Times(1);
+
+	cmdExecutor.read(3);
+}
