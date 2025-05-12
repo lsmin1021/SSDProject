@@ -1,74 +1,30 @@
-#include <vector>
-#include <string>
+
+#include <iostream>
 
 #include "nand_handler.cpp"
 
-using std::string;
-using std::vector;
-
-class CmdExecutor {
+class CmdChecker {
 public:
-	CmdExecutor() {
-		for (int i = 0; i < 100; i++) {
-			m_ssdDevice.push_back("");
-		}
+	static bool isValidLBA(int lba) {
+		return isValidRange(lba);
 	}
 
-	string read(int lba) {
-		if (false == isValidLBA(lba)) {
-			throw std::exception("[READ ERROR] Out of lba");
+	static bool isValidValue(string value) {
+		if (false == isHexaFormat(value)) {
+			return false;
+		}
+		else if (10 != value.length()) {
+			return false;
+		}
+		else if (false == isHexaData(value.substr(2))) {
+			return false;
 		}
 
-		if (true == isEmptyLBA(lba)) {
-			return EMPTY_VALUE;
-		}
-
-		return m_ssdDevice[lba];
-	}
-
-	void write(int lba, string value) {
-		if (false == isValidLBA(lba)) {
-			throw std::exception("[WRITE ERROR] Out of lba");
-		}
-		if (false == isValidValue(value)) {
-			throw std::exception("[WRITE ERROR] Invalid value to write.");
-		}
-
-		m_ssdDevice[lba] = value;
-
-		m_nandHandler->write(storageToString());
-	}
-
-	void setNandHandler(FileHandler* handler) {
-		m_nandHandler = handler;
-	}
-
-	void setOutputHandler(FileHandler* handler) {
-		m_outputHandler = handler;
+		return true;
 	}
 
 private:
-	string storageToString() {
-		string ret;
-
-		for (int i = 0; i < m_ssdDevice.size(); i++) {
-			ret.append(std::to_string(i));
-			ret.append(" ");
-			ret.append(m_ssdDevice[i]);
-			ret.append("\n");
-		}
-
-		return ret;
-	}
-	bool isEmptyLBA(int lba) {
-		if (true == m_ssdDevice[lba].empty()) {
-			return true;
-		}
-
-		return false;
-	}
-
-	bool isValidLBA(int lba) {
+	static bool isValidRange(int lba) {
 		if (0 > lba || 100 <= lba) {
 			return false;
 		}
@@ -76,34 +32,70 @@ private:
 		return true;
 	}
 
-	bool isValidValue(string value) {
+	static bool isHexaFormat(string value) {
 		if (0 != value.find("0x")) {
 			return false;
-		}
-		else if (10 != value.length()) {
-			return false;
-		}
-		else {
-			for (int i = 2; i < value.length(); i++) {
-				if (('0' <= value[i] && '9' >= value[i]) ||
-					('a' <= value[i] && 'f' >= value[i]) ||
-					('A' <= value[i] && 'F' >= value[i])) {
-					continue;
-				}
-
-				return false;
-			}
 		}
 
 		return true;
 	}
 
-	vector<string> m_ssdDevice;
+	static bool isHexaData(string value) {
+		for (int i = 0; i < value.length(); i++) {
+			if (('0' <= value[i] && '9' >= value[i]) ||
+				('a' <= value[i] && 'f' >= value[i]) ||
+				('A' <= value[i] && 'F' >= value[i])) {
+				continue;
+			}
 
-	FileHandler* m_nandHandler = nullptr;
-	FileHandler* m_outputHandler = nullptr;
+			return false;
+		}
 
-	const string EMPTY_VALUE = "0x00000000";
+		return true;
+	}
+};
 
+class CmdExecutor {
+public:
+	CmdExecutor() {
+		m_nandHandler = new NandHandler();
+	}
 
+	string read(int lba) {
+		if (false == CmdChecker::isValidLBA(lba)) {
+			throw std::out_of_range("[READ ERROR] Out of lba");
+		}
+
+		return readDataOnAddr(lba);
+	}
+
+	void write(int lba, string value) {
+		if (false == CmdChecker::isValidLBA(lba)) {
+			throw std::out_of_range("[WRITE ERROR] Out of lba");
+		}
+		if (false == CmdChecker::isValidValue(value)) {
+			throw std::invalid_argument("[WRITE ERROR] Invalid value to write.");
+		}
+
+		writeDataOnAddr(lba, value);
+	}
+
+	void setNandHandler(NandInterface* handler) {
+		m_nandHandler = handler;
+	}
+
+private:
+	string readDataOnAddr(int lba) {
+		m_nandHandler->read();
+
+		return m_nandHandler->getData(lba);
+	}
+
+	void writeDataOnAddr(int lba, string value) {
+		m_nandHandler->read();
+
+		m_nandHandler->write(lba, value);
+	}
+
+	NandInterface* m_nandHandler;
 };
