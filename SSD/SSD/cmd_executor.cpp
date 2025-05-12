@@ -6,7 +6,7 @@
 class CmdChecker {
 public:
 	static bool isValidLBA(int lba) {
-		return isValidLBA(lba);
+		return isValidRange(lba);
 	}
 
 	static bool isValidValue(string value) {
@@ -16,7 +16,7 @@ public:
 		else if (10 != value.length()) {
 			return false;
 		}
-		else if (false == isHexaData(value.substr(2, 8))) {
+		else if (false == isHexaData(value.substr(2))) {
 			return false;
 		}
 

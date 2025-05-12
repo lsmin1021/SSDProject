@@ -7,15 +7,15 @@
 using std::string;
 using std::map;
 
-class FileHandler {
+class NandInterface {
 public:
-	FileHandler() = default;
-	virtual ~FileHandler() = default;
-	virtual string read() = 0;
-	virtual void write(string content) = 0;
+	NandInterface() = default;
+	virtual ~NandInterface() = default;
+	virtual void read() = 0;
+	virtual void write(int lba, string value) = 0;
 };
 
-class NandHandler {
+class NandHandler : public NandInterface {
 public:
 	void read() {
 		string ssdDataStr = readNand();
@@ -30,7 +30,8 @@ public:
 		return m_ssdData[lba];
 	}
 
-	string write(int lba, string value) {
+	void write(int lba, string value) {
+		
 		if (m_ssdData.find(lba) == m_ssdData.end()) {
 			m_ssdData.insert(std::make_pair(lba, value));
 		}
@@ -90,8 +91,7 @@ private:
 	const string EMPTY_VALUE = "0x00000000";
 };
 
-/*
-class OutputHandler : public FileHandler {
+class OutputHandler {
 public:
 	string read() {
 
@@ -104,4 +104,3 @@ public:
 private:
 	const string fileName = "output.txt";
 };
-*/

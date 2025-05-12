@@ -3,18 +3,13 @@
 
 using namespace testing;
 
-class MockNandHandler : public FileHandler {
+class MockNandHandler : public NandInterface {
 public:
-	MOCK_METHOD(string, read, (), (override));
-	MOCK_METHOD(void, write, (string), (override));
+	MOCK_METHOD(void, read, (), (override));
+	MOCK_METHOD(void, write, (int, string), (override));
 };
 
 class CmdExecutorFixture : public Test {
-protected:
-	void SetUp() override {
-
-	}
-
 public:
 	CmdExecutor cmdExecutor;
 	NiceMock<MockNandHandler> mockHandler;
