@@ -63,7 +63,7 @@ public:
 
 	string read(int lba) {
 		if (false == CmdChecker::isValidLBA(lba)) {
-			throw std::exception("[READ ERROR] Out of lba");
+			throw std::out_of_range("[READ ERROR] Out of lba");
 		}
 
 		return readDataOnAddr(lba);
@@ -71,10 +71,10 @@ public:
 
 	void write(int lba, string value) {
 		if (false == CmdChecker::isValidLBA(lba)) {
-			throw std::exception("[WRITE ERROR] Out of lba");
+			throw std::out_of_range("[WRITE ERROR] Out of lba");
 		}
 		if (false == CmdChecker::isValidValue(value)) {
-			throw std::exception("[WRITE ERROR] Invalid value to write.");
+			throw std::invalid_argument("[WRITE ERROR] Invalid value to write.");
 		}
 
 		writeDataOnAddr(lba, value);

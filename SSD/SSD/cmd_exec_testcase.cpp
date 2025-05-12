@@ -31,25 +31,26 @@ public:
 };
 
 TEST_F(CmdExecutorFixture, WriteMain) {
-	cmdExecutor.write(NOT_EMPTY_LBA, VALID_VALUE);
+	EXPECT_CALL(mockHandler, read).Times(1);
+	EXPECT_CALL(mockHandler, write).Times(1);
 
-	EXPECT_NO_THROW(std::exception);
+	EXPECT_NO_THROW(cmdExecutor.write(NOT_EMPTY_LBA, VALID_VALUE), std::exception);
 }
 
 TEST_F(CmdExecutorFixture, WriteOutOfLBA) {
-	EXPECT_THROW(cmdExecutor.write(OUT_OF_RANGE_LBA, VALID_VALUE), std::exception);
+	EXPECT_THROW(cmdExecutor.write(OUT_OF_RANGE_LBA, VALID_VALUE), std::out_of_range);
 }
 
 TEST_F(CmdExecutorFixture, WriteInvalidValueFormat) {
-	EXPECT_THROW(cmdExecutor.write(NOT_EMPTY_LBA, INVAID_VALUE_FORMET), std::exception);
+	EXPECT_THROW(cmdExecutor.write(NOT_EMPTY_LBA, INVAID_VALUE_FORMET), std::invalid_argument);
 }
 
 TEST_F(CmdExecutorFixture, WriteInvalidValueRange) {
-	EXPECT_THROW(cmdExecutor.write(NOT_EMPTY_LBA, INVAID_VALUE_RANGE), std::exception);
+	EXPECT_THROW(cmdExecutor.write(NOT_EMPTY_LBA, INVAID_VALUE_RANGE), std::invalid_argument);
 }
 
 TEST_F(CmdExecutorFixture, WriteInvalidValueNumber) {
-	EXPECT_THROW(cmdExecutor.write(NOT_EMPTY_LBA, INVAID_VALUE_NUMBER), std::exception);
+	EXPECT_THROW(cmdExecutor.write(NOT_EMPTY_LBA, INVAID_VALUE_NUMBER), std::invalid_argument);
 }
 
 TEST_F(CmdExecutorFixture, ReadMain) {
