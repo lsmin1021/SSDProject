@@ -28,6 +28,10 @@ private:
 
 	void checkLbaArg(const string& lbaString);
 	void checkDataArg(const string& dataString);
-	void checkReadCmNumdArg(const vector<string>& tokens);
-	void checkWriteCmNumdArg(const vector<string>& tokens);
+	void checkReadCmdNumdArg(const vector<string>& tokens);
+	void checkWriteCmdNumdArg(const vector<string>& tokens);
+	void checkFullReadCmdNumdArg(const vector<string>& tokens);
+	void checkFullWriteCmdNumdArg(const vector<string>& tokens);
+	void checkHelpCmdNumdArg(const vector<string>& tokens);
+	void checkExitCmdNumdArg(const vector<string>& tokens);
 };

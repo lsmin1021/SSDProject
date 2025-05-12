@@ -20,6 +20,7 @@ public:
 	const string READ_FALL_MORE_NUM_ARG = "read 0 1";
 	const string READ_FALL_INVALID_LBA = "read 100";
 	const string FULL_READ_SUCESS = "fullread";
+	const string FULL_READ_FALL_MORE_NUM_ARG = "fullread 100";
 	const string WRITE_SUCESS = "write 0 0x00000000";
 	const string WRITE_FALL_LESS_NUM_ARG = "write 0";
 	const string WRITE_FALL_MORE_NUM_ARG = "write 0 0x00000000 9";
@@ -28,6 +29,9 @@ public:
 	const string WRITE_FALL_NOT_HEX_DATA = "write 0 00000000";
 	const string WRITE_FALL_NOT_HEX_CHAR_DATA = "write 0 0xP0000000";
 	const string FULL_WRITE_SUCESS = "fullwrite 0x00000000";
+	const string FULL_WRITE_FALL_LESS_NUM_ARG = "fullwrite";
+	const string FULL_WRITE_FALL_MORE_NUM_ARG = "fullwrite 0x00000000 o";
+	const string FULL_WRITE_FALL_INVALD_DATA= "fullwrite 0x00000000";
 
 	MockSsd m_mockSsd;
 	TestShellApp* m_tespApp;
@@ -76,6 +80,10 @@ TEST_F(MockSddFixture, InvalidReadInvalidLba) {
 	EXPECT_THROW({ m_tespApp->cmdParserAndExcute(READ_FALL_INVALID_LBA); }, std::invalid_argument);
 }
 
+TEST_F(MockSddFixture, InvalidFullReadMoreNumAra) {
+	EXPECT_THROW({ m_tespApp->cmdParserAndExcute(FULL_READ_FALL_MORE_NUM_ARG); }, std::invalid_argument);
+}
+
 TEST_F(MockSddFixture, InvalidWriteMoreNumAra) {
 	EXPECT_THROW({ m_tespApp->cmdParserAndExcute(WRITE_FALL_MORE_NUM_ARG); }, std::invalid_argument);
 }
@@ -94,3 +102,16 @@ TEST_F(MockSddFixture, InvalidWriteNotHexData) {
 TEST_F(MockSddFixture, InvalidWriteNotHexCharData) {
 	EXPECT_THROW({ m_tespApp->cmdParserAndExcute(WRITE_FALL_NOT_HEX_CHAR_DATA); }, std::invalid_argument);
 }
+/*
+TEST_F(MockSddFixture, InvalidFullWriteMoreNumAra) {
+	EXPECT_THROW({ m_tespApp->cmdParserAndExcute(FULL_WRITE_FALL_MORE_NUM_ARG); }, std::invalid_argument);
+}
+
+TEST_F(MockSddFixture, InvalidFullWriteLessNumAra) {
+	EXPECT_THROW({ m_tespApp->cmdParserAndExcute(FULL_WRITE_FALL_LESS_NUM_ARG); }, std::invalid_argument);
+}
+
+TEST_F(MockSddFixture, InvalidFullWriteInvalidData) {
+	EXPECT_THROW({ m_tespApp->cmdParserAndExcute(FULL_WRITE_FALL_INVALD_DATA); }, std::invalid_argument);
+}
+*/

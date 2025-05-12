@@ -2,7 +2,6 @@
 
 void TestShellApp::writeCommand(const string& lba, const string& value) {
     m_ssd->writeData(lba, value);
-    cout << "write " << lba << " " << value << std::endl;
 }
 
 void TestShellApp::readCommand(const string& lbaString) {
@@ -46,33 +45,26 @@ bool TestShellApp::cmdParserAndExcute(const string& cmd)
     const string& command = tokens[0];
 
     if (command == "write") {
-		checkWriteCmNumdArg(tokens);
+		checkWriteCmdNumdArg(tokens);
 		checkLbaArg(tokens[1]);
         checkDataArg(tokens[2]);
     }
     else if (command == "read") {
-        checkReadCmNumdArg(tokens);
+        checkReadCmdNumdArg(tokens);
         checkLbaArg(tokens[1]);
     }
     else if (command == "fullwrite") {
-        if (tokens.size() != 2) {
-            throw std::invalid_argument("Usage: fullwrite <value>");
-        }
+       checkFullWriteCmdNumdArg(tokens);
+        checkDataArg(tokens[1]);
     }
     else if (command == "fullread") {
-        if (tokens.size() != 1) {
-            throw std::invalid_argument("Usage: fullread");
-        }
+        checkFullReadCmdNumdArg(tokens);
     }
     else if (command == "help") {
-        if (tokens.size() != 1) {
-            throw std::invalid_argument("Usage: help");
-        }
+        checkHelpCmdNumdArg(tokens);
     }
     else if (command == "exit") {
-        if (tokens.size() != 1) {
-            throw std::invalid_argument("Usage: exit");
-        }
+        checkExitCmdNumdArg(tokens);
     }
     else {
         throw std::invalid_argument("Invalid command: " + command);
@@ -136,16 +128,44 @@ void TestShellApp::checkDataArg(const string& dataString)
     }
 }
 
-void TestShellApp::checkReadCmNumdArg(const vector<string>& tokens)
+void TestShellApp::checkReadCmdNumdArg(const vector<string>& tokens)
 {
     if (tokens.size() != 2) {
         throw std::invalid_argument("Usage: read <lba>");
     }
 }
 
-void TestShellApp::checkWriteCmNumdArg(const vector<string>& tokens)
+void TestShellApp::checkWriteCmdNumdArg(const vector<string>& tokens)
 {
     if (tokens.size() != 3) {
+        throw std::invalid_argument("Usage: write <lba> <data>");
+    }
+}
+
+void TestShellApp::checkFullReadCmdNumdArg(const vector<string>& tokens)
+{
+    if (tokens.size() != 1) {
+        throw std::invalid_argument("Usage: read");
+    }
+}
+
+void TestShellApp::checkFullWriteCmdNumdArg(const vector<string>& tokens)
+{
+    if (tokens.size() != 2) {
+        throw std::invalid_argument("Usage: write <data>");
+    }
+}
+
+void TestShellApp::checkHelpCmdNumdArg(const vector<string>& tokens)
+{
+    if (tokens.size() != 1) {
+        throw std::invalid_argument("Usage: read <lba>");
+    }
+}
+
+void TestShellApp::checkExitCmdNumdArg(const vector<string>& tokens)
+{
+    if (tokens.size() != 1) {
         throw std::invalid_argument("Usage: read <lba>");
     }
 }
