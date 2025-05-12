@@ -4,6 +4,8 @@
 #include "mock_ssd.h"
 #include "ssd_driver.h"
 #include "test_shell_app.h"
+#include "cmd_factory.h"
+#include "cmd_interface.h"
 
 class MockSddFixture : public ::testing::Test {
 protected:
@@ -37,6 +39,8 @@ public:
 	const string INVALID_EXIT_CMD = "exit 0";
 	MockSsd m_mockSsd;
 	TestShellApp* m_tespApp;
+
+	const CmdFactory& m_cmdFactory = CmdFactory::getInstance();
 };
 
 TEST_F(MockSddFixture, ReadSuccess) {
@@ -129,4 +133,13 @@ TEST_F(MockSddFixture, InvalidHelp) {
 }
 TEST_F(MockSddFixture, InvalidExit) {
 	EXPECT_THROW({ m_tespApp->cmdParserAndExcute(INVALID_EXIT_CMD); }, std::invalid_argument);
+}
+
+TEST_F(MockSddFixture, CmdFactoryTc) {
+	EXPECT_EQ("read", m_cmdFactory.getCmd("read")->getName());
+	EXPECT_EQ("write", m_cmdFactory.getCmd("write")->getName());
+	EXPECT_EQ("fullread", m_cmdFactory.getCmd("fullread")->getName());
+	EXPECT_EQ("fullwrite", m_cmdFactory.getCmd("fullwrite")->getName());
+	EXPECT_EQ("exit", m_cmdFactory.getCmd("exit")->getName());
+	EXPECT_EQ("help", m_cmdFactory.getCmd("help")->getName());
 }
