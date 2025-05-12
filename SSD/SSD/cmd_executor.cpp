@@ -44,7 +44,7 @@ public:
 		return true;
 	}
 
-	NandInterface* m_nandHandler;
+	NandHandler* m_nandHandler;
 
 	const int MAX_LBA = 99;
 	const int MIN_LBA = 0;
