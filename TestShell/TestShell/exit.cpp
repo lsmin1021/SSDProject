@@ -4,7 +4,6 @@ void ExitCmd::checkInvalidCmd(const vector<string>& tokens) {
 	checkNumToken(tokens);
 }
 void ExitCmd::excuteCmd(const vector<string>& tokens){
-	 // TODO
-	//throu execption
+	throw ExitException();
 }
 void ExitCmd::helpCmd() {}
