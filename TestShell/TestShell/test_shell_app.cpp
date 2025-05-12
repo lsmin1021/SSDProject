@@ -62,7 +62,7 @@ void TestShellApp::helpCommand() {
 
 bool TestShellApp::cmdParserAndExcute(const string& cmdString)
 {
-    vector<string> tokens = parseCmd(cmdString);
+    vector<string> tokens = parseCmd(autoCompleteCommand(cmdString));
     if (tokens.empty()) {
         throw std::invalid_argument("Empty command");
     }
@@ -108,10 +108,14 @@ bool TestShellApp::cmdParserAndExcute(const string& cmdString)
     return true;
 }
 
+
+
 vector<string>  TestShellApp::parseCmd(const string& cmd) {
     std::istringstream iss(cmd);
     vector<string> tokens;
     string token;
+    
+    cout << cmd << std::endl;
 
     while (iss >> token) {
         tokens.push_back(token);

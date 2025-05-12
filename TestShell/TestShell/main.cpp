@@ -28,7 +28,12 @@ int main(int argc, char* argv[]) {
             continue;  // 아무 처리도 하지 않고 다음 루프로
         }
 
-        app.cmdParserAndExcute(input);
+        try {
+            app.cmdParserAndExcute(input);
+        }
+        catch (const std::exception& e) {
+            cout << "INVALID COMMAND\n";
+        }
 
         if (input == "exit") {
             break;
