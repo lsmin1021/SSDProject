@@ -15,7 +15,7 @@ protected:
 	}
 
 	void excuteFactoryTc(string cmdName){
-		EXPECT_EQ(cmdName, m_cmdFactory.getCmd(cmdName)->getName());
+		EXPECT_EQ(cmdName, m_cmdFactory.getCmd(cmdName)->getName().at(0));
 	}
 
 public:

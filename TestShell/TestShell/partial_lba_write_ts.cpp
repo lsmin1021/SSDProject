@@ -28,5 +28,3 @@ void PartialLbaWriteTs::excuteCmd(const vector<string>& tokens) {
 
     std::cout << "PASS\n";
 }
-
-void PartialLbaWriteTs::helpCmd() {}

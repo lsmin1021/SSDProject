@@ -27,4 +27,3 @@ void FullWriteAndReadCompareTs::excuteCmd(const vector<string>& tokens) {
 
     std::cout << "PASS\n";
 }
-void FullWriteAndReadCompareTs::helpCmd() {}
