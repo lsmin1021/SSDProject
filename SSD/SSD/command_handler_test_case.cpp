@@ -17,15 +17,11 @@ protected:
 	}
 public:
 	void isValidCommand(const vector<string>& cmd) {
-		EXPECT_TRUE(m_handler->isValidCommand(cmd));
+		EXPECT_TRUE(m_handler->handleCommand(cmd));
 	}
 
 	void isInvalidCommand(const vector<string>& cmd) {
-		EXPECT_FALSE(m_handler->isValidCommand(cmd));
-	}
-
-	void execute(const vector<string>& cmd) {
-		m_handler->executeCommand(cmd);
+		EXPECT_FALSE(m_handler->handleCommand(cmd));
 	}
 
 	void handleCommand(const vector<string>& cmd) {
@@ -81,7 +77,7 @@ TEST_F(CommandHandlerFixture, WriteCommandExecute) {
 	EXPECT_CALL(m_mockNand, read).Times(1);
 	EXPECT_CALL(m_mockNand, write).Times(1);
 
-	execute(VALID_WRITE_CMD);
+	handleCommand(VALID_WRITE_CMD);
 }
 
 TEST_F(CommandHandlerFixture, ReadValidCheckSuccess) {
@@ -109,7 +105,7 @@ TEST_F(CommandHandlerFixture, ReadCommandExecute) {
 		.Times(1)
 		.WillRepeatedly(Return(VALID_VALUE));
 
-	execute(VALID_READ_CMD);
+	handleCommand(VALID_READ_CMD);
 }
 
 TEST_F(CommandHandlerFixture, HandleWriteCommand) {

@@ -34,13 +34,25 @@ public:
     }
 
     CommandHandler(NandHandler* handler) {
-        nandHandler = handler;
+        m_nandHandler = handler;
     }
 
+    bool handleCommand(const vector<string>& cmdArr) {
+        if (false == isValidCommand(cmdArr)) {
+            OutputHandler::getInstance().write("ERROR");
+            return false;
+        }
+
+        executeCommand(cmdArr);
+
+        return true;
+    }
+
+private:
     bool isValidCommand(const vector<string>& cmdArr) {
         if (cmdArr.empty()) return false;
 
-        m_command = CommandFactory::makeCommand(cmdArr[0], nandHandler);
+        m_command = CommandFactory::makeCommand(cmdArr[0], m_nandHandler);
         if (nullptr == m_command) {
             return false;
         }
@@ -49,7 +61,7 @@ public:
             OutputHandler::getInstance().write("ERROR");
             return false;
         }
-        
+
         return true;
     }
 
@@ -57,16 +69,6 @@ public:
         m_command->execute(cmdArr);
     }
 
-    void handleCommand(const vector<string>& cmdArr) {
-        if (isValidCommand(cmdArr)) {
-            executeCommand(cmdArr);
-        }
-        else {
-            OutputHandler::getInstance().write("ERROR");
-        }
-    }
-
-private:
     std::unique_ptr<ICommand> m_command;
-    NandHandler* nandHandler = nullptr;
+    NandHandler* m_nandHandler = nullptr;
 };
