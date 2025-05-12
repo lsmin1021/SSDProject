@@ -3,6 +3,9 @@
 #include "cmd_interface.h"
 void TestShellApp::writeCommand(const string& lba, const string& value) {
     m_ssd->writeData(lba, value);
+#ifndef _DEBUG
+    cout << "[Write] Done\n";
+#endif
 }
 
 void TestShellApp::readCommand(const string& lbaString) {
@@ -13,8 +16,12 @@ void TestShellApp::readCommand(const string& lbaString) {
 }
 
 void TestShellApp::fullWriteCommand(const string& value) {
-    for (int lba = 0; lba <= MAX_LBA; ++lba)
+    for (int lba = 0; lba <= MAX_LBA; ++lba) {
+        cout << lba << " " << value << std::endl;
         m_ssd->writeData(std::to_string(lba), value);
+        
+    }
+        
 }
 
 void TestShellApp::fullReadCommand() {
@@ -85,13 +92,13 @@ bool TestShellApp::cmdParserAndExcute(const string& cmdString)
         return false;
     }
     else if (command == "1_FullWriteAndReadCompare" || command == "1_") {
-        runFullWriteAndReadCompare();
+        
     }
     else if (command == "2_PartialLBAWrite" || command == "2_") {
-        runPartialLBAWrite();
+        
     }
     else if (command == "3_WriteReadAging" || command == "3_") {
-        runWriteReadAging();
+        
     }
     return true;
 }
@@ -131,7 +138,7 @@ string TestShellApp::generateRandomHexString() {
 
     std::stringstream ss;
     ss << "0x" << std::uppercase << std::setfill('0') << std::setw(8) << std::hex << randomValue;
-    return ss.str(); // ¿¹: "0x1A2B3C4D"
+    return ss.str(); // Â¿Â¹: "0x1A2B3C4D"
 }
 
 string TestShellApp::runFullWriteAndReadCompare()
@@ -146,9 +153,11 @@ string TestShellApp::runFullWriteAndReadCompare()
         for (int addr = lba; addr < lba + TEST_SCRIPT1_LBA_STEP; addr++) {
             m_ssd->readData(std::to_string(addr));
 #ifndef _DEBUG
-            if (updateReadResult() != TEST_SCRIPT1_VALUE)
+            if (updateReadResult() != TEST_SCRIPT_VALUE)
+            {
                 cout << "FAIL\n";
                 return "FAIL";
+            }
 #endif
         }
         lba += TEST_SCRIPT1_LBA_STEP;
@@ -172,9 +181,11 @@ string TestShellApp::runPartialLBAWrite()
         for (int addr = 0; addr < TEST_SCRIPT2_LBA_STEP; addr++) {
             m_ssd->readData(std::to_string(addr));
 #ifndef _DEBUG
-            if (updateReadResult() != TEST_SCRIPT1_VALUE)
+            if (updateReadResult().compare(TEST_SCRIPT_VALUE) != 0)
+            {
                 cout << "FAIL\n";
-            return "FAIL";
+                return "FAIL";
+            }
 #endif
         }
         iter++;
@@ -198,16 +209,20 @@ string TestShellApp::runWriteReadAging()
 
         m_ssd->readData(START_LBA);
 #ifndef _DEBUG
-        if (updateReadResult() != valueForStartLba)
+        if (updateReadResult().compare(valueForStartLba) != 0)
+        { 
             cout << "FAIL\n";
-        return "FAIL";
+            return "FAIL";
+        }
 #endif
 
         m_ssd->readData(END_LBA);
 #ifndef _DEBUG
-        if (updateReadResult() != valueForStartLba)
-            cout << "FAIL\n";
-        return "FAIL";
+        if (updateReadResult().compare(valueForEndLba) != 0)
+        {
+            cout << "  FAIL\n";
+            return "FAIL";
+        }
 #endif
     }
 
