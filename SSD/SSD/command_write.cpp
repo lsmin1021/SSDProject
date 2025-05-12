@@ -26,8 +26,6 @@ public:
 
 private:
 	void writeDataOnAddr(int lba, string value) {
-		m_nandHandler->read();
-
 		m_nandHandler->write(lba, value);
 	}
 

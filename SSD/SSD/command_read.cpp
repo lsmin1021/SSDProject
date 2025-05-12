@@ -21,9 +21,7 @@ public:
 
 private:
 	string readDataOnAddr(int lba) {
-		m_nandHandler->read();
-
-		return m_nandHandler->getData(lba);
+		return m_nandHandler->read(lba);
 	}
 
 	const int PARAMETER_COUNT = 2;
