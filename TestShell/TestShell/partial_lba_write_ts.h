@@ -1,9 +1,10 @@
 #pragma once
+#pragma once
 
 #include "cmd_interface.h"
-class FullWriteCmd : public CmdInterface {
+class PartialLbaWriteTs : public TsInterface {
 public:
-	FullWriteCmd() : CmdInterface("fullwrite", 2) {}
+	PartialLbaWriteTs() : TsInterface("1_FullWriteAndReadCompare", 1) {}
 	void checkInvalidCmd(const vector<string>& tokens) override;
 	void excuteCmd(const vector<string>& tokens) override;
 	void helpCmd() override;
