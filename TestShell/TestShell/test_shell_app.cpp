@@ -1,6 +1,11 @@
 #include "test_shell_app.h"
 #include "cmd_factory.h"
 #include "cmd_interface.h"
+
+TestShellApp::TestShellApp(SsdInterface* m_ssd): m_ssd(m_ssd) {
+    CmdFactory::getInstance().setSdd(m_ssd);
+}
+
 void TestShellApp::writeCommand(const string& lba, const string& value) {
     m_ssd->writeData(lba, value);
 #ifndef _DEBUG

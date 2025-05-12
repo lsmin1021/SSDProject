@@ -5,7 +5,7 @@
 using std::string;
 using std::vector;
 
-class CmdInterface;
+class SsdInterface;
 
 class CmdFactory {
 public:
@@ -17,6 +17,8 @@ public:
 	void registerCmd(CmdInterface* cmd) {
 		m_supportedCmds.push_back(cmd);
 	}
+
+	void setSdd(SsdInterface* sdd);
 
 	CmdInterface* getCmd(const string& name) const;
 private :

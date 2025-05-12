@@ -9,6 +9,7 @@
 #include "full_write_read_compare_ts.h"
 #include "partial_lba_write_ts.h"
 #include "write_read_aging_ts.h"
+#include "ssd_interface.h"
 
 static WriteCmd writeCmd;
 static ReadCmd readCmd;
@@ -25,7 +26,11 @@ CmdFactory& CmdFactory::getInstance()
 	static CmdFactory instance; 
 	return instance;
 }
-
+void CmdFactory::setSdd(SsdInterface* sdd) {
+	for (auto cmd : m_supportedCmds){
+		cmd->setSdd(sdd);
+	}
+}
 CmdInterface* CmdFactory::getCmd(const string& name) const {
 	for (auto& cmd : m_supportedCmds) {
 		if (name == cmd->getName()) {
