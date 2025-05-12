@@ -66,7 +66,7 @@ public:
 		int lba = std::stoi(param[LBA_INDEX]);
 		string ret = readDataOnAddr(lba);
 
-		//TODO: m_outputHandler->write(ret);
+		OutputHandler::getInstance().write(ret);
 	}
 
 private:
