@@ -18,9 +18,15 @@ public:
 	const string READ_SUCESS = "read 0";
 	const string READ_FALL_LESS_NUM_ARG = "read";
 	const string READ_FALL_MORE_NUM_ARG = "read 0 1";
-	const string READ_FALL_INVALE_LBA = "read 100";
+	const string READ_FALL_INVALID_LBA = "read 100";
 	const string FULL_READ_SUCESS = "fullread";
 	const string WRITE_SUCESS = "write 0 0x00000000";
+	const string WRITE_FALL_LESS_NUM_ARG = "write 0";
+	const string WRITE_FALL_MORE_NUM_ARG = "write 0 0x00000000 9";
+	const string WRITE_FALL_SMALL_LEN_DATA = "write 0 0x1";
+	const string WRITE_FALL_BIC_LEN_DATA = "write 0 0x11111111111";
+	const string WRITE_FALL_NOT_HEX_DATA = "write 0 00000000";
+	const string WRITE_FALL_NOT_HEX_CHAR_DATA = "write 0 0xP0000000";
 	const string FULL_WRITE_SUCESS = "fullwrite 0x00000000";
 
 	MockSsd m_mockSsd;
@@ -67,5 +73,24 @@ TEST_F(MockSddFixture, InvalidReadLessNumAra) {
 	EXPECT_THROW({ m_tespApp->cmdParserAndExcute(READ_FALL_LESS_NUM_ARG); }, std::invalid_argument);
 }
 TEST_F(MockSddFixture, InvalidReadInvalidLba) {
-	EXPECT_THROW({ m_tespApp->cmdParserAndExcute(READ_FALL_INVALE_LBA); }, std::invalid_argument);
+	EXPECT_THROW({ m_tespApp->cmdParserAndExcute(READ_FALL_INVALID_LBA); }, std::invalid_argument);
+}
+
+TEST_F(MockSddFixture, InvalidWriteMoreNumAra) {
+	EXPECT_THROW({ m_tespApp->cmdParserAndExcute(WRITE_FALL_MORE_NUM_ARG); }, std::invalid_argument);
+}
+TEST_F(MockSddFixture, InvalidWriteLessNumAra) {
+	EXPECT_THROW({ m_tespApp->cmdParserAndExcute(WRITE_FALL_LESS_NUM_ARG); }, std::invalid_argument);
+}
+TEST_F(MockSddFixture, InvalidWriteSmallLenData) {
+	EXPECT_THROW({ m_tespApp->cmdParserAndExcute(WRITE_FALL_SMALL_LEN_DATA); }, std::invalid_argument);
+}
+TEST_F(MockSddFixture, InvalidWriteBigLenData) {
+	EXPECT_THROW({ m_tespApp->cmdParserAndExcute(WRITE_FALL_BIC_LEN_DATA); }, std::invalid_argument);
+}
+TEST_F(MockSddFixture, InvalidWriteNotHexData) {
+	EXPECT_THROW({ m_tespApp->cmdParserAndExcute(WRITE_FALL_NOT_HEX_DATA); }, std::invalid_argument);
+}
+TEST_F(MockSddFixture, InvalidWriteNotHexCharData) {
+	EXPECT_THROW({ m_tespApp->cmdParserAndExcute(WRITE_FALL_NOT_HEX_CHAR_DATA); }, std::invalid_argument);
 }

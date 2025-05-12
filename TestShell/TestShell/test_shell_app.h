@@ -27,5 +27,7 @@ private:
 	SsdInterface* m_ssd;
 
 	void checkLbaArg(const string& lbaString);
+	void checkDataArg(const string& dataString);
 	void checkReadCmNumdArg(const vector<string>& tokens);
+	void checkWriteCmNumdArg(const vector<string>& tokens);
 };

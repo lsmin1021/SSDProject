@@ -46,9 +46,9 @@ bool TestShellApp::cmdParserAndExcute(const string& cmd)
     const string& command = tokens[0];
 
     if (command == "write") {
-        if (tokens.size() != 3) {
-            throw std::invalid_argument("Usage: write <lba> <value>");
-        }
+		checkWriteCmNumdArg(tokens);
+		checkLbaArg(tokens[1]);
+        checkDataArg(tokens[2]);
     }
     else if (command == "read") {
         checkReadCmNumdArg(tokens);
@@ -118,10 +118,34 @@ void TestShellApp::checkLbaArg(const string& lbaString)
         throw std::invalid_argument("Usage: 0 <= LBA < 100");
     }
 }
+void TestShellApp::checkDataArg(const string& dataString)
+{
+    if (dataString.size() != 10)
+    {
+        throw std::invalid_argument("Usage: 10 length data");
+    }
+
+    std::size_t errorPos = 0;
+    int data = std::stoi(dataString, &errorPos, 16);
+    if (errorPos != dataString.size())
+    {
+        throw std::invalid_argument("Usage: hex data");
+    }
+    if (data > 0xFFFFFFFF || data < 0) {
+        throw std::invalid_argument("Usage: 0 <= LBA < 100");
+    }
+}
 
 void TestShellApp::checkReadCmNumdArg(const vector<string>& tokens)
 {
     if (tokens.size() != 2) {
+        throw std::invalid_argument("Usage: read <lba>");
+    }
+}
+
+void TestShellApp::checkWriteCmNumdArg(const vector<string>& tokens)
+{
+    if (tokens.size() != 3) {
         throw std::invalid_argument("Usage: read <lba>");
     }
 }
