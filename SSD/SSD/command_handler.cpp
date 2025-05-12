@@ -26,6 +26,11 @@ public:
 			m_executor->read(std::stoi(cmd[LBA_INDEX]));
 		}
 	}
+
+	void isError() {
+		m_executor->setError();
+	}
+
 private:
 	bool isEmptyCmd(const vector<string>& cmdArr) {
 		return cmdArr.size() == 0;
