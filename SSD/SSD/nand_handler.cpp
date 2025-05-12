@@ -91,17 +91,3 @@ private:
 	const string FILE_NAME = "ssd_nand.txt";
 	const string EMPTY_VALUE = "0x00000000";
 };
-
-class OutputHandler {
-public:
-	string read() {
-
-	}
-
-	void write(string content) {
-
-	}
-
-private:
-	const string fileName = "output.txt";
-};

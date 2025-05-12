@@ -1,6 +1,7 @@
 
 #include <iostream>
 
+#include "output_handler.cpp"
 #include "nand_handler.cpp"
 
 class CmdChecker {
@@ -59,6 +60,7 @@ class CmdExecutor {
 public:
 	CmdExecutor() {
 		m_nandHandler = new NandHandler();
+		m_outputHandler = new OutputHandler();
 	}
 
 	virtual string read(int lba) {
@@ -66,7 +68,11 @@ public:
 			throw std::out_of_range("[READ ERROR] Out of lba");
 		}
 
-		return readDataOnAddr(lba);
+		string ret = readDataOnAddr(lba);
+
+		m_outputHandler->write(ret);
+
+		return ret;
 	}
 
 	virtual void write(int lba, string value) {
@@ -80,8 +86,16 @@ public:
 		writeDataOnAddr(lba, value);
 	}
 
+	void setError() {
+		m_outputHandler->write("ERROR");
+	}
+	
 	void setNandHandler(NandInterface* handler) {
 		m_nandHandler = handler;
+	}
+
+	void setOutputHandler(OutputInterface* handler) {
+		m_outputHandler = handler;
 	}
 
 private:
@@ -98,4 +112,5 @@ private:
 	}
 
 	NandInterface* m_nandHandler;
+	OutputInterface* m_outputHandler;
 };
