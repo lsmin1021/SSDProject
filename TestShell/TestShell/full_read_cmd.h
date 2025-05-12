@@ -4,9 +4,9 @@
 class FullReadCmd : public CmdInterface {
 public:
 	FullReadCmd() : CmdInterface("fullread", 1) {}
-	void checkInvalidCmd(const vector<string>& tokens) override;
+	void checkInvalidCmd(const vector<string>& tokens) const override;
 	void excuteCmd(const vector<string>& tokens) override;
-	void helpCmd() override;
+	void helpCmd() const override;
 private :
 	void fullRead();
 };

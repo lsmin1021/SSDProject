@@ -6,8 +6,8 @@ class SsdDriver : public SsdInterface {
 public:
 	SsdDriver() = default;
 	~SsdDriver() override = default;
-	void readData(string lba) override;
-	void writeData(string lba, string data) override;
+	void readData(const string& lba) override;
+	void writeData(const string& lba, const string& data) override;
 
 private:
 	const string WRITE_CMD = "SSD W ";

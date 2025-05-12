@@ -18,7 +18,6 @@ bool TestShellApp::cmdParserAndExcute(const string& cmdString)
 
     return true;
 }
-
 vector<string>  TestShellApp::parseCmd(const string& cmd) {
     std::istringstream iss(cmd);
     vector<string> tokens;

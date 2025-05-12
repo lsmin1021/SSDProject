@@ -48,7 +48,7 @@
     <ClCompile Include="read_cmd.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="exit.cpp">
+    <ClCompile Include="exit_cmd.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="help.cpp">
