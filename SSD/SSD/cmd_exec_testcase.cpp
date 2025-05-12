@@ -12,7 +12,6 @@ public:
 
 class MockOutputHandler : public OutputInterface {
 public:
-	MOCK_METHOD(string, read, (), (override));
 	MOCK_METHOD(void, write, (string), (override));
 };
 
