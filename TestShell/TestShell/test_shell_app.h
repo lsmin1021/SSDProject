@@ -22,7 +22,17 @@ public:
 	void fullReadCommand();
 	void helpCommand();
 
-	const int m_MAX_LBA = 100;
+	const int m_MAX_LBA = 99;
 private:
 	SsdInterface* m_ssd;
+
+	void checkInvalidCmd(const vector<string>& tokens);
+	void checkLbaArg(const string& lbaString);
+	void checkDataArg(const string& dataString);
+	void checkReadCmdNumdArg(const vector<string>& tokens);
+	void checkWriteCmdNumdArg(const vector<string>& tokens);
+	void checkFullReadCmdNumdArg(const vector<string>& tokens);
+	void checkFullWriteCmdNumdArg(const vector<string>& tokens);
+	void checkHelpCmdNumdArg(const vector<string>& tokens);
+	void checkExitCmdNumdArg(const vector<string>& tokens);
 };
