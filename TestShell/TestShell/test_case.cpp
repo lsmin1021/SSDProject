@@ -4,12 +4,18 @@
 #include "mock_ssd.h"
 #include "ssd_driver.h"
 #include "test_shell_app.h"
+#include "cmd_factory.h"
+#include "cmd_interface.h"
 using namespace testing;
 
 class MockSddFixture : public Test {
 protected:
 	void SetUp() {
 		m_tespApp = new TestShellApp(&m_mockSsd);
+	}
+
+	void excuteFactoryTc(string cmdName){
+		EXPECT_EQ(cmdName, m_cmdFactory.getCmd(cmdName)->getName());
 	}
 
 public:
@@ -47,6 +53,8 @@ public:
 	const int TEST_SCRIPT3_READ_WRITE_REPEAT_NUM = 400;
 	NiceMock<MockSsd> m_mockSsd;
 	TestShellApp* m_tespApp;
+
+	const CmdFactory& m_cmdFactory = CmdFactory::getInstance();
 };
 
 TEST_F(MockSddFixture, ReadSuccess) {
@@ -139,6 +147,16 @@ TEST_F(MockSddFixture, InvalidHelp) {
 
 TEST_F(MockSddFixture, InvalidExit) {
 	EXPECT_THROW({ m_tespApp->cmdParserAndExcute(INVALID_EXIT_CMD); }, std::invalid_argument);
+}
+
+
+TEST_F(MockSddFixture, CmdFactoryTc) {
+	excuteFactoryTc("read");
+	excuteFactoryTc("write");
+	excuteFactoryTc("fullread");
+	excuteFactoryTc("fullwrite");
+	excuteFactoryTc("exit");
+	excuteFactoryTc("help");
 }
 
 TEST_F(MockSddFixture, TescScript1) {

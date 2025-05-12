@@ -27,6 +27,18 @@
     <ClCompile Include="ssd_driver.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="cmd_factory.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\lib\native\src\gtest\gtest-all.cc">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\lib\native\src\gmock\gmock-all.cc">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="help_cmd.h">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -42,6 +54,27 @@
       <Filter>소스 파일</Filter>
     </ClInclude>
     <ClInclude Include="ssd_driver.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="cmd_factory.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="cmd_interface.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="exit_cmd.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="full_read_cmd.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="full_write_cmd.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="read_cmd.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="write_cmd.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
   </ItemGroup>
