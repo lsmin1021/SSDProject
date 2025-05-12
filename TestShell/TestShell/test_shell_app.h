@@ -26,6 +26,7 @@ public:
 private:
 	SsdInterface* m_ssd;
 
+	void checkInvalidCmd(const vector<string>& tokens);
 	void checkLbaArg(const string& lbaString);
 	void checkDataArg(const string& dataString);
 	void checkReadCmdNumdArg(const vector<string>& tokens);

@@ -38,39 +38,9 @@ bool TestShellApp::cmdParserAndExcute(const string& cmd)
         tokens.push_back(token);
     }
 
-    if (tokens.empty()) {
-        throw std::invalid_argument("Empty command");
-    }
+	checkInvalidCmd(tokens);
 
     const string& command = tokens[0];
-
-    if (command == "write") {
-		checkWriteCmdNumdArg(tokens);
-		checkLbaArg(tokens[1]);
-        checkDataArg(tokens[2]);
-    }
-    else if (command == "read") {
-        checkReadCmdNumdArg(tokens);
-        checkLbaArg(tokens[1]);
-    }
-    else if (command == "fullwrite") {
-       checkFullWriteCmdNumdArg(tokens);
-        checkDataArg(tokens[1]);
-    }
-    else if (command == "fullread") {
-        checkFullReadCmdNumdArg(tokens);
-    }
-    else if (command == "help") {
-        checkHelpCmdNumdArg(tokens);
-    }
-    else if (command == "exit") {
-        checkExitCmdNumdArg(tokens);
-    }
-    else {
-        throw std::invalid_argument("Invalid command: " + command);
-    }
-
-
     if (command == "write") {
         string lba = tokens[1];
         string value = tokens[2];
@@ -96,6 +66,40 @@ bool TestShellApp::cmdParserAndExcute(const string& cmd)
     }
 
     return true;
+}
+
+void TestShellApp::checkInvalidCmd(const vector<string>& tokens) {
+    if (tokens.empty()) {
+        throw std::invalid_argument("Empty command");
+    }
+
+    const string& command = tokens[0];
+
+    if (command == "write") {
+        checkWriteCmdNumdArg(tokens);
+        checkLbaArg(tokens[1]);
+        checkDataArg(tokens[2]);
+    }
+    else if (command == "read") {
+        checkReadCmdNumdArg(tokens);
+        checkLbaArg(tokens[1]);
+    }
+    else if (command == "fullwrite") {
+        checkFullWriteCmdNumdArg(tokens);
+        checkDataArg(tokens[1]);
+    }
+    else if (command == "fullread") {
+        checkFullReadCmdNumdArg(tokens);
+    }
+    else if (command == "help") {
+        checkHelpCmdNumdArg(tokens);
+    }
+    else if (command == "exit") {
+        checkExitCmdNumdArg(tokens);
+    }
+    else {
+        throw std::invalid_argument("Invalid command: " + command);
+    }
 }
 
 void TestShellApp::checkLbaArg(const string& lbaString)
