@@ -1,10 +1,11 @@
 #pragma once
 
 #include "cmd_interface.h"
-class FullWriteCmd : public CmdInterface {
+class WriteReadAging : public TsInterface {
 public:
-	FullWriteCmd() : CmdInterface("fullwrite", 2) {}
+	WriteReadAging() : TsInterface("3_WriteReadAging", 1) {}
 	void checkInvalidCmd(const vector<string>& tokens) override;
 	void excuteCmd(const vector<string>& tokens) override;
 	void helpCmd() override;
 };
+#pragma once

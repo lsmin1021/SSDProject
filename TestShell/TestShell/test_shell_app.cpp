@@ -1,5 +1,6 @@
 #include "test_shell_app.h"
-
+#include "cmd_factory.h"
+#include "cmd_interface.h"
 void TestShellApp::writeCommand(const string& lba, const string& value) {
     m_ssd->writeData(lba, value);
 #ifndef _DEBUG
@@ -54,17 +55,17 @@ void TestShellApp::helpCommand() {
     cout << "  help                     Show this help message\n\n";
 }
 
-bool TestShellApp::cmdParserAndExcute(const string& cmd)
+bool TestShellApp::cmdParserAndExcute(const string& cmdString)
 {
-    std::istringstream iss(cmd);
-    vector<string> tokens;
-    string token;
-
-    while (iss >> token) {
-        tokens.push_back(token);
+    vector<string> tokens = parseCmd(cmdString);
+    if (tokens.empty()) {
+        throw std::invalid_argument("Empty command");
     }
+    CmdInterface* cmdObj = CmdFactory::getInstance().getCmd(tokens[0]);
 
-	checkInvalidCmd(tokens);
+    cmdObj->checkInvalidCmd(tokens);
+
+    //cmdObj->excuteCmd(tokens);
 
     const string& command = tokens[0];
     if (command == "write") {
@@ -91,135 +92,28 @@ bool TestShellApp::cmdParserAndExcute(const string& cmd)
         return false;
     }
     else if (command == "1_FullWriteAndReadCompare" || command == "1_") {
-        runFullWriteAndReadCompare();
+        
     }
     else if (command == "2_PartialLBAWrite" || command == "2_") {
-        runPartialLBAWrite();
+        
     }
     else if (command == "3_WriteReadAging" || command == "3_") {
-        runWriteReadAging();
+        
     }
-
     return true;
 }
 
-void TestShellApp::checkInvalidCmd(const vector<string>& tokens) {
-    if (tokens.empty()) {
-        throw std::invalid_argument("Empty command");
-    }
+vector<string>  TestShellApp::parseCmd(const string& cmd) {
+    std::istringstream iss(cmd);
+    vector<string> tokens;
+    string token;
 
-    const string& command = tokens[0];
-
-    if (command == "write") {
-        checkWriteCmdNumdArg(tokens);
-        checkLbaArg(tokens[1]);
-        checkDataArg(tokens[2]);
+    while (iss >> token) {
+        tokens.push_back(token);
     }
-    else if (command == "read") {
-        checkReadCmdNumdArg(tokens);
-        checkLbaArg(tokens[1]);
-    }
-    else if (command == "fullwrite") {
-        checkFullWriteCmdNumdArg(tokens);
-        checkDataArg(tokens[1]);
-    }
-    else if (command == "fullread") {
-        checkFullReadCmdNumdArg(tokens);
-    }
-    else if (command == "help") {
-        checkHelpCmdNumdArg(tokens);
-    }
-    else if (command == "exit") {
-        checkExitCmdNumdArg(tokens);
-    }
-    else if (command == "exit") {
-        checkExitCmdNumdArg(tokens);
-    }
-    else if (command == "1_FullWriteAndReadCompare" || command == "1_") {
-        
-    }
-    else if (command == "2_PartialLBAWrite" || command == "2_") {
-        
-    }
-    else if (command == "3_WriteReadAging" || command == "3_") {
-        
-    }
-    else {
-        throw std::invalid_argument("Invalid command: " + command);
-    }
+    return tokens;
 }
 
-void TestShellApp::checkLbaArg(const string& lbaString)
-{
-    std::size_t errorPos = 0;
-    int lba = std::stoi(lbaString, &errorPos);
-    if (errorPos != lbaString.size())
-    {
-        throw std::invalid_argument("Usage: decimal LBA");
-    }
-    if (lba > MAX_LBA || lba < 0) {
-        throw std::invalid_argument("Usage: 0 <= LBA < 100");
-    }
-}
-void TestShellApp::checkDataArg(const string& dataString)
-{
-    if (dataString.size() != 10)
-    {
-        throw std::invalid_argument("Usage: 10 length data");
-    }
-
-    std::size_t errorPos = 0;
-    int data = std::stoi(dataString, &errorPos, 16);
-    if (errorPos != dataString.size())
-    {
-        throw std::invalid_argument("Usage: hex data");
-    }
-    if (data > 0xFFFFFFFF || data < 0) {
-        throw std::invalid_argument("Usage: 0 <= LBA < 100");
-    }
-}
-
-void TestShellApp::checkReadCmdNumdArg(const vector<string>& tokens)
-{
-    if (tokens.size() != 2) {
-        throw std::invalid_argument("Usage: read <lba>");
-    }
-}
-
-void TestShellApp::checkWriteCmdNumdArg(const vector<string>& tokens)
-{
-    if (tokens.size() != 3) {
-        throw std::invalid_argument("Usage: write <lba> <data>");
-    }
-}
-
-void TestShellApp::checkFullReadCmdNumdArg(const vector<string>& tokens)
-{
-    if (tokens.size() != 1) {
-        throw std::invalid_argument("Usage: fullread");
-    }
-}
-
-void TestShellApp::checkFullWriteCmdNumdArg(const vector<string>& tokens)
-{
-    if (tokens.size() != 2) {
-        throw std::invalid_argument("Usage: fullwrite <data>");
-    }
-}
-
-void TestShellApp::checkHelpCmdNumdArg(const vector<string>& tokens)
-{
-    if (tokens.size() != 1) {
-        throw std::invalid_argument("Usage: help");
-    }
-}
-
-void TestShellApp::checkExitCmdNumdArg(const vector<string>& tokens)
-{
-    if (tokens.size() != 1) {
-        throw std::invalid_argument("Usage: exit");
-    }
-}
 
 string TestShellApp::updateReadResult() {
     ifstream file("ssd_output.txt");
@@ -244,7 +138,7 @@ string TestShellApp::generateRandomHexString() {
 
     std::stringstream ss;
     ss << "0x" << std::uppercase << std::setfill('0') << std::setw(8) << std::hex << randomValue;
-    return ss.str(); // ¿¹: "0x1A2B3C4D"
+    return ss.str(); // Â¿Â¹: "0x1A2B3C4D"
 }
 
 string TestShellApp::runFullWriteAndReadCompare()
