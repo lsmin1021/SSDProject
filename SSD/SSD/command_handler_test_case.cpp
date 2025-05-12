@@ -66,11 +66,11 @@ TEST_F(CommandHandlerFixture, WriteValidCheckFail_InvalidValue) {
 	isInvalidCommand({ WRITE_COMMAND, VALID_LBA, "0x12345XYZ" });
 }
 
-//TEST_F(CommandHandlerFixture, WriteCommandExecute) {
-//	//EXPECT_CALL(m_mockNand, write(_, _));
-//
-//	execute({ WRITE_COMMAND, VALID_LBA, VALID_VALUE });
-//}
+TEST_F(CommandHandlerFixture, WriteCommandExecute) {
+	EXPECT_CALL(m_mockNand, write(_, _));
+
+	execute({ WRITE_COMMAND, VALID_LBA, VALID_VALUE });
+}
 
 TEST_F(CommandHandlerFixture, ReadValidCheckSuccess) {
 	isValidCommand({ READ_COMMAND, VALID_LBA });
@@ -92,8 +92,8 @@ TEST_F(CommandHandlerFixture, ReadValidCheckFail_InvalidLBA) {
 	isInvalidCommand({ READ_COMMAND, "0.2" });
 }
 
-//TEST_F(CommandHandlerFixture, ReadCommandExecute) {
-//	//EXPECT_CALL(m_mockNand, read(_));
-//
-//	execute({ READ_COMMAND, VALID_LBA });
-//}
+TEST_F(CommandHandlerFixture, ReadCommandExecute) {
+	EXPECT_CALL(m_mockNand, read());
+
+	execute({ READ_COMMAND, VALID_LBA });
+}
