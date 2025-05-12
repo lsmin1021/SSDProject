@@ -6,6 +6,9 @@ void TestShellApp::writeCommand(const string& lba, const string& value) {
 
 void TestShellApp::readCommand(const string& lbaString) {
 	m_ssd->readData(lbaString);
+#ifndef _DEBUG
+    cout << "[Read] LBA " << lbaString << " : " << updateReadResult() << std::endl;
+#endif
 }
 
 void TestShellApp::fullWriteCommand(const string& value) {
@@ -14,8 +17,13 @@ void TestShellApp::fullWriteCommand(const string& value) {
 }
 
 void TestShellApp::fullReadCommand() {
-    for(int lba = 0; lba <= m_MAX_LBA; ++lba)
+    for (int lba = 0; lba <= m_MAX_LBA; ++lba)
+    {
         m_ssd->readData(std::to_string(lba));
+#ifndef _DEBUG
+        cout << "[Read] LBA " << lba << " : " << updateReadResult();
+#endif
+    }
 }
 
 void TestShellApp::helpCommand() {
@@ -183,4 +191,18 @@ void TestShellApp::checkExitCmdNumdArg(const vector<string>& tokens)
     if (tokens.size() != 1) {
         throw std::invalid_argument("Usage: exit");
     }
+}
+
+string TestShellApp::updateReadResult() {
+    ifstream file("ssd_output.txt");
+
+    if (!file.is_open()) {
+        return "";
+    }
+
+    string result;
+    getline(file, result);
+    file.close();
+
+    return result;
 }
