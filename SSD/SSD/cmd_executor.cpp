@@ -10,12 +10,45 @@
 using std::string;
 using std::map;
 
+class CmdChecker {
+public:
+	static bool isValidLBA(int lba) {
+		if (0 > lba || 100 <= lba) {
+			return false;
+		}
+
+		return true;
+	}
+
+	static bool isValidValue(string value) {
+		if (0 != value.find("0x")) {
+			return false;
+		}
+		else if (10 != value.length()) {
+			return false;
+		}
+		else {
+			for (int i = 2; i < value.length(); i++) {
+				if (('0' <= value[i] && '9' >= value[i]) ||
+					('a' <= value[i] && 'f' >= value[i]) ||
+					('A' <= value[i] && 'F' >= value[i])) {
+					continue;
+				}
+
+				return false;
+			}
+		}
+
+		return true;
+	}
+};
+
 class CmdExecutor {
 public:
 	CmdExecutor() {}
 
 	string read(int lba) {
-		if (false == isValidLBA(lba)) {
+		if (false == CmdChecker::isValidLBA(lba)) {
 			throw std::exception("[READ ERROR] Out of lba");
 		}
 
@@ -30,10 +63,10 @@ public:
 	}
 
 	void write(int lba, string value) {
-		if (false == isValidLBA(lba)) {
+		if (false == CmdChecker::isValidLBA(lba)) {
 			throw std::exception("[WRITE ERROR] Out of lba");
 		}
-		if (false == isValidValue(value)) {
+		if (false == CmdChecker::isValidValue(value)) {
 			throw std::exception("[WRITE ERROR] Invalid value to write.");
 		}
 
@@ -94,44 +127,5 @@ private:
 		fs.close();
 	}
 
-	//bool isEmptyLBA(int lba) {
-	//	if (true == m_ssdDevice[lba].empty()) {
-	//		return true;
-	//	}
-
-	//	return false;
-	//}
-
-	bool isValidLBA(int lba) {
-		if (0 > lba || 100 <= lba) {
-			return false;
-		}
-
-		return true;
-	}
-
-	bool isValidValue(string value) {
-		if (0 != value.find("0x")) {
-			return false;
-		}
-		else if (10 != value.length()) {
-			return false;
-		}
-		else {
-			for (int i = 2; i < value.length(); i++) {
-				if (('0' <= value[i] && '9' >= value[i]) ||
-					('a' <= value[i] && 'f' >= value[i]) ||
-					('A' <= value[i] && 'F' >= value[i])) {
-					continue;
-				}
-
-				return false;
-			}
-		}
-
-		return true;
-	}
-
 	const string EMPTY_VALUE = "0x00000000";
 };
-
