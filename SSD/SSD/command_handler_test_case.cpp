@@ -12,7 +12,7 @@ public:
 class CommandHandlerFixture : public Test {
 protected:
 	void SetUp() override {
-		m_handler = new CommandHandler(&mockExector);
+		m_handler = new CommandHandler(&m_mockExecutor);
 	}
 public:
 	void isValidCommand(const vector<string>& cmd) {
@@ -23,8 +23,8 @@ public:
 		EXPECT_FALSE(m_handler->isValidCommand(cmd));
 	}
 
-	CommandHandler* m_handler;
-	NiceMock<MockCmdExecutor> mockExector;
+	CommandHandler* m_handler = nullptr;
+	NiceMock<MockCmdExecutor> m_mockExecutor;
 
 	const string WRITE_COMMAND = "W";
 	const string READ_COMMAND = "R";

@@ -8,7 +8,7 @@ using std::string;
 
 class CommandHandler {
 public:
-	CommandHandler(CmdExecutor* app) : app(app) { }
+	CommandHandler(CmdExecutor* executor) : m_executor(executor) { }
 
 	bool isValidCommand(vector<string> cmdArr) {
 		if (isEmptyCmd(cmdArr)) return false;
@@ -20,10 +20,10 @@ public:
 
 	void execute(const vector<string>& cmd) {
 		if (cmd[COMMAND_INDEX] == WRITE_COMMAND) {
-			app->write(std::stoi(cmd[LBA_INDEX]), cmd[VALUE_INDEX]);
+			m_executor->write(std::stoi(cmd[LBA_INDEX]), cmd[VALUE_INDEX]);
 		}
 		if (cmd[COMMAND_INDEX] == READ_COMMAND) {
-			app->read(std::stoi(cmd[LBA_INDEX]));
+			m_executor->read(std::stoi(cmd[LBA_INDEX]));
 		}
 	}
 private:
@@ -72,7 +72,7 @@ private:
 		return true;
 	}
 
-	CmdExecutor* app = nullptr;
+	CmdExecutor* m_executor = nullptr;
 
 	const int MAX_LBA = 99;
 	const int MIN_LBA = 0;
