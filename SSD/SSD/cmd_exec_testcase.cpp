@@ -10,14 +10,23 @@ public:
 	MOCK_METHOD(string, getData, (int), (override));
 };
 
+class MockOutputHandler : public OutputInterface {
+public:
+	MOCK_METHOD(string, read, (), (override));
+	MOCK_METHOD(void, write, (string), (override));
+};
+
 class CmdExecutorFixture : public Test {
 protected:
 	void SetUp() {
-		cmdExecutor.setNandHandler(&mockHandler);
+		cmdExecutor.setNandHandler(&mockNandHandler);
+		cmdExecutor.setOutputHandler(&mockOutputHandler);
 	}
+
 public:
 	CmdExecutor cmdExecutor;
-	NiceMock<MockNandHandler> mockHandler;
+	NiceMock<MockNandHandler> mockNandHandler;
+	NiceMock<MockOutputHandler> mockOutputHandler;
 
 	const string VALID_VALUE = "0x12341234";
 	const string EMPTY_VALUE = "0x00000000";
@@ -31,8 +40,8 @@ public:
 };
 
 TEST_F(CmdExecutorFixture, WriteMain) {
-	EXPECT_CALL(mockHandler, read).Times(1);
-	EXPECT_CALL(mockHandler, write).Times(1);
+	EXPECT_CALL(mockNandHandler, read).Times(1);
+	EXPECT_CALL(mockNandHandler, write).Times(1);
 
 	EXPECT_NO_THROW(cmdExecutor.write(NOT_EMPTY_LBA, VALID_VALUE), std::exception);
 }
@@ -54,7 +63,7 @@ TEST_F(CmdExecutorFixture, WriteInvalidValueNumber) {
 }
 
 TEST_F(CmdExecutorFixture, ReadMain) {
-	EXPECT_CALL(mockHandler, getData)
+	EXPECT_CALL(mockNandHandler, getData)
 		.Times(1)
 		.WillRepeatedly(Return(VALID_VALUE));
 
@@ -64,7 +73,7 @@ TEST_F(CmdExecutorFixture, ReadMain) {
 }
 
 TEST_F(CmdExecutorFixture, ReadEmptyLBA) {
-	EXPECT_CALL(mockHandler, getData)
+	EXPECT_CALL(mockNandHandler, getData)
 		.Times(1)
 		.WillRepeatedly(Return(EMPTY_VALUE));
 	string ret = cmdExecutor.read(EMPTY_LBA);

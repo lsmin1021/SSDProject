@@ -1,6 +1,7 @@
 
 #include <iostream>
 
+#include "output_handler.cpp"
 #include "nand_handler.cpp"
 
 class CmdChecker {
@@ -59,6 +60,7 @@ class CmdExecutor {
 public:
 	CmdExecutor() {
 		m_nandHandler = new NandHandler();
+		m_outputHandler = new OutputHandler();
 	}
 
 	string read(int lba) {
@@ -84,6 +86,10 @@ public:
 		m_nandHandler = handler;
 	}
 
+	void setOutputHandler(OutputInterface* handler) {
+		m_outputHandler = handler;
+	}
+
 private:
 	string readDataOnAddr(int lba) {
 		m_nandHandler->read();
@@ -98,4 +104,5 @@ private:
 	}
 
 	NandInterface* m_nandHandler;
+	OutputInterface* m_outputHandler;
 };
