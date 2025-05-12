@@ -15,9 +15,7 @@ using std::ifstream;
 
 class TestShellApp {
 public:
-	TestShellApp(SsdInterface* m_ssd)
-		: m_ssd(m_ssd) {
-	}
+	TestShellApp(SsdInterface* m_ssd);
 
 	bool cmdParserAndExcute(const string& cmdcmdString);
 	void writeCommand(const string& lba, const string& value);

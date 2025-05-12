@@ -8,6 +8,8 @@
 using std::string;
 using std::vector;
 
+class SsdInterface;
+
 class CmdInterface {
 public:
 	CmdInterface(string name, int numToken) : m_name(name), m_numToken(numToken){
@@ -24,7 +26,12 @@ public:
 	}
 	const int MAX_LBA = 99;
 
+	void setSdd(SsdInterface* sdd) {
+		m_ssd = sdd;
+	}
 protected :
+	SsdInterface* m_ssd;
+
 	void checkNumToken(const vector<string>& tokens);
 	void checkLbaArg(const string& lbaString);
 	void checkDataArg(const string& dataString);
