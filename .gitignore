@@ -401,5 +401,4 @@ FodyWeavers.xsd
 *.sln.iml
 
 # Output File
-ssd_output.txt
-ssd_nand.txt
+*.txt
