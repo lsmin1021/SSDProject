@@ -6,6 +6,7 @@
 #include <string>
 #include "test_shell_app.h"
 #include "ssd_driver.h"
+#include "exit_cmd.h"
 using std::string;
 
 int main(int argc, char* argv[]) {
@@ -31,11 +32,10 @@ int main(int argc, char* argv[]) {
         try {
             app.cmdParserAndExcute(input);
         }
-        catch (const std::exception& e) {
+        catch (const std::invalid_argument& e) {
             cout << "INVALID COMMAND\n";
         }
-
-        if (input == "exit") {
+        catch (const ExitException& e) {
             break;
         }
 

@@ -35,3 +35,17 @@ void CmdInterface::checkDataArg(const string& dataString)
         throw std::invalid_argument("Usage: 0 <= LBA < 100");
     }
 }
+
+string CmdInterface::updateReadResult() {
+    std::ifstream file("ssd_output.txt");
+
+    if (!file.is_open()) {
+        return "";
+    }
+
+    string result;
+    getline(file, result);
+    file.close();
+
+    return result;
+}

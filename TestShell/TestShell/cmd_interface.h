@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 #include <vector>
-
+#include <fstream>
 #include "cmd_factory.h"
 #include <stdexcept>
 
@@ -35,6 +35,7 @@ protected :
 	void checkNumToken(const vector<string>& tokens);
 	void checkLbaArg(const string& lbaString);
 	void checkDataArg(const string& dataString);
+	string updateReadResult();
 private:
 	const string m_name;
 	const int m_numToken;
