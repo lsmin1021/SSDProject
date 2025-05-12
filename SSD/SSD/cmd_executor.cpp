@@ -9,22 +9,24 @@ using std::vector;
 
 class ICommand {
 public:
-	ICommand() {
-		m_nandHandler = new NandHandler();
-	}
+	ICommand(NandHandler* nandHandler) : m_nandHandler(nandHandler) { }
 
 	virtual bool isValid(const vector<string>& param) = 0;
 	virtual void execute(const vector<string>& param) = 0;
 
 	bool isValidLBA(const string& lbaStr) {
-		size_t pos = 0;
-		int lba = std::stoi(lbaStr, &pos);
-
-		if (pos != lbaStr.length())
+		try {
+			size_t pos = 0;
+			int lba = std::stoi(lbaStr, &pos);
+			if (pos != lbaStr.length())	return false;
+			if (lba < MIN_LBA || lba > MAX_LBA) return false;
+		}
+		catch (std::invalid_argument&) {
 			return false;
-		else if (lba < MIN_LBA || lba > MAX_LBA)
+		}
+		catch (std::out_of_range&) {
 			return false;
-
+		}
 		return true;
 	}
 
@@ -54,8 +56,10 @@ public:
 
 class ReadCommand : public ICommand {
 public:
+	ReadCommand(NandHandler* nandHandler) : ICommand(nandHandler) { }
+
 	bool isValid(const vector<string>& param) override {
-		if (2 > param.size()) {
+		if (PARAMETER_COUNT != param.size()) {
 			return false;
 		}
 
@@ -75,12 +79,17 @@ private:
 
 		return m_nandHandler->getData(lba);
 	}
+
+	const int PARAMETER_COUNT = 2;
+
 };
 
 class WriteCommand : public ICommand {
 public:
+	WriteCommand(NandHandler* nandHandler) : ICommand(nandHandler) { }
+
 	bool isValid(const vector<string>& param) override {
-		if (3 > param.size()) {
+		if (PARAMETER_COUNT != param.size()) {
 			return false;
 		}
 
@@ -105,4 +114,6 @@ private:
 
 		m_nandHandler->write(lba, value);
 	}
+
+	const int PARAMETER_COUNT = 3;
 };

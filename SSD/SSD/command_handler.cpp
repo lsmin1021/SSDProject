@@ -4,11 +4,15 @@
 class CommandHandler {
 public:
     CommandHandler() {
-        m_writeCommand = std::make_unique<WriteCommand>();
-        m_readCommand = std::make_unique<ReadCommand>();
+        NandHandler* nandHandler = new NandHandler();
+        m_writeCommand = std::make_unique<WriteCommand>(nandHandler);
+        m_readCommand = std::make_unique<ReadCommand>(nandHandler);
     }
 
-    CommandHandler(ICommand* writeCmd, ICommand* readCmd) : m_writeCommand(writeCmd), m_readCommand(readCmd) {}
+    CommandHandler(NandHandler* nandHandler) {
+        m_writeCommand = std::make_unique<WriteCommand>(nandHandler);
+        m_readCommand = std::make_unique<ReadCommand>(nandHandler);
+    }
 
     bool isValidCommand(const vector<string>& cmdArr) {
         if (cmdArr.empty()) return false;
