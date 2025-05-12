@@ -1,29 +1,32 @@
-#include <vector>
+#include <fstream>
+#include <ostream>
+#include <iostream>
+#include <sstream>
 #include <string>
+#include <map>
 
 #include "nand_handler.cpp"
 
 using std::string;
-using std::vector;
+using std::map;
 
 class CmdExecutor {
 public:
-	CmdExecutor() {
-		for (int i = 0; i < 100; i++) {
-			m_ssdDevice.push_back("");
-		}
-	}
+	CmdExecutor() {}
 
 	string read(int lba) {
 		if (false == isValidLBA(lba)) {
 			throw std::exception("[READ ERROR] Out of lba");
 		}
 
-		if (true == isEmptyLBA(lba)) {
+		string ssdDataStr = readNand();
+		map<int, string> ssdData = getSSDData(ssdDataStr);
+		if (ssdData.find(lba) == ssdData.end()) {
 			return EMPTY_VALUE;
 		}
-
-		return m_ssdDevice[lba];
+		else {
+			return ssdData[lba] ;
+		}
 	}
 
 	void write(int lba, string value) {
@@ -34,39 +37,70 @@ public:
 			throw std::exception("[WRITE ERROR] Invalid value to write.");
 		}
 
-		m_ssdDevice[lba] = value;
+		string ssdDataStr = readNand();
+		map<int, string> ssdData = getSSDData(ssdDataStr);
 
-		m_nandHandler->write(storageToString());
-	}
+		if (ssdData.find(lba) == ssdData.end()) {
+			ssdData.insert(std::make_pair(lba, value));
+		}
+		else {
+			ssdData[lba] = value;
+		}
 
-	void setNandHandler(FileHandler* handler) {
-		m_nandHandler = handler;
-	}
-
-	void setOutputHandler(FileHandler* handler) {
-		m_outputHandler = handler;
+		writeNand(ssdData);
 	}
 
 private:
-	string storageToString() {
-		string ret;
+	map<int, string> getSSDData(string ssdDataStr) {
+		map<int, string> ret;
+		std::istringstream iss(ssdDataStr);
+		string line;
 
-		for (int i = 0; i < m_ssdDevice.size(); i++) {
-			ret.append(std::to_string(i));
-			ret.append(" ");
-			ret.append(m_ssdDevice[i]);
-			ret.append("\n");
+		while (std::getline(iss, line) ) {
+			int lba = std::stoi(line.substr(0, line.find(" ")));
+			string value = line.substr(line.find(" ")+1);
+
+			ret.insert(std::make_pair(lba, value));
 		}
 
 		return ret;
 	}
-	bool isEmptyLBA(int lba) {
-		if (true == m_ssdDevice[lba].empty()) {
-			return true;
+
+	string readNand() {
+		std::ifstream fs;
+		string content;
+
+		fs.open("ssd_nand.txt");
+
+		string line;
+		while (getline(fs, line) ) {
+			content.append(line).append("\n");
 		}
 
-		return false;
+		fs.close();
+
+		return content;
 	}
+
+	void writeNand(map<int, string> ssdData) {
+		std::ofstream fs;
+
+		fs.open("ssd_nand.txt", std::ofstream::out | std::ofstream::trunc);
+
+		for (auto d : ssdData) {
+			fs << std::to_string(d.first) << " " << d.second << std::endl;
+		}
+
+		fs.close();
+	}
+
+	//bool isEmptyLBA(int lba) {
+	//	if (true == m_ssdDevice[lba].empty()) {
+	//		return true;
+	//	}
+
+	//	return false;
+	//}
 
 	bool isValidLBA(int lba) {
 		if (0 > lba || 100 <= lba) {
@@ -98,12 +132,6 @@ private:
 		return true;
 	}
 
-	vector<string> m_ssdDevice;
-
-	FileHandler* m_nandHandler = nullptr;
-	FileHandler* m_outputHandler = nullptr;
-
 	const string EMPTY_VALUE = "0x00000000";
-
-
 };
+

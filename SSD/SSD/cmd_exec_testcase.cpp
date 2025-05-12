@@ -12,8 +12,7 @@ public:
 class CmdExecutorFixture : public Test {
 protected:
 	void SetUp() override {
-		cmdExecutor.setNandHandler(&mockHandler);
-		cmdExecutor.setOutputHandler(&mockHandler);
+
 	}
 
 public:
@@ -25,6 +24,8 @@ public:
 	const string INVAID_VALUE_FORMET = "12341234";
 	const string INVAID_VALUE_RANGE = "0x1234123er3e";
 	const string INVAID_VALUE_NUMBER = "0x123.1r3e";
+
+	const int EMPTY_LBA = 99;
 };
 
 TEST_F(CmdExecutorFixture, WriteMain) {
@@ -58,7 +59,7 @@ TEST_F(CmdExecutorFixture, ReadMain) {
 }
 
 TEST_F(CmdExecutorFixture, ReadEmptyLBA) {
-	string ret = cmdExecutor.read(3);
+	string ret = cmdExecutor.read(EMPTY_LBA);
 
 	EXPECT_EQ(EMPTY_VALUE, ret);
 }
@@ -67,10 +68,4 @@ TEST_F(CmdExecutorFixture, ReadOutOfLBA) {
 	cmdExecutor.write(3, VALID_VALUE);
 
 	EXPECT_THROW(cmdExecutor.read(101), std::exception);
-}
-
-TEST_F(CmdExecutorFixture, StoreWrittenValue) {
-	EXPECT_CALL(mockHandler, write).Times(1);
-
-	cmdExecutor.write(3, VALID_VALUE);
 }
