@@ -19,7 +19,7 @@ public:
 		: m_ssd(m_ssd) {
 	}
 
-	bool cmdParserAndExcute(const string& cmd);
+	bool cmdParserAndExcute(const string& cmdcmdString);
 	void writeCommand(const string& lba, const string& value);
 	void readCommand(const string& lba);
 	void fullWriteCommand(const string& value);
@@ -37,15 +37,8 @@ public:
 private:
 	SsdInterface* m_ssd;
 
-	void checkInvalidCmd(const vector<string>& tokens);
-	void checkLbaArg(const string& lbaString);
-	void checkDataArg(const string& dataString);
-	void checkReadCmdNumdArg(const vector<string>& tokens);
-	void checkWriteCmdNumdArg(const vector<string>& tokens);
-	void checkFullReadCmdNumdArg(const vector<string>& tokens);
-	void checkFullWriteCmdNumdArg(const vector<string>& tokens);
-	void checkHelpCmdNumdArg(const vector<string>& tokens);
-	void checkExitCmdNumdArg(const vector<string>& tokens);
+	vector<string>  parseCmd(const string& cmd);
+
 	string updateReadResult();
 	string generateRandomHexString();
 	string runFullWriteAndReadCompare();

@@ -4,7 +4,7 @@
 class ExitCmd : public CmdInterface {
 public :
 	ExitCmd() : CmdInterface("exit", 1) {}
-	void checkInvalidCmd(const vector<string>& tokens) override {}
-	void excuteCmd(const vector<string>& args) override  {}
-	void helpCmd() override {}
+	void checkInvalidCmd(const vector<string>& tokens) override;
+	void excuteCmd(const vector<string>& tokens) override;
+	void helpCmd() override;
 };
