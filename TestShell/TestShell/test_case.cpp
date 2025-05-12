@@ -13,6 +13,10 @@ protected:
 		m_tespApp = new TestShellApp(&m_mockSsd);
 	}
 
+	void excuteFactoryTc(string cmdName){
+		EXPECT_EQ(cmdName, m_cmdFactory.getCmd(cmdName)->getName());
+	}
+
 public:
 	const string TEST_LBA = "0";
 	const string TEST_DATA = "0x00000000";
@@ -136,10 +140,10 @@ TEST_F(MockSddFixture, InvalidExit) {
 }
 
 TEST_F(MockSddFixture, CmdFactoryTc) {
-	EXPECT_EQ("read", m_cmdFactory.getCmd("read")->getName());
-	EXPECT_EQ("write", m_cmdFactory.getCmd("write")->getName());
-	EXPECT_EQ("fullread", m_cmdFactory.getCmd("fullread")->getName());
-	EXPECT_EQ("fullwrite", m_cmdFactory.getCmd("fullwrite")->getName());
-	EXPECT_EQ("exit", m_cmdFactory.getCmd("exit")->getName());
-	EXPECT_EQ("help", m_cmdFactory.getCmd("help")->getName());
+	excuteFactoryTc("read");
+	excuteFactoryTc("write");
+	excuteFactoryTc("fullread");
+	excuteFactoryTc("fullwrite");
+	excuteFactoryTc("exit");
+	excuteFactoryTc("help");
 }
