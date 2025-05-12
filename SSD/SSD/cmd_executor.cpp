@@ -1,14 +1,7 @@
-#include <fstream>
-#include <ostream>
+
 #include <iostream>
-#include <sstream>
-#include <string>
-#include <map>
 
 #include "nand_handler.cpp"
-
-using std::string;
-using std::map;
 
 class CmdChecker {
 public:
@@ -52,8 +45,8 @@ public:
 			throw std::exception("[READ ERROR] Out of lba");
 		}
 
-		string ssdDataStr = readNand();
-		map<int, string> ssdData = getSSDData(ssdDataStr);
+		string ssdDataStr = m_nandHandler.readNand();
+		map<int, string> ssdData = m_nandHandler.getSSDData(ssdDataStr);
 		if (ssdData.find(lba) == ssdData.end()) {
 			return EMPTY_VALUE;
 		}
@@ -70,8 +63,8 @@ public:
 			throw std::exception("[WRITE ERROR] Invalid value to write.");
 		}
 
-		string ssdDataStr = readNand();
-		map<int, string> ssdData = getSSDData(ssdDataStr);
+		string ssdDataStr = m_nandHandler.readNand();
+		map<int, string> ssdData = m_nandHandler.getSSDData(ssdDataStr);
 
 		if (ssdData.find(lba) == ssdData.end()) {
 			ssdData.insert(std::make_pair(lba, value));
@@ -80,52 +73,10 @@ public:
 			ssdData[lba] = value;
 		}
 
-		writeNand(ssdData);
+		m_nandHandler.writeNand(ssdData);
 	}
 
 private:
-	map<int, string> getSSDData(string ssdDataStr) {
-		map<int, string> ret;
-		std::istringstream iss(ssdDataStr);
-		string line;
-
-		while (std::getline(iss, line) ) {
-			int lba = std::stoi(line.substr(0, line.find(" ")));
-			string value = line.substr(line.find(" ")+1);
-
-			ret.insert(std::make_pair(lba, value));
-		}
-
-		return ret;
-	}
-
-	string readNand() {
-		std::ifstream fs;
-		string content;
-
-		fs.open("ssd_nand.txt");
-
-		string line;
-		while (getline(fs, line) ) {
-			content.append(line).append("\n");
-		}
-
-		fs.close();
-
-		return content;
-	}
-
-	void writeNand(map<int, string> ssdData) {
-		std::ofstream fs;
-
-		fs.open("ssd_nand.txt", std::ofstream::out | std::ofstream::trunc);
-
-		for (auto d : ssdData) {
-			fs << std::to_string(d.first) << " " << d.second << std::endl;
-		}
-
-		fs.close();
-	}
-
+	NandHandler m_nandHandler;
 	const string EMPTY_VALUE = "0x00000000";
 };
