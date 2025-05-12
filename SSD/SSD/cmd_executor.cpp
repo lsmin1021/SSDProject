@@ -80,30 +80,16 @@ public:
 
 private:
 	string readDataOnAddr(int lba) {
-		string ssdDataStr = m_nandHandler.readNand();
-		map<int, string> ssdData = m_nandHandler.getSSDData(ssdDataStr);
-		if (ssdData.find(lba) == ssdData.end()) {
-			return EMPTY_VALUE;
-		}
-		else {
-			return ssdData[lba];
-		}
+		m_nandHandler.read();
+
+		return m_nandHandler.getData(lba);
 	}
 
 	void writeDataOnAddr(int lba, string value) {
-		string ssdDataStr = m_nandHandler.readNand();
-		map<int, string> ssdData = m_nandHandler.getSSDData(ssdDataStr);
+		m_nandHandler.read();
 
-		if (ssdData.find(lba) == ssdData.end()) {
-			ssdData.insert(std::make_pair(lba, value));
-		}
-		else {
-			ssdData[lba] = value;
-		}
-
-		m_nandHandler.writeNand(ssdData);
+		m_nandHandler.write(lba, value);
 	}
 
 	NandHandler m_nandHandler;
-	const string EMPTY_VALUE = "0x00000000";
 };

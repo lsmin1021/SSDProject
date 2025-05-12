@@ -17,6 +17,31 @@ public:
 
 class NandHandler {
 public:
+	void read() {
+		string ssdDataStr = readNand();
+		m_ssdData = getSSDData(ssdDataStr);
+	}
+
+	string getData(int lba) {
+		if (m_ssdData.find(lba) == m_ssdData.end()) {
+			return EMPTY_VALUE;
+		}
+
+		return m_ssdData[lba];
+	}
+
+	string write(int lba, string value) {
+		if (m_ssdData.find(lba) == m_ssdData.end()) {
+			m_ssdData.insert(std::make_pair(lba, value));
+		}
+		else {
+			m_ssdData[lba] = value;
+		}
+
+		writeDataToSSD();
+	}
+
+private:
 	map<int, string> getSSDData(string ssdDataStr) {
 		map<int, string> ret;
 		std::istringstream iss(ssdDataStr);
@@ -36,7 +61,7 @@ public:
 		std::ifstream fs;
 		string content;
 
-		fs.open("ssd_nand.txt");
+		fs.open(FILE_NAME);
 
 		string line;
 		while (getline(fs, line)) {
@@ -48,20 +73,21 @@ public:
 		return content;
 	}
 
-	void writeNand(map<int, string> ssdData) {
+	void writeDataToSSD() {
 		std::ofstream fs;
 
-		fs.open("ssd_nand.txt", std::ofstream::out | std::ofstream::trunc);
+		fs.open(FILE_NAME, std::ofstream::out | std::ofstream::trunc);
 
-		for (auto d : ssdData) {
+		for (auto d : m_ssdData) {
 			fs << std::to_string(d.first) << " " << d.second << std::endl;
 		}
 
 		fs.close();
 	}
 
-private:
-	const string fileName = "ssd_nand.txt";
+	map<int, string> m_ssdData;
+	const string FILE_NAME = "ssd_nand.txt";
+	const string EMPTY_VALUE = "0x00000000";
 };
 
 /*
