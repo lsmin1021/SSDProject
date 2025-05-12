@@ -3,7 +3,7 @@
 
 using namespace testing;
 
-class MockNandHandler : public NandHandler {
+class m_mockNand : public NandHandler {
 public:
 	MOCK_METHOD(void, read, (), (override));
 	MOCK_METHOD(void, write, (int, string), (override));
@@ -28,17 +28,28 @@ public:
 		m_handler->executeCommand(cmd);
 	}
 
+	void handleCommand(const vector<string>& cmd) {
+		m_handler->handleCommand(cmd);
+	}
+
+
 	CommandHandler* m_handler = nullptr;
-	NiceMock<MockNandHandler> m_mockNand;
+	NiceMock<m_mockNand> m_mockNand;
 
 	const string WRITE_COMMAND = "W";
 	const string READ_COMMAND = "R";
 	const string VALID_LBA = "0";
 	const string VALID_VALUE = "0x1A2B3E4F";
+	const string EMPTY_VALUE = "0x00000000";
+
+	const vector<string> VALID_WRITE_CMD = { WRITE_COMMAND, VALID_LBA, VALID_VALUE };
+	const vector<string> INVALID_WRITE_CMD = { WRITE_COMMAND, VALID_LBA, VALID_VALUE , VALID_VALUE };
+	const vector<string> VALID_READ_CMD = { READ_COMMAND, VALID_LBA };
+	const vector<string> INVALID_READ_CMD = { READ_COMMAND, VALID_LBA, VALID_LBA};
 };
 
 TEST_F(CommandHandlerFixture, WriteValidCheckSuccess) {
-	isValidCommand({ WRITE_COMMAND, VALID_LBA, VALID_VALUE });
+	isValidCommand(VALID_WRITE_CMD);
 }
 
 TEST_F(CommandHandlerFixture, WriteValidCheckFail_InvalidArgumentCount) {
@@ -67,13 +78,14 @@ TEST_F(CommandHandlerFixture, WriteValidCheckFail_InvalidValue) {
 }
 
 TEST_F(CommandHandlerFixture, WriteCommandExecute) {
-	EXPECT_CALL(m_mockNand, write(_, _));
+	EXPECT_CALL(m_mockNand, read).Times(1);
+	EXPECT_CALL(m_mockNand, write).Times(1);
 
-	execute({ WRITE_COMMAND, VALID_LBA, VALID_VALUE });
+	execute(VALID_WRITE_CMD);
 }
 
 TEST_F(CommandHandlerFixture, ReadValidCheckSuccess) {
-	isValidCommand({ READ_COMMAND, VALID_LBA });
+	isValidCommand(VALID_READ_CMD);
 }
 
 TEST_F(CommandHandlerFixture, ReadValidCheckFail_InvalidArgumentCount) {
@@ -93,7 +105,33 @@ TEST_F(CommandHandlerFixture, ReadValidCheckFail_InvalidLBA) {
 }
 
 TEST_F(CommandHandlerFixture, ReadCommandExecute) {
-	EXPECT_CALL(m_mockNand, read());
+	EXPECT_CALL(m_mockNand, getData)
+		.Times(1)
+		.WillRepeatedly(Return(VALID_VALUE));
 
-	execute({ READ_COMMAND, VALID_LBA });
+	execute(VALID_READ_CMD);
+}
+
+TEST_F(CommandHandlerFixture, HandleWriteCommand) {
+	EXPECT_CALL(m_mockNand, read).Times(1);
+	EXPECT_CALL(m_mockNand, write).Times(1);
+
+	handleCommand(VALID_WRITE_CMD);
+}
+
+TEST_F(CommandHandlerFixture, HandleReadCommand) {
+	EXPECT_CALL(m_mockNand, read).Times(1);
+	EXPECT_CALL(m_mockNand, getData)
+		.Times(1)
+		.WillRepeatedly(Return(VALID_VALUE));
+
+	handleCommand(VALID_READ_CMD);
+}
+
+TEST_F(CommandHandlerFixture, HandleInvalidCommand) {
+	EXPECT_CALL(m_mockNand, read).Times(0);
+	EXPECT_CALL(m_mockNand, write).Times(0);
+
+	handleCommand(INVALID_READ_CMD);
+	handleCommand(INVALID_WRITE_CMD);
 }

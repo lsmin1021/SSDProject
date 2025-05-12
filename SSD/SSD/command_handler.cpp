@@ -1,4 +1,3 @@
-#include "cmd_checker.cpp"
 #include "cmd_executor.cpp"
 
 class CommandHandler {
