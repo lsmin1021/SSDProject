@@ -6,6 +6,25 @@
 class CmdChecker {
 public:
 	static bool isValidLBA(int lba) {
+		return isValidLBA(lba);
+	}
+
+	static bool isValidValue(string value) {
+		if (false == isHexaFormat(value)) {
+			return false;
+		}
+		else if (10 != value.length()) {
+			return false;
+		}
+		else if (false == isHexaData(value.substr(2, 8))) {
+			return false;
+		}
+
+		return true;
+	}
+
+private:
+	static bool isValidRange(int lba) {
 		if (0 > lba || 100 <= lba) {
 			return false;
 		}
@@ -13,23 +32,23 @@ public:
 		return true;
 	}
 
-	static bool isValidValue(string value) {
+	static bool isHexaFormat(string value) {
 		if (0 != value.find("0x")) {
 			return false;
 		}
-		else if (10 != value.length()) {
-			return false;
-		}
-		else {
-			for (int i = 2; i < value.length(); i++) {
-				if (('0' <= value[i] && '9' >= value[i]) ||
-					('a' <= value[i] && 'f' >= value[i]) ||
-					('A' <= value[i] && 'F' >= value[i])) {
-					continue;
-				}
 
-				return false;
+		return true;
+	}
+
+	static bool isHexaData(string value) {
+		for (int i = 0; i < value.length(); i++) {
+			if (('0' <= value[i] && '9' >= value[i]) ||
+				('a' <= value[i] && 'f' >= value[i]) ||
+				('A' <= value[i] && 'F' >= value[i])) {
+				continue;
 			}
+
+			return false;
 		}
 
 		return true;
