@@ -16,22 +16,22 @@ public:
 	const string TEST_DATA = "0x00000000";
 	const string INVALID_CMD = "test";
 	const string READ_SUCESS = "read 0";
-	const string READ_FALL_LESS_NUM_ARG = "read";
-	const string READ_FALL_MORE_NUM_ARG = "read 0 1";
-	const string READ_FALL_INVALID_LBA = "read 100";
+	const string READ_FAIL_LESS_NUM_ARG = "read";
+	const string READ_FAIL_MORE_NUM_ARG = "read 0 1";
+	const string READ_FAIL_INVALID_LBA = "read 100";
 	const string FULL_READ_SUCESS = "fullread";
-	const string FULL_READ_FALL_MORE_NUM_ARG = "fullread 100";
+	const string FULL_READ_FAIL_MORE_NUM_ARG = "fullread 100";
 	const string WRITE_SUCESS = "write 0 0x00000000";
-	const string WRITE_FALL_LESS_NUM_ARG = "write 0";
-	const string WRITE_FALL_MORE_NUM_ARG = "write 0 0x00000000 9";
-	const string WRITE_FALL_SMALL_LEN_DATA = "write 0 0x1";
-	const string WRITE_FALL_BIC_LEN_DATA = "write 0 0x11111111111";
-	const string WRITE_FALL_NOT_HEX_DATA = "write 0 00000000";
-	const string WRITE_FALL_NOT_HEX_CHAR_DATA = "write 0 0xP0000000";
+	const string WRITE_FAIL_LESS_NUM_ARG = "write 0";
+	const string WRITE_FAIL_MORE_NUM_ARG = "write 0 0x00000000 9";
+	const string WRITE_FAIL_SMALL_LEN_DATA = "write 0 0x1";
+	const string WRITE_FAIL_BIC_LEN_DATA = "write 0 0x11111111111";
+	const string WRITE_FAIL_NOT_HEX_DATA = "write 0 00000000";
+	const string WRITE_FAIL_NOT_HEX_CHAR_DATA = "write 0 0xP0000000";
 	const string FULL_WRITE_SUCESS = "fullwrite 0x00000000";
-	const string FULL_WRITE_FALL_LESS_NUM_ARG = "fullwrite";
-	const string FULL_WRITE_FALL_MORE_NUM_ARG = "fullwrite 0x00000000 o";
-	const string FULL_WRITE_FALL_INVALD_DATA= "fullwrite 0x00";
+	const string FULL_WRITE_FAIL_LESS_NUM_ARG = "fullwrite";
+	const string FULL_WRITE_FAIL_MORE_NUM_ARG = "fullwrite 0x00000000 o";
+	const string FULL_WRITE_FAIL_INVALD_DATA= "fullwrite 0x00";
 	const string HELP_CMD = "help";
 	const string INVALID_HELP_CMD = "hel v";
 	const string INVALID_EXIT_CMD = "exit 0";
@@ -73,49 +73,49 @@ TEST_F(MockSddFixture, InavlidCmd) {
 }
 
 TEST_F(MockSddFixture, InvalidReadMoreNumAra) {
-	EXPECT_THROW({ m_tespApp->cmdParserAndExcute(READ_FALL_MORE_NUM_ARG); }, std::invalid_argument);
+	EXPECT_THROW({ m_tespApp->cmdParserAndExcute(READ_FAIL_MORE_NUM_ARG); }, std::invalid_argument);
 }
 TEST_F(MockSddFixture, InvalidReadLessNumAra) {
-	EXPECT_THROW({ m_tespApp->cmdParserAndExcute(READ_FALL_LESS_NUM_ARG); }, std::invalid_argument);
+	EXPECT_THROW({ m_tespApp->cmdParserAndExcute(READ_FAIL_LESS_NUM_ARG); }, std::invalid_argument);
 }
 TEST_F(MockSddFixture, InvalidReadInvalidLba) {
-	EXPECT_THROW({ m_tespApp->cmdParserAndExcute(READ_FALL_INVALID_LBA); }, std::invalid_argument);
+	EXPECT_THROW({ m_tespApp->cmdParserAndExcute(READ_FAIL_INVALID_LBA); }, std::invalid_argument);
 }
 
 TEST_F(MockSddFixture, InvalidFullReadMoreNumAra) {
-	EXPECT_THROW({ m_tespApp->cmdParserAndExcute(FULL_READ_FALL_MORE_NUM_ARG); }, std::invalid_argument);
+	EXPECT_THROW({ m_tespApp->cmdParserAndExcute(FULL_READ_FAIL_MORE_NUM_ARG); }, std::invalid_argument);
 }
 
 TEST_F(MockSddFixture, InvalidWriteMoreNumAra) {
-	EXPECT_THROW({ m_tespApp->cmdParserAndExcute(WRITE_FALL_MORE_NUM_ARG); }, std::invalid_argument);
+	EXPECT_THROW({ m_tespApp->cmdParserAndExcute(WRITE_FAIL_MORE_NUM_ARG); }, std::invalid_argument);
 }
 TEST_F(MockSddFixture, InvalidWriteLessNumAra) {
-	EXPECT_THROW({ m_tespApp->cmdParserAndExcute(WRITE_FALL_LESS_NUM_ARG); }, std::invalid_argument);
+	EXPECT_THROW({ m_tespApp->cmdParserAndExcute(WRITE_FAIL_LESS_NUM_ARG); }, std::invalid_argument);
 }
 TEST_F(MockSddFixture, InvalidWriteSmallLenData) {
-	EXPECT_THROW({ m_tespApp->cmdParserAndExcute(WRITE_FALL_SMALL_LEN_DATA); }, std::invalid_argument);
+	EXPECT_THROW({ m_tespApp->cmdParserAndExcute(WRITE_FAIL_SMALL_LEN_DATA); }, std::invalid_argument);
 }
 TEST_F(MockSddFixture, InvalidWriteBigLenData) {
-	EXPECT_THROW({ m_tespApp->cmdParserAndExcute(WRITE_FALL_BIC_LEN_DATA); }, std::invalid_argument);
+	EXPECT_THROW({ m_tespApp->cmdParserAndExcute(WRITE_FAIL_BIC_LEN_DATA); }, std::invalid_argument);
 }
 TEST_F(MockSddFixture, InvalidWriteNotHexData) {
-	EXPECT_THROW({ m_tespApp->cmdParserAndExcute(WRITE_FALL_NOT_HEX_DATA); }, std::invalid_argument);
+	EXPECT_THROW({ m_tespApp->cmdParserAndExcute(WRITE_FAIL_NOT_HEX_DATA); }, std::invalid_argument);
 }
 TEST_F(MockSddFixture, InvalidWriteNotHexCharData) {
-	EXPECT_THROW({ m_tespApp->cmdParserAndExcute(WRITE_FALL_NOT_HEX_CHAR_DATA); }, std::invalid_argument);
+	EXPECT_THROW({ m_tespApp->cmdParserAndExcute(WRITE_FAIL_NOT_HEX_CHAR_DATA); }, std::invalid_argument);
 }
 
 
 TEST_F(MockSddFixture, InvalidFullWriteMoreNumAra) {
-	EXPECT_THROW({ m_tespApp->cmdParserAndExcute(FULL_WRITE_FALL_MORE_NUM_ARG); }, std::invalid_argument);
+	EXPECT_THROW({ m_tespApp->cmdParserAndExcute(FULL_WRITE_FAIL_MORE_NUM_ARG); }, std::invalid_argument);
 }
 
 TEST_F(MockSddFixture, InvalidFullWriteLessNumAra) {
-	EXPECT_THROW({ m_tespApp->cmdParserAndExcute(FULL_WRITE_FALL_LESS_NUM_ARG); }, std::invalid_argument);
+	EXPECT_THROW({ m_tespApp->cmdParserAndExcute(FULL_WRITE_FAIL_LESS_NUM_ARG); }, std::invalid_argument);
 }
 
 TEST_F(MockSddFixture, InvalidFullWriteInvalidData) {
-	EXPECT_THROW({ m_tespApp->cmdParserAndExcute(FULL_WRITE_FALL_INVALD_DATA); }, std::invalid_argument);
+	EXPECT_THROW({ m_tespApp->cmdParserAndExcute(FULL_WRITE_FAIL_INVALD_DATA); }, std::invalid_argument);
 }
 
 TEST_F(MockSddFixture, helpTest) {

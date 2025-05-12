@@ -160,27 +160,27 @@ void TestShellApp::checkWriteCmdNumdArg(const vector<string>& tokens)
 void TestShellApp::checkFullReadCmdNumdArg(const vector<string>& tokens)
 {
     if (tokens.size() != 1) {
-        throw std::invalid_argument("Usage: read");
+        throw std::invalid_argument("Usage: fullread");
     }
 }
 
 void TestShellApp::checkFullWriteCmdNumdArg(const vector<string>& tokens)
 {
     if (tokens.size() != 2) {
-        throw std::invalid_argument("Usage: write <data>");
+        throw std::invalid_argument("Usage: fullwrite <data>");
     }
 }
 
 void TestShellApp::checkHelpCmdNumdArg(const vector<string>& tokens)
 {
     if (tokens.size() != 1) {
-        throw std::invalid_argument("Usage: read <lba>");
+        throw std::invalid_argument("Usage: help");
     }
 }
 
 void TestShellApp::checkExitCmdNumdArg(const vector<string>& tokens)
 {
     if (tokens.size() != 1) {
-        throw std::invalid_argument("Usage: read <lba>");
+        throw std::invalid_argument("Usage: exit");
     }
 }
