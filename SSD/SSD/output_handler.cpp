@@ -4,9 +4,15 @@
 
 using std::string;
 
-class OutputHandler {
+class OutputInterface {
 public:
-	string read() {
+	virtual string read() = 0;
+	virtual void write(string value) = 0;
+};
+
+class OutputHandler : public OutputInterface{
+public:
+	string read() override {
 		std::ifstream fs;
 		string content;
 
@@ -19,7 +25,7 @@ public:
 		return content;
 	}
 
-	void write(string value) {
+	void write(string value) override {
 		std::ofstream fs;
 
 		fs.open(FILE_NAME, std::ofstream::out | std::ofstream::trunc);

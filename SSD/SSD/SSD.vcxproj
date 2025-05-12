@@ -142,6 +142,7 @@
     <ClCompile Include="nand_handler.cpp">
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'"> %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
+    <ClCompile Include="output_handler.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />
