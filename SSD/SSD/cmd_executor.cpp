@@ -57,7 +57,9 @@ private:
 
 class CmdExecutor {
 public:
-	CmdExecutor() {}
+	CmdExecutor() {
+		m_nandHandler = new NandHandler();
+	}
 
 	string read(int lba) {
 		if (false == CmdChecker::isValidLBA(lba)) {
@@ -78,18 +80,22 @@ public:
 		writeDataOnAddr(lba, value);
 	}
 
+	void setNandHandler(NandInterface* handler) {
+		m_nandHandler = handler;
+	}
+
 private:
 	string readDataOnAddr(int lba) {
-		m_nandHandler.read();
+		m_nandHandler->read();
 
-		return m_nandHandler.getData(lba);
+		return m_nandHandler->getData(lba);
 	}
 
 	void writeDataOnAddr(int lba, string value) {
-		m_nandHandler.read();
+		m_nandHandler->read();
 
-		m_nandHandler.write(lba, value);
+		m_nandHandler->write(lba, value);
 	}
 
-	NandHandler m_nandHandler;
+	NandInterface* m_nandHandler;
 };

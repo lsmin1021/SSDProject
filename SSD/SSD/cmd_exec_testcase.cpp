@@ -11,6 +11,10 @@ public:
 };
 
 class CmdExecutorFixture : public Test {
+protected:
+	void SetUp() {
+		cmdExecutor.setNandHandler(&mockHandler);
+	}
 public:
 	CmdExecutor cmdExecutor;
 	NiceMock<MockNandHandler> mockHandler;
@@ -49,7 +53,9 @@ TEST_F(CmdExecutorFixture, WriteInvalidValueNumber) {
 }
 
 TEST_F(CmdExecutorFixture, ReadMain) {
-	cmdExecutor.write(NOT_EMPTY_LBA, VALID_VALUE);
+	EXPECT_CALL(mockHandler, getData)
+		.Times(1)
+		.WillRepeatedly(Return(VALID_VALUE));
 
 	string ret = cmdExecutor.read(NOT_EMPTY_LBA);
 
@@ -57,13 +63,14 @@ TEST_F(CmdExecutorFixture, ReadMain) {
 }
 
 TEST_F(CmdExecutorFixture, ReadEmptyLBA) {
+	EXPECT_CALL(mockHandler, getData)
+		.Times(1)
+		.WillRepeatedly(Return(EMPTY_VALUE));
 	string ret = cmdExecutor.read(EMPTY_LBA);
 
 	EXPECT_EQ(EMPTY_VALUE, ret);
 }
 
 TEST_F(CmdExecutorFixture, ReadOutOfLBA) {
-	cmdExecutor.write(NOT_EMPTY_LBA, VALID_VALUE);
-
 	EXPECT_THROW(cmdExecutor.read(OUT_OF_RANGE_LBA), std::exception);
 }
