@@ -42,7 +42,9 @@ TEST_F(CmdExecutorFixture, WriteMain) {
 	EXPECT_CALL(mockNandHandler, read).Times(1);
 	EXPECT_CALL(mockNandHandler, write).Times(1);
 
-	EXPECT_NO_THROW(cmdExecutor.write(NOT_EMPTY_LBA, VALID_VALUE), std::exception);
+	cmdExecutor.write(NOT_EMPTY_LBA, VALID_VALUE);
+
+	EXPECT_NO_THROW(std::exception);
 }
 /*
 TEST_F(CmdExecutorFixture, WriteOutOfLBA) {
