@@ -1,6 +1,8 @@
 #include "write_cmd.h"
 #include "ssd_driver.h"
+#include "iostream"
 
+using std::cout;
 void WriteCmd::checkInvalidCmd(const vector<string>& tokens) {
 	checkNumToken(tokens);
     checkLbaArg(tokens[1]);
@@ -11,7 +13,9 @@ void WriteCmd::excuteCmd(const vector<string>& tokens) {
     string value = tokens[2];
     write(lba, value);
 }
-void WriteCmd::helpCmd() {}
+void WriteCmd::helpCmd() {
+    cout << "  write <LBA> <DATA>       Write 4-byte DATA to logical block address (LBA)\n";
+}
 
 void WriteCmd::write(const string& lba, const string& value) {
     m_ssd->writeData(lba, value);
