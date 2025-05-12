@@ -1,109 +1,53 @@
-#include <vector>
-#include <string>
 
+#include <iostream>
+
+#include "output_handler.cpp"
 #include "nand_handler.cpp"
-
-using std::string;
-using std::vector;
 
 class CmdExecutor {
 public:
 	CmdExecutor() {
-		for (int i = 0; i < 100; i++) {
-			m_ssdDevice.push_back("");
-		}
+		m_nandHandler = new NandHandler();
+		m_outputHandler = new OutputHandler();
 	}
 
-	string read(int lba) {
-		if (false == isValidLBA(lba)) {
-			throw std::exception("[READ ERROR] Out of lba");
-		}
+	virtual string read(int lba) {
+		string ret = readDataOnAddr(lba);
 
-		if (true == isEmptyLBA(lba)) {
-			return EMPTY_VALUE;
-		}
+		m_outputHandler->write(ret);
 
-		return m_ssdDevice[lba];
+		return ret;
 	}
 
-	void write(int lba, string value) {
-		if (false == isValidLBA(lba)) {
-			throw std::exception("[WRITE ERROR] Out of lba");
-		}
-		if (false == isValidValue(value)) {
-			throw std::exception("[WRITE ERROR] Invalid value to write.");
-		}
-
-		m_ssdDevice[lba] = value;
-
-		m_nandHandler->write(storageToString());
+	virtual void write(int lba, string value) {
+		writeDataOnAddr(lba, value);
 	}
 
-	void setNandHandler(FileHandler* handler) {
+	void setError() {
+		m_outputHandler->write("ERROR");
+	}
+	
+	void setNandHandler(NandInterface* handler) {
 		m_nandHandler = handler;
 	}
 
-	void setOutputHandler(FileHandler* handler) {
+	void setOutputHandler(OutputInterface* handler) {
 		m_outputHandler = handler;
 	}
 
 private:
-	string storageToString() {
-		string ret;
+	string readDataOnAddr(int lba) {
+		m_nandHandler->read();
 
-		for (int i = 0; i < m_ssdDevice.size(); i++) {
-			ret.append(std::to_string(i));
-			ret.append(" ");
-			ret.append(m_ssdDevice[i]);
-			ret.append("\n");
-		}
-
-		return ret;
-	}
-	bool isEmptyLBA(int lba) {
-		if (true == m_ssdDevice[lba].empty()) {
-			return true;
-		}
-
-		return false;
+		return m_nandHandler->getData(lba);
 	}
 
-	bool isValidLBA(int lba) {
-		if (0 > lba || 100 <= lba) {
-			return false;
-		}
+	void writeDataOnAddr(int lba, string value) {
+		m_nandHandler->read();
 
-		return true;
+		m_nandHandler->write(lba, value);
 	}
 
-	bool isValidValue(string value) {
-		if (0 != value.find("0x")) {
-			return false;
-		}
-		else if (10 != value.length()) {
-			return false;
-		}
-		else {
-			for (int i = 2; i < value.length(); i++) {
-				if (('0' <= value[i] && '9' >= value[i]) ||
-					('a' <= value[i] && 'f' >= value[i]) ||
-					('A' <= value[i] && 'F' >= value[i])) {
-					continue;
-				}
-
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	vector<string> m_ssdDevice;
-
-	FileHandler* m_nandHandler = nullptr;
-	FileHandler* m_outputHandler = nullptr;
-
-	const string EMPTY_VALUE = "0x00000000";
-
-
+	NandInterface* m_nandHandler;
+	OutputInterface* m_outputHandler;
 };

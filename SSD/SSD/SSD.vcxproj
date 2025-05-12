@@ -129,19 +129,21 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="cmd_executor.cpp">
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'"> %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">  %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
+    <ClCompile Include="cmd_checker.cpp" />
     <ClCompile Include="command_handler.cpp">
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'"> %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <ClCompile Include="command_handler_test_case.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="cmd_exec_testcase.cpp">
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'"> %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">  %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <ClCompile Include="nand_handler.cpp">
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'"> %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
+    <ClCompile Include="output_handler.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />
