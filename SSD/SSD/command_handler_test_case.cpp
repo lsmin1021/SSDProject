@@ -3,16 +3,17 @@
 
 using namespace testing;
 
-class MockCmdExecutor : public CmdExecutor {
+class MockNandHandler : public NandHandler {
 public:
-	MOCK_METHOD(string, read, (int), (override));
+	MOCK_METHOD(void, read, (), (override));
 	MOCK_METHOD(void, write, (int, string), (override));
+	MOCK_METHOD(string, getData, (int), (override));
 };
 
 class CommandHandlerFixture : public Test {
 protected:
 	void SetUp() override {
-		m_handler = new CommandHandler(&m_mockExecutor);
+		m_handler = new CommandHandler(&m_mockNand);
 	}
 public:
 	void isValidCommand(const vector<string>& cmd) {
@@ -24,11 +25,11 @@ public:
 	}
 
 	void execute(const vector<string>& cmd) {
-		m_handler->execute(cmd);
+		m_handler->executeCommand(cmd);
 	}
 
 	CommandHandler* m_handler = nullptr;
-	NiceMock<MockCmdExecutor> m_mockExecutor;
+	NiceMock<MockNandHandler> m_mockNand;
 
 	const string WRITE_COMMAND = "W";
 	const string READ_COMMAND = "R";
@@ -66,7 +67,7 @@ TEST_F(CommandHandlerFixture, WriteValidCheckFail_InvalidValue) {
 }
 
 TEST_F(CommandHandlerFixture, WriteCommandExecute) {
-	EXPECT_CALL(m_mockExecutor, write(_, _));
+	EXPECT_CALL(m_mockNand, write(_, _));
 
 	execute({ WRITE_COMMAND, VALID_LBA, VALID_VALUE });
 }
@@ -92,7 +93,7 @@ TEST_F(CommandHandlerFixture, ReadValidCheckFail_InvalidLBA) {
 }
 
 TEST_F(CommandHandlerFixture, ReadCommandExecute) {
-	EXPECT_CALL(m_mockExecutor, read(_));
+	EXPECT_CALL(m_mockNand, read());
 
 	execute({ READ_COMMAND, VALID_LBA });
 }

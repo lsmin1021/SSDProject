@@ -1,43 +1,43 @@
 #include "cmd_checker.cpp"
 #include "cmd_executor.cpp"
 
-
 class CommandHandler {
 public:
-	CommandHandler() {
-		m_executor = new CmdExecutor();
-	}
+    CommandHandler() {
+        NandHandler* nandHandler = new NandHandler();
+        m_writeCommand = std::make_unique<WriteCommand>(nandHandler);
+        m_readCommand = std::make_unique<ReadCommand>(nandHandler);
+    }
 
-	CommandHandler(CmdExecutor* executor) : m_executor(executor) { }
+    CommandHandler(NandHandler* nandHandler) {
+        m_writeCommand = std::make_unique<WriteCommand>(nandHandler);
+        m_readCommand = std::make_unique<ReadCommand>(nandHandler);
+    }
 
-	void handleCommand(const vector<string>& cmdArr) {
-		if (isValidCommand(cmdArr)) execute(cmdArr);
-		else setError();
-	}
+    bool isValidCommand(const vector<string>& cmdArr) {
+        if (cmdArr.empty()) return false;
 
-	bool isValidCommand(const vector<string>& cmdArr) {
-		if (m_checker.isEmptyCmd(cmdArr)) return false;
-		if (m_checker.isValidWriteCommand(cmdArr)) return true;
-		if (m_checker.isValidReadCommand(cmdArr)) return true;
+        if (cmdArr[0] == "W") return m_writeCommand->isValid(cmdArr);
+        if (cmdArr[0] == "R") return m_readCommand->isValid(cmdArr);
 
-		return false;
-	}
+        return false;
+    }
 
-	void execute(const vector<string>& cmd) {
-		if (cmd[m_checker.COMMAND_INDEX] == m_checker.WRITE_COMMAND) {
-			m_executor->write(std::stoi(cmd[m_checker.LBA_INDEX]), cmd[m_checker.VALUE_INDEX]);
-		}
-		else if (cmd[m_checker.COMMAND_INDEX] == m_checker.READ_COMMAND) {
-			m_executor->read(std::stoi(cmd[m_checker.LBA_INDEX]));
-		}
-	}
+    void executeCommand(const vector<string>& cmdArr) {
+        if (cmdArr[0] == "W") m_writeCommand->execute(cmdArr);
+        else if (cmdArr[0] == "R") m_readCommand->execute(cmdArr);
+    }
 
-	void setError() {
-		m_executor->setError();
-	}
+    void handleCommand(const vector<string>& cmdArr) {
+        if (isValidCommand(cmdArr)) {
+            executeCommand(cmdArr);
+        }
+        else {
+            OutputHandler::getInstance().write("ERROR");
+        }
+    }
 
 private:
-	CmdExecutor* m_executor = nullptr;
-	CmdChecker m_checker;
+    std::unique_ptr<ICommand> m_writeCommand;
+    std::unique_ptr<ICommand> m_readCommand;
 };
-
