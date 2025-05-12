@@ -8,6 +8,8 @@ using std::string;
 
 class CommandHandler {
 public:
+	CommandHandler(CmdExecutor* app) : app(app) { }
+
 	bool isValidCommand(vector<string> cmdArr) {
 		if (isEmptyCmd(cmdArr)) return false;
 		if (isValidWriteCommand(cmdArr)) return true;
@@ -17,12 +19,11 @@ public:
 	}
 
 	void execute(const vector<string>& cmd) {
-		CmdExecutor app;
 		if (cmd[COMMAND_INDEX] == WRITE_COMMAND) {
-			app.write(std::stoi(cmd[LBA_INDEX]), cmd[VALUE_INDEX]);
+			app->write(std::stoi(cmd[LBA_INDEX]), cmd[VALUE_INDEX]);
 		}
 		if (cmd[COMMAND_INDEX] == READ_COMMAND) {
-			app.read(std::stoi(cmd[LBA_INDEX]));
+			app->read(std::stoi(cmd[LBA_INDEX]));
 		}
 	}
 private:
@@ -78,6 +79,8 @@ private:
 			('A' <= ch && 'F' >= ch);
 	}
 
+	CmdExecutor* app = nullptr;
+
 	const int MAX_LBA = 99;
 	const int MIN_LBA = 0;
 	const int LBA_STRING_LENGTH = 10;
@@ -86,7 +89,6 @@ private:
 	const string READ_COMMAND = "R";
 	const int WRITE_ARGUMENT_COUNT = 3;
 	const int READ_ARGUMENT_COUNT = 2;
-
 
 	const int COMMAND_INDEX = 0;
 	const int LBA_INDEX = 1;

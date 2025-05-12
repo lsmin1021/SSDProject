@@ -1,18 +1,31 @@
 #include "gmock/gmock.h"
 #include "command_handler.cpp"
 
-class CommandHandlerFixture : public testing::Test {
+using namespace testing;
+
+class MockCmdExecutor : public CmdExecutor {
+public:
+	MOCK_METHOD(string, read, (int), ());
+	MOCK_METHOD(void, write, (int, string), ());
+};
+
+class CommandHandlerFixture : public Test {
+protected:
+	void SetUp() override {
+		m_handler = new CommandHandler(&mockExector);
+	}
 public:
 	void isValidCommand(const vector<string>& cmd) {
-		EXPECT_TRUE(m_handler.isValidCommand(cmd));
+		EXPECT_TRUE(m_handler->isValidCommand(cmd));
 	}
 
 	void isInvalidCommand(const vector<string>& cmd) {
-		EXPECT_FALSE(m_handler.isValidCommand(cmd));
+		EXPECT_FALSE(m_handler->isValidCommand(cmd));
 	}
 
-	CommandHandler m_handler;
-	
+	CommandHandler* m_handler;
+	NiceMock<MockCmdExecutor> mockExector;
+
 	const string WRITE_COMMAND = "W";
 	const string READ_COMMAND = "R";
 	const string VALID_LBA = "0";
