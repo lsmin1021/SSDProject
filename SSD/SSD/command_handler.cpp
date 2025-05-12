@@ -8,7 +8,16 @@ using std::string;
 
 class CommandHandler {
 public:
+	CommandHandler() {
+		m_executor = new CmdExecutor();
+	}
+
 	CommandHandler(CmdExecutor* executor) : m_executor(executor) { }
+
+	void handleCommand(const vector<string>& cmdArr) {
+		if (isValidCommand(cmdArr)) execute(cmdArr);
+		else setError();
+	}
 
 	bool isValidCommand(const vector<string>& cmdArr) {
 		if (isEmptyCmd(cmdArr)) return false;
@@ -26,6 +35,11 @@ public:
 			m_executor->read(std::stoi(cmd[LBA_INDEX]));
 		}
 	}
+
+	void setError() {
+		m_executor->setError();
+	}
+
 private:
 	bool isEmptyCmd(const vector<string>& cmdArr) {
 		return cmdArr.size() == 0;
