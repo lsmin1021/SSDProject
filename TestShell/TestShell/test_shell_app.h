@@ -21,8 +21,6 @@ public:
 	bool cmdParserAndExcute(const string& cmdcmdString);
 	string autoCompleteCommand(const string& input);
 
-	void helpCommand();
-
 	static const int MAX_LBA = 99;
 	static const int TEST_SCRIPT1_LBA_STEP = 5;
 	static const int TEST_SCRIPT2_REPEAT_NUM = 30;
