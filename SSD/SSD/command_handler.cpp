@@ -8,21 +8,22 @@ using std::string;
 
 class CommandHandler {
 public:
+	CommandHandler(CmdExecutor* app) : app(app) { }
+
 	bool isValidCommand(vector<string> cmdArr) {
 		if (isEmptyCmd(cmdArr)) return false;
-		if (isValidWriteCommand(cmdArr)) {
-			if (isValidLBA(cmdArr[LBA_INDEX]) == false) return false;
-			if (isValidValue(cmdArr[VALUE_INDEX]) == false) return false;
-			return true;
-		}
+		if (isValidWriteCommand(cmdArr)) return true;
+		if (isValidReadCommand(cmdArr)) return true;
 
 		return false;
 	}
 
 	void execute(const vector<string>& cmd) {
-		CmdExecutor app;
-		if (cmd[COMMAND_INDEX] == "W") {
-			app.write(std::stoi(cmd[LBA_INDEX]), cmd[VALUE_INDEX]);
+		if (cmd[COMMAND_INDEX] == WRITE_COMMAND) {
+			app->write(std::stoi(cmd[LBA_INDEX]), cmd[VALUE_INDEX]);
+		}
+		if (cmd[COMMAND_INDEX] == READ_COMMAND) {
+			app->read(std::stoi(cmd[LBA_INDEX]));
 		}
 	}
 private:
@@ -31,34 +32,45 @@ private:
 	}
 
 	bool isValidWriteCommand(const vector<string>& cmdArr) {
-		return (cmdArr[COMMAND_INDEX] == WRITE_COMMAND && cmdArr.size() == WRITE_ARGUMENT_COUNT);
+		if (cmdArr[COMMAND_INDEX] != WRITE_COMMAND) return false;
+		if (cmdArr.size() != WRITE_ARGUMENT_COUNT) return false;
+		if (isInvalidLBA(cmdArr[LBA_INDEX])) return false;
+		if (isInvalidValue(cmdArr[VALUE_INDEX])) return false;
+		return true;
 	}
 
-	bool isValidLBA(const string& lbaString) {
+	bool isValidReadCommand(const vector<string>& cmdArr) {
+		if (cmdArr[COMMAND_INDEX] != READ_COMMAND) return false;
+		if (cmdArr.size() != READ_ARGUMENT_COUNT) return false;
+		if (isInvalidLBA(cmdArr[LBA_INDEX])) return false;
+		return true;
+	}
+
+	bool isInvalidLBA(const string& lbaString) {
 		try {
 			size_t pos = 0;
 			int lba = std::stoi(lbaString, &pos);
-			if (pos != lbaString.length())	return false;
-			if (lba < MIN_LBA || lba > MAX_LBA) return false;
+			if (pos != lbaString.length())	return true;
+			if (lba < MIN_LBA || lba > MAX_LBA) return true;
 		}
 		catch (std::invalid_argument&) {
-			return false;
+			return true;
 		}
 		catch (std::out_of_range&) {
-			return false;
+			return true;
 		}
-		return true;
+		return false;
 	}
 
-	bool isValidValue(const string& valueString) {
-		if (valueString.length() != 10) return false;
-		if (0 != valueString.find("0x")) return false;
+	bool isInvalidValue(const string& valueString) {
+		if (valueString.length() != LBA_STRING_LENGTH) return true;
+		if (0 != valueString.find("0x")) return true;
 
 		for (int i = 2; i < valueString.length(); i++) {
 			if (isValidCharcter(valueString[i])) continue;
-			return false;
+			return true;
 		}
-		return true;
+		return false;
 	}
 
 	bool isValidCharcter(char ch) {
@@ -67,11 +79,16 @@ private:
 			('A' <= ch && 'F' >= ch);
 	}
 
+	CmdExecutor* app = nullptr;
+
 	const int MAX_LBA = 99;
 	const int MIN_LBA = 0;
+	const int LBA_STRING_LENGTH = 10;
 
 	const string WRITE_COMMAND = "W";
+	const string READ_COMMAND = "R";
 	const int WRITE_ARGUMENT_COUNT = 3;
+	const int READ_ARGUMENT_COUNT = 2;
 
 	const int COMMAND_INDEX = 0;
 	const int LBA_INDEX = 1;
