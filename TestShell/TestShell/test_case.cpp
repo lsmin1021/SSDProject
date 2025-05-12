@@ -31,8 +31,10 @@ public:
 	const string FULL_WRITE_SUCESS = "fullwrite 0x00000000";
 	const string FULL_WRITE_FALL_LESS_NUM_ARG = "fullwrite";
 	const string FULL_WRITE_FALL_MORE_NUM_ARG = "fullwrite 0x00000000 o";
-	const string FULL_WRITE_FALL_INVALD_DATA= "fullwrite 0x00000000";
-
+	const string FULL_WRITE_FALL_INVALD_DATA= "fullwrite 0x00";
+	const string HELP_CMD = "help";
+	const string INVALID_HELP_CMD = "hel v";
+	const string INVALID_EXIT_CMD = "exit 0";
 	MockSsd m_mockSsd;
 	TestShellApp* m_tespApp;
 };
@@ -102,7 +104,8 @@ TEST_F(MockSddFixture, InvalidWriteNotHexData) {
 TEST_F(MockSddFixture, InvalidWriteNotHexCharData) {
 	EXPECT_THROW({ m_tespApp->cmdParserAndExcute(WRITE_FALL_NOT_HEX_CHAR_DATA); }, std::invalid_argument);
 }
-/*
+
+
 TEST_F(MockSddFixture, InvalidFullWriteMoreNumAra) {
 	EXPECT_THROW({ m_tespApp->cmdParserAndExcute(FULL_WRITE_FALL_MORE_NUM_ARG); }, std::invalid_argument);
 }
@@ -114,4 +117,16 @@ TEST_F(MockSddFixture, InvalidFullWriteLessNumAra) {
 TEST_F(MockSddFixture, InvalidFullWriteInvalidData) {
 	EXPECT_THROW({ m_tespApp->cmdParserAndExcute(FULL_WRITE_FALL_INVALD_DATA); }, std::invalid_argument);
 }
-*/
+
+TEST_F(MockSddFixture, helpTest) {
+	// Arrange, Act
+	EXPECT_NO_THROW(m_tespApp->cmdParserAndExcute(HELP_CMD));
+}
+
+
+TEST_F(MockSddFixture, InvalidHelp) {
+	EXPECT_THROW({ m_tespApp->cmdParserAndExcute(INVALID_HELP_CMD); }, std::invalid_argument);
+}
+TEST_F(MockSddFixture, InvalidExit) {
+	EXPECT_THROW({ m_tespApp->cmdParserAndExcute(INVALID_EXIT_CMD); }, std::invalid_argument);
+}

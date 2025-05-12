@@ -19,13 +19,24 @@ void TestShellApp::fullReadCommand() {
 }
 
 void TestShellApp::helpCommand() {
-    cout << "[help] command usage:\n";
-    cout << "write <lba> <value>\n";
-    cout << "read <lba>\n";
-    cout << "fullwrite\n";
-    cout << "fullread\n";
-    cout << "help\n";
-    cout << "exit\n";
+    cout << "[Team Name] Clean Code\n\n";
+    cout << ".######..##.......########....###....##....##.....######...#######..########..######## \n";
+    cout << ".##....##.##.......##.........##.##...###...##....##....##.##.....##.##.....##.##......\n";
+    cout << ".##.......##.......##........##...##..####..##....##.......##.....##.##.....##.##......\n";
+    cout << ".##.......##.......######...##.....##.##.##.##....##.......##.....##.##.....##.######..\n";
+    cout << ".##.......##.......##.......#########.##..####....##.......##.....##.##.....##.##......\n";
+    cout << ".##....##.##.......##.......##.....##.##...###....##....##.##.....##.##.....##.##......\n";
+    cout << "..######..########.########.##.....##.##....##.....######...#######..########..########\n\n";
+
+    cout << "[Team Member] : lsmin1021 leedoyoung1234 akachoochoo CHANGHEE-H \n\n";
+
+    cout << "[command usage]\n";
+    cout << "  write <LBA> <DATA>       Write 4-byte DATA to logical block address (LBA)\n";
+    cout << "  read <LBA>               Read data from the specified LBA\n";
+    cout << "  fullwrite                Write default data to all LBA addresses (0 ~ 99)\n";
+    cout << "  fullread                 Read all data from LBA addresses (0 ~ 99)\n";
+    cout << "  exit                     Exit the shell\n";
+    cout << "  help                     Show this help message\n\n";
 }
 
 bool TestShellApp::cmdParserAndExcute(const string& cmd)
