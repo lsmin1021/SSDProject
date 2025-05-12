@@ -128,9 +128,18 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="ssd_driver.cpp" />
+    <ClCompile Include="test_case.cpp" />
+    <ClCompile Include="test_shell_app.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="mock_ssd.h" />
+    <ClInclude Include="ssd_driver.h" />
+    <ClInclude Include="ssd_interface.h" />
+    <ClInclude Include="test_shell_app.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
