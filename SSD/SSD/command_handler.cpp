@@ -1,4 +1,5 @@
-#include "cmd_executor.cpp"
+#include "command_read.cpp"
+#include "command_write.cpp"
 
 class CommandFactory {
 public:
