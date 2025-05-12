@@ -64,14 +64,7 @@ public:
 			throw std::exception("[READ ERROR] Out of lba");
 		}
 
-		string ssdDataStr = m_nandHandler.readNand();
-		map<int, string> ssdData = m_nandHandler.getSSDData(ssdDataStr);
-		if (ssdData.find(lba) == ssdData.end()) {
-			return EMPTY_VALUE;
-		}
-		else {
-			return ssdData[lba] ;
-		}
+		return readDataOnAddr(lba);
 	}
 
 	void write(int lba, string value) {
@@ -82,6 +75,22 @@ public:
 			throw std::exception("[WRITE ERROR] Invalid value to write.");
 		}
 
+		writeDataOnAddr(lba, value);
+	}
+
+private:
+	string readDataOnAddr(int lba) {
+		string ssdDataStr = m_nandHandler.readNand();
+		map<int, string> ssdData = m_nandHandler.getSSDData(ssdDataStr);
+		if (ssdData.find(lba) == ssdData.end()) {
+			return EMPTY_VALUE;
+		}
+		else {
+			return ssdData[lba];
+		}
+	}
+
+	void writeDataOnAddr(int lba, string value) {
 		string ssdDataStr = m_nandHandler.readNand();
 		map<int, string> ssdData = m_nandHandler.getSSDData(ssdDataStr);
 
@@ -95,7 +104,6 @@ public:
 		m_nandHandler.writeNand(ssdData);
 	}
 
-private:
 	NandHandler m_nandHandler;
 	const string EMPTY_VALUE = "0x00000000";
 };
