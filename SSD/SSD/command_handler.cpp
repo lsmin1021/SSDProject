@@ -28,6 +28,9 @@ public:
         if (isValidCommand(cmdArr)) {
             executeCommand(cmdArr);
         }
+        else {
+            OutputHandler::getInstance().write("ERROR");
+        }
     }
 
 private:
