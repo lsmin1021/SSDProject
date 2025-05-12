@@ -17,9 +17,7 @@ using std::ifstream;
 class TestShellApp {
 public:
 	TestShellApp(SsdInterface* m_ssd);
-
 	bool cmdParserAndExcute(const string& cmdcmdString);
-	string autoCompleteCommand(const string& input);
 
 private:
 	SsdInterface* m_ssd;

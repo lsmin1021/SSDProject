@@ -48,4 +48,3 @@ void WriteReadAging::excuteCmd(const vector<string>& tokens) {
 
     std::cout << "PASS\n";
 }
-void WriteReadAging::helpCmd() {}
