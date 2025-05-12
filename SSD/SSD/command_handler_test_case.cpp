@@ -3,7 +3,7 @@
 
 using namespace testing;
 
-class m_mockNand : public NandHandler {
+class MockNand : public NandHandler {
 public:
 	MOCK_METHOD(void, read, (), (override));
 	MOCK_METHOD(void, write, (int, string), (override));
@@ -34,7 +34,7 @@ public:
 
 
 	CommandHandler* m_handler = nullptr;
-	NiceMock<m_mockNand> m_mockNand;
+	NiceMock<MockNand> m_mockNand;
 
 	const string WRITE_COMMAND = "W";
 	const string READ_COMMAND = "R";
