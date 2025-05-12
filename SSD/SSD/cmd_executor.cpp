@@ -63,7 +63,7 @@ public:
 		m_outputHandler = new OutputHandler();
 	}
 
-	string read(int lba) {
+	virtual string read(int lba) {
 		if (false == CmdChecker::isValidLBA(lba)) {
 			throw std::out_of_range("[READ ERROR] Out of lba");
 		}
@@ -75,7 +75,7 @@ public:
 		return ret;
 	}
 
-	void write(int lba, string value) {
+	virtual void write(int lba, string value) {
 		if (false == CmdChecker::isValidLBA(lba)) {
 			throw std::out_of_range("[WRITE ERROR] Out of lba");
 		}
