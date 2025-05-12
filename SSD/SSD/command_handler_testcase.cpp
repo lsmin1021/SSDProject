@@ -1,5 +1,5 @@
 #include "gmock/gmock.h"
-#include "command_handler.cpp"
+#include "command_handler.h"
 
 using namespace testing;
 
