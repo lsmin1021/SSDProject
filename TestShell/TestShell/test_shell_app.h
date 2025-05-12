@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <iomanip>
 #include <random>
+#include <unordered_map>
 #include "ssd_interface.h"
 using std::cout;
 using std::string;
@@ -20,6 +21,7 @@ public:
 	}
 
 	bool cmdParserAndExcute(const string& cmdcmdString);
+	string autoCompleteCommand(const string& input);
 	void writeCommand(const string& lba, const string& value);
 	void readCommand(const string& lba);
 	void fullWriteCommand(const string& value);
@@ -36,9 +38,7 @@ public:
 	const string END_LBA = "99";
 private:
 	SsdInterface* m_ssd;
-
 	vector<string>  parseCmd(const string& cmd);
-
 	string updateReadResult();
 	string generateRandomHexString();
 	string runFullWriteAndReadCompare();
