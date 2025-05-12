@@ -108,7 +108,21 @@ bool TestShellApp::cmdParserAndExcute(const string& cmdString)
     return true;
 }
 
+string TestShellApp::autoCompleteCommand(const string& input) {
+    static std::unordered_map<string, string> autocompleteMap = {
+        {"1_", "1_FullWriteAndReadCompare"},
+        {"2_", "2_WriteAndRead"},
+        {"3_", "3_WriteReadAging"}
+        // 필요 시 더 추가
+    };
 
+    auto it = autocompleteMap.find(input);
+    if (it != autocompleteMap.end()) {
+        return it->second;
+    }
+
+    return input;
+}
 
 vector<string>  TestShellApp::parseCmd(const string& cmd) {
     std::istringstream iss(cmd);
