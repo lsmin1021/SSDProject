@@ -11,11 +11,11 @@
 #include "write_read_aging_ts.h"
 #include "ssd_interface.h"
 
+static HelpCmd  helpCmd;
 static WriteCmd writeCmd;
 static ReadCmd readCmd;
 static FullWriteCmd fullWriteCmd;
 static FullReadCmd fullReadCmd;
-static HelpCmd  helpCmd;
 static ExitCmd exitCmd;
 static FullWriteAndReadCompareTs fullWriteAndReadCompareTs;
 static PartialLbaWriteTs partialLbaWriteTs;

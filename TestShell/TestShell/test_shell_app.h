@@ -20,10 +20,7 @@ public:
 
 	bool cmdParserAndExcute(const string& cmdcmdString);
 	string autoCompleteCommand(const string& input);
-	void writeCommand(const string& lba, const string& value);
-	void readCommand(const string& lba);
-	void fullWriteCommand(const string& value);
-	void fullReadCommand();
+
 	void helpCommand();
 
 	static const int MAX_LBA = 99;

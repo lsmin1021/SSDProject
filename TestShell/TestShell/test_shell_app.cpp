@@ -6,38 +6,6 @@ TestShellApp::TestShellApp(SsdInterface* m_ssd): m_ssd(m_ssd) {
     CmdFactory::getInstance().setSdd(m_ssd);
 }
 
-void TestShellApp::writeCommand(const string& lba, const string& value) {
-    m_ssd->writeData(lba, value);
-#ifndef _DEBUG
-    cout << "[Write] Done\n";
-#endif
-}
-
-void TestShellApp::readCommand(const string& lbaString) {
-	m_ssd->readData(lbaString);
-#ifndef _DEBUG
-    cout << "[Read] LBA " << lbaString << " : " << updateReadResult() << std::endl;
-#endif
-}
-
-void TestShellApp::fullWriteCommand(const string& value) {
-    for (int lba = 0; lba <= MAX_LBA; ++lba) {
-        cout << lba << " " << value << std::endl;
-        m_ssd->writeData(std::to_string(lba), value);
-        
-    }
-        
-}
-
-void TestShellApp::fullReadCommand() {
-    for (int lba = 0; lba <= MAX_LBA; ++lba)
-    {
-        m_ssd->readData(std::to_string(lba));
-#ifndef _DEBUG
-        cout << "[Read] LBA " << lba << " : " << updateReadResult();
-#endif
-    }
-}
 
 void TestShellApp::helpCommand() {
     cout << "[Team Name] Clean Code\n\n";
@@ -67,29 +35,11 @@ bool TestShellApp::cmdParserAndExcute(const string& cmdString)
         throw std::invalid_argument("Empty command");
     }
     CmdInterface* cmdObj = CmdFactory::getInstance().getCmd(tokens[0]);
-
     cmdObj->checkInvalidCmd(tokens);
-
-    //cmdObj->excuteCmd(tokens);
+    cmdObj->excuteCmd(tokens);
 
     const string& command = tokens[0];
-    if (command == "write") {
-        string lba = tokens[1];
-        string value = tokens[2];
-        writeCommand(lba, value);
-    }
-    else if (command == "read") {
-        string lba = tokens[1];
-        readCommand(lba);
-    }
-    else if (command == "fullwrite") {
-        string value = tokens[1];
-        fullWriteCommand(value);
-    }
-    else if (command == "fullread") {
-        fullReadCommand();
-    }
-    else if (command == "help") {
+    if (command == "help") {
         helpCommand();
     }
     else if (command == "exit") {
