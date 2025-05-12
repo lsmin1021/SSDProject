@@ -6,8 +6,9 @@
 #include "test_shell_app.h"
 #include "cmd_factory.h"
 #include "cmd_interface.h"
+using namespace testing;
 
-class MockSddFixture : public ::testing::Test {
+class MockSddFixture : public Test {
 protected:
 	void SetUp() {
 		m_tespApp = new TestShellApp(&m_mockSsd);
@@ -41,7 +42,16 @@ public:
 	const string HELP_CMD = "help";
 	const string INVALID_HELP_CMD = "hel v";
 	const string INVALID_EXIT_CMD = "exit 0";
-	MockSsd m_mockSsd;
+	const string TEST_SCRIPT1 = "1_FullWriteAndReadCompare";
+	const string TEST_SCRIPT1_SHORT_CUT = "1_";
+	const string TEST_SCRIPT2 = "2_PartialLBAWrite";
+	const string TEST_SCRIPT2_SHORT_CUT = "2_";
+	const string TEST_SCRIPT3 = "3_WriteReadAging";
+	const string TEST_SCRIPT3_SHORT_CUT = "3_";
+	const int TEST_SCRIPT1_READ_WRITE_REPEAT_NUM = 100;
+	const int TEST_SCRIPT2_READ_WRITE_REPEAT_NUM = 150;
+	const int TEST_SCRIPT3_READ_WRITE_REPEAT_NUM = 400;
+	NiceMock<MockSsd> m_mockSsd;
 	TestShellApp* m_tespApp;
 
 	const CmdFactory& m_cmdFactory = CmdFactory::getInstance();
@@ -56,7 +66,7 @@ TEST_F(MockSddFixture, ReadSuccess) {
 
 TEST_F(MockSddFixture, FullReadSuccess) {
 	// Arrange
-	EXPECT_CALL(m_mockSsd, readData(testing::_)).Times(100);
+	EXPECT_CALL(m_mockSsd, readData(_)).Times(100);
 	// Act
 	m_tespApp->cmdParserAndExcute(FULL_READ_SUCESS);
 }
@@ -70,7 +80,7 @@ TEST_F(MockSddFixture, WriteSucess) {
 
 TEST_F(MockSddFixture, FullWriteSucess) {
 	// Arrange
-	EXPECT_CALL(m_mockSsd, writeData(testing::_, TEST_DATA)).Times(100);
+	EXPECT_CALL(m_mockSsd, writeData(_, TEST_DATA)).Times(100);
 	// Act
 	m_tespApp->cmdParserAndExcute(FULL_WRITE_SUCESS);
 }
@@ -131,13 +141,14 @@ TEST_F(MockSddFixture, helpTest) {
 	EXPECT_NO_THROW(m_tespApp->cmdParserAndExcute(HELP_CMD));
 }
 
-
 TEST_F(MockSddFixture, InvalidHelp) {
 	EXPECT_THROW({ m_tespApp->cmdParserAndExcute(INVALID_HELP_CMD); }, std::invalid_argument);
 }
+
 TEST_F(MockSddFixture, InvalidExit) {
 	EXPECT_THROW({ m_tespApp->cmdParserAndExcute(INVALID_EXIT_CMD); }, std::invalid_argument);
 }
+
 
 TEST_F(MockSddFixture, CmdFactoryTc) {
 	excuteFactoryTc("read");
@@ -146,4 +157,52 @@ TEST_F(MockSddFixture, CmdFactoryTc) {
 	excuteFactoryTc("fullwrite");
 	excuteFactoryTc("exit");
 	excuteFactoryTc("help");
+}
+
+TEST_F(MockSddFixture, TescScript1) {
+	// Arrange
+	EXPECT_CALL(m_mockSsd, writeData(_, _)).Times(TEST_SCRIPT1_READ_WRITE_REPEAT_NUM);
+	EXPECT_CALL(m_mockSsd, readData(_)).Times(TEST_SCRIPT1_READ_WRITE_REPEAT_NUM);
+	// Act
+	EXPECT_NO_THROW(m_tespApp->cmdParserAndExcute(TEST_SCRIPT1));
+}
+
+TEST_F(MockSddFixture, TescScript1ShortCut) {
+	// Arrange
+	EXPECT_CALL(m_mockSsd, writeData(_, _)).Times(TEST_SCRIPT1_READ_WRITE_REPEAT_NUM);
+	EXPECT_CALL(m_mockSsd, readData(_)).Times(TEST_SCRIPT1_READ_WRITE_REPEAT_NUM);
+	// Act
+	EXPECT_NO_THROW(m_tespApp->cmdParserAndExcute(TEST_SCRIPT1_SHORT_CUT));
+}
+
+TEST_F(MockSddFixture, TescScript2) {
+	// Arrange
+	EXPECT_CALL(m_mockSsd, writeData(_, _)).Times(TEST_SCRIPT2_READ_WRITE_REPEAT_NUM);
+	EXPECT_CALL(m_mockSsd, readData(_)).Times(TEST_SCRIPT2_READ_WRITE_REPEAT_NUM);
+	// Act
+	EXPECT_NO_THROW(m_tespApp->cmdParserAndExcute(TEST_SCRIPT2));
+}
+
+TEST_F(MockSddFixture, TescScript2ShortCut) {
+	// Arrange
+	EXPECT_CALL(m_mockSsd, writeData(_, _)).Times(TEST_SCRIPT2_READ_WRITE_REPEAT_NUM);
+	EXPECT_CALL(m_mockSsd, readData(_)).Times(TEST_SCRIPT2_READ_WRITE_REPEAT_NUM);
+	// Act
+	EXPECT_NO_THROW(m_tespApp->cmdParserAndExcute(TEST_SCRIPT2_SHORT_CUT));
+}
+
+TEST_F(MockSddFixture, TescScript3) {
+	// Arrange
+	EXPECT_CALL(m_mockSsd, writeData(_, _)).Times(TEST_SCRIPT3_READ_WRITE_REPEAT_NUM);
+	EXPECT_CALL(m_mockSsd, readData(_)).Times(TEST_SCRIPT3_READ_WRITE_REPEAT_NUM);
+	// Act
+	EXPECT_NO_THROW(m_tespApp->cmdParserAndExcute(TEST_SCRIPT3));
+}
+
+TEST_F(MockSddFixture, TescScript3ShortCut) {
+	// Arrange
+	EXPECT_CALL(m_mockSsd, writeData(_, _)).Times(TEST_SCRIPT3_READ_WRITE_REPEAT_NUM);
+	EXPECT_CALL(m_mockSsd, readData(_)).Times(TEST_SCRIPT3_READ_WRITE_REPEAT_NUM);
+	// Act
+	EXPECT_NO_THROW(m_tespApp->cmdParserAndExcute(TEST_SCRIPT3_SHORT_CUT));
 }

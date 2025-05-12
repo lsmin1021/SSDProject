@@ -12,12 +12,12 @@ void TestShellApp::readCommand(const string& lbaString) {
 }
 
 void TestShellApp::fullWriteCommand(const string& value) {
-    for (int lba = 0; lba <= m_MAX_LBA; ++lba)
+    for (int lba = 0; lba <= MAX_LBA; ++lba)
         m_ssd->writeData(std::to_string(lba), value);
 }
 
 void TestShellApp::fullReadCommand() {
-    for (int lba = 0; lba <= m_MAX_LBA; ++lba)
+    for (int lba = 0; lba <= MAX_LBA; ++lba)
     {
         m_ssd->readData(std::to_string(lba));
 #ifndef _DEBUG
@@ -116,6 +116,15 @@ void TestShellApp::checkInvalidCmd(const vector<string>& tokens) {
     else if (command == "exit") {
         checkExitCmdNumdArg(tokens);
     }
+    else if (command == "1_FullWriteAndReadCompare" || command == "1_") {
+        runFullWriteAndReadCompare();
+    }
+    else if (command == "2_PartialLBAWrite" || command == "2_") {
+        runPartialLBAWrite();
+    }
+    else if (command == "3_WriteReadAging" || command == "3_") {
+        runWriteReadAging();
+    }
     else {
         throw std::invalid_argument("Invalid command: " + command);
     }
@@ -129,7 +138,7 @@ void TestShellApp::checkLbaArg(const string& lbaString)
     {
         throw std::invalid_argument("Usage: decimal LBA");
     }
-    if (lba > m_MAX_LBA || lba < 0) {
+    if (lba > MAX_LBA || lba < 0) {
         throw std::invalid_argument("Usage: 0 <= LBA < 100");
     }
 }
@@ -205,4 +214,97 @@ string TestShellApp::updateReadResult() {
     file.close();
 
     return result;
+}
+
+string TestShellApp::generateRandomHexString() {
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<uint32_t> dist(0, 0xFFFFFFFF);
+
+    uint32_t randomValue = dist(gen);
+
+    std::stringstream ss;
+    ss << "0x" << std::uppercase << std::setfill('0') << std::setw(8) << std::hex << randomValue;
+    return ss.str(); // ¿¹: "0x1A2B3C4D"
+}
+
+string TestShellApp::runFullWriteAndReadCompare()
+{ 
+    int lba = 0;
+
+    while (lba <= MAX_LBA) {
+        for (int addr = lba; addr < lba + TEST_SCRIPT1_LBA_STEP; addr++) {
+            m_ssd->writeData(std::to_string(addr), TEST_SCRIPT_VALUE);
+        }
+
+        for (int addr = lba; addr < lba + TEST_SCRIPT1_LBA_STEP; addr++) {
+            m_ssd->readData(std::to_string(addr));
+#ifndef _DEBUG
+            if (updateReadResult() != TEST_SCRIPT1_VALUE)
+                cout << "FAIL\n";
+                return "FAIL";
+#endif
+        }
+        lba += TEST_SCRIPT1_LBA_STEP;
+        
+    }
+
+    cout << "PASS\n";
+    return "PASS";
+}
+
+string TestShellApp::runPartialLBAWrite()
+{
+    int iter = 0;
+    vector<string> test_addr = { "4", "0", "3", "1", "2" };
+
+    while (iter < TEST_SCRIPT2_REPEAT_NUM) {        
+        for(auto addr : test_addr)
+            m_ssd->writeData(addr, TEST_SCRIPT_VALUE);
+       
+
+        for (int addr = 0; addr < TEST_SCRIPT2_LBA_STEP; addr++) {
+            m_ssd->readData(std::to_string(addr));
+#ifndef _DEBUG
+            if (updateReadResult() != TEST_SCRIPT1_VALUE)
+                cout << "FAIL\n";
+            return "FAIL";
+#endif
+        }
+        iter++;
+    }
+
+    cout << "PASS\n";
+    return "PASS";
+}
+
+string TestShellApp::runWriteReadAging()
+{
+    string valueForStartLba = "";
+    string valueForEndLba = "";
+
+    for (int iter = 0; iter < TEST_SCRIPT3_REPEAT_NUM; iter++) {
+        valueForStartLba = generateRandomHexString();
+        valueForEndLba = generateRandomHexString();
+
+        m_ssd->writeData(START_LBA, valueForStartLba);
+        m_ssd->writeData(END_LBA, valueForEndLba);
+
+        m_ssd->readData(START_LBA);
+#ifndef _DEBUG
+        if (updateReadResult() != valueForStartLba)
+            cout << "FAIL\n";
+        return "FAIL";
+#endif
+
+        m_ssd->readData(END_LBA);
+#ifndef _DEBUG
+        if (updateReadResult() != valueForStartLba)
+            cout << "FAIL\n";
+        return "FAIL";
+#endif
+    }
+
+    cout << "PASS\n";
+    return "PASS";
 }
