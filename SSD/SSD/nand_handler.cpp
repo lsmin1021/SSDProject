@@ -7,23 +7,15 @@
 using std::string;
 using std::map;
 
-class NandInterface {
-public:
-	NandInterface() = default;
-	virtual ~NandInterface() = default;
-	virtual void read() = 0;
-	virtual string getData(int lba) = 0;
-	virtual void write(int lba, string value) = 0;
-};
 
-class NandHandler : public NandInterface {
+class NandHandler {
 public:
-	void read() override {
+	virtual void read() {
 		string ssdDataStr = readNand();
 		m_ssdData = getSSDData(ssdDataStr);
 	}
 
-	string getData(int lba) override {
+	virtual string getData(int lba) {
 		if (m_ssdData.find(lba) == m_ssdData.end()) {
 			return EMPTY_VALUE;
 		}
@@ -31,7 +23,7 @@ public:
 		return m_ssdData[lba];
 	}
 
-	void write(int lba, string value) override {
+	virtual void write(int lba, string value) {
 		
 		if (m_ssdData.find(lba) == m_ssdData.end()) {
 			m_ssdData.insert(std::make_pair(lba, value));
