@@ -136,7 +136,7 @@
     <ClCompile Include="full_read_cmd.cpp" />
     <ClCompile Include="full_write_cmd.cpp" />
     <ClCompile Include="full_write_read_compare_ts.cpp" />
-    <ClCompile Include="help.cpp" />
+    <ClCompile Include="help_cmd.cpp" />
     <ClCompile Include="help_cmd.h" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="partial_lba_write_ts.cpp" />
