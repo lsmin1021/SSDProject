@@ -1,5 +1,4 @@
 #include "command_read.h"
-#include "nand_handler.h"
 #include "output_handler.h"
 #include "buffer_handler.h"
 
@@ -26,5 +25,5 @@ void ReadCommand::execute(const vector<string>& param) {
 }
 
 string ReadCommand::readDataOnAddr(int lba) {
-	return NandHandler::getInstance().read(lba);
+	return CommandBufferHandler::getInstance().readBuffer(lba);
 }
