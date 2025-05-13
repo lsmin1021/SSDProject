@@ -9,5 +9,5 @@ void ExitCmd::excuteCmd(const vector<string>& tokens){
 	throw ExitException();
 }
 void ExitCmd::helpCmd() const {
-	LOG_PRINT("ExitCmd", "  exit                     Exit the shell\n");
+	cout << "  exit                     Exit the shell\n";
 }
