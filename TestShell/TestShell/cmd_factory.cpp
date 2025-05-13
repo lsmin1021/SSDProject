@@ -9,6 +9,7 @@
 #include "full_write_read_compare_ts.h"
 #include "partial_lba_write_ts.h"
 #include "write_read_aging_ts.h"
+#include "erase_write_aging_ts.h"
 #include "ssd_interface.h"
 
 static WriteCmd writeCmd;
@@ -20,6 +21,7 @@ static HelpCmd  helpCmd;
 static FullWriteAndReadCompareTs fullWriteAndReadCompareTs;
 static PartialLbaWriteTs partialLbaWriteTs;
 static WriteReadAging writeReadAging;
+static EraseAndWriteAgingTs eraseWriteAging;
 
 CmdFactory& CmdFactory::getInstance()
 {
