@@ -48,6 +48,7 @@ private:
 	void loadBufferCmd(string cmd);
 	void storeDataToBuffer();
 	Buffer parseBufferCmd(string bufferCmd);
+	string makeBufferCmd(int index, Buffer& bufferCmd);
 
 	vector<Buffer> m_buffer;
 	const string EMPTY_VALUE = "0x00000000";

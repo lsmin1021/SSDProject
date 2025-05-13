@@ -57,20 +57,9 @@ void CommandBuffer::storeDataToBuffer() {
 		if (i >= m_buffer.size()) {
 			fileName.append(std::to_string(i)).append("_").append("empty");
 		}
-		else if ( "W" == m_buffer[i].getCmd() ) {
-			fileName.append(std::to_string(i))
-				.append("_W_")
-				.append(std::to_string(m_buffer[i].getLba()))
-				.append("_")
-				.append(m_buffer[i].getValue());
-		}
-		else if ("E" == m_buffer[i].getCmd()) {
-			fileName.append(std::to_string(i))
-				.append("_E_")
-				.append(std::to_string(m_buffer[i].getLba()))
-				.append("_")
-				.append(std::to_string(m_buffer[i].getSize()));
-		}
+		else {
+			fileName.append(makeBufferCmd(i, m_buffer[i]));
+		}	
 
 		std::ofstream f(fileName);
 		f.close();
@@ -126,9 +115,20 @@ Buffer CommandBuffer::parseBufferCmd(string bufferCmd) {
 	if ("W" == cmd) {cb.setValue(param);}
 	else if ("E" == cmd) { cb.setSize(std::stoi(param)); }
 
-	std::cout << cmd << ", " << lba << ", " << param << std::endl;
-
 	return cb;
+}
+
+string CommandBuffer::makeBufferCmd(int index, Buffer& bufferCmd) {
+	string ret = "";
+
+	ret.append(std::to_string(index)).append("_");
+	ret.append(bufferCmd.getCmd()).append("_");
+	ret.append(std::to_string(bufferCmd.getLba())).append("_");
+
+	if ("W" == bufferCmd.getCmd()) { ret.append(bufferCmd.getValue()); }
+	else if ("E" == bufferCmd.getCmd()) { ret.append(std::to_string(bufferCmd.getSize())); }
+
+	return ret;
 }
 
 bool CommandBuffer::isDirectoryExist() {
