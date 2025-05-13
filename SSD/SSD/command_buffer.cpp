@@ -26,15 +26,17 @@ int CommandBuffer::getUsableBufferSize() {
 }
 
 void CommandBuffer::insertCmdWrite(int lba, string value) {
-	m_buffer.push_back(Buffer(WRITE_CMD, value, lba, 0));
+	Buffer cmd(WRITE_CMD, value, lba, 0);
 
+	ignoreCommand(cmd);
+	m_buffer.push_back(cmd);
+	
 	storeDataToBuffer();
 }
 
 void CommandBuffer::insertCmdErase(int lba, int size) {
 	Buffer cmd(ERASE_CMD, "", lba, size);
 
-	ignoreCommand(cmd);
 	m_buffer.push_back(cmd);
 
 	storeDataToBuffer();
@@ -168,7 +170,7 @@ void CommandBuffer::loadBufferCmd(string cmd) {
 	if (0 == cmd_content.compare(EMPTY_CMD)) {
 		return;
 	}
-	
+
 	m_buffer.push_back(parseBufferCmd(cmd_content));
 }
 
@@ -178,9 +180,8 @@ Buffer CommandBuffer::parseBufferCmd(string bufferCmd) {
 	string::size_type posLba = bufferCmd.find('_', 2);
 	string lba = bufferCmd.substr(2, posLba - 2);
 
-	posLba += lba.length() - 1;
-	string::size_type posParam = bufferCmd.find('_', posLba);
-	string param = bufferCmd.substr(posLba, posParam - posLba);
+	string::size_type posParam = posLba + lba.length();
+	string param = bufferCmd.substr(posParam);
 
 	Buffer cb;
 	cb.setCmd(cmd);
