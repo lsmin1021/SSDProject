@@ -37,13 +37,13 @@ protected :
 	string getReadResult() const;
 protected :
 	vector<string> m_names;
-	bool isValidIntString(const string& string, int errorPos) const {
+	bool isValidIntString(const string& string, size_t errorPos) const {
 		return (errorPos == string.size());
 	}
 	bool isValidNumToken(const vector<string>& tokens) const {
 		return (tokens.size() == m_numToken);
 	}
-	bool isValidLbaString(const string& lbaString, int errorPos) const {
+	bool isValidLbaString(const string& lbaString, size_t errorPos) const {
 		return isValidIntString(lbaString, errorPos);
 	}
 	bool isValidLbaRange(int lba) const {
@@ -52,7 +52,7 @@ protected :
 	bool isValidDataStringLen(const string& dataString) const {
 		return (10 == dataString.size());
 	}
-	bool isValidDataString(const string& dataString, int errorPos) const {
+	bool isValidDataString(const string& dataString, size_t errorPos) const {
 		return isValidIntString(dataString, errorPos);
 	}
 	bool isValidDataRange(unsigned int data) const {
