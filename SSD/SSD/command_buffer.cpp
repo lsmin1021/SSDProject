@@ -106,36 +106,29 @@ void CommandBuffer::loadBufferCmd(string cmd) {
 		return;
 	}
 	
-	if (0 == cmd_content.find("W")) {
-		Buffer cmd_buffer;
-		cmd_buffer.setCmd("W");
+	m_buffer.push_back(parseBufferCmd(cmd_content));
+}
 
-		string::size_type posLba = cmd_content.find('_', 2);
-		string lba = cmd_content.substr(2, posLba - 2);
-		cmd_buffer.setLba(std::stoi(lba));
+Buffer CommandBuffer::parseBufferCmd(string bufferCmd) {
+	std::string cmd = bufferCmd.substr(0, 1);
 
-		posLba += lba.length()-1;
-		string::size_type posValue = cmd_content.find('_', posLba);
-		string value = cmd_content.substr(posLba, posValue - posLba);
-		cmd_buffer.setValue(value);
+	string::size_type posLba = bufferCmd.find('_', 2);
+	string lba = bufferCmd.substr(2, posLba - 2);
 
-		m_buffer.push_back(cmd_buffer);
-	}
-	else if (0 == cmd_content.find("E")) {
-		Buffer cmd_buffer;
-		cmd_buffer.setCmd("E");
+	posLba += lba.length() - 1;
+	string::size_type posParam = bufferCmd.find('_', posLba);
+	string param = bufferCmd.substr(posLba, posParam - posLba);
 
-		string::size_type posLba = cmd_content.find('_', 2);
-		string lba = cmd_content.substr(2, posLba - 2);
-		cmd_buffer.setLba(std::stoi(lba));
+	Buffer cb;
+	cb.setCmd(cmd);
+	cb.setLba(std::stoi(lba));
+	
+	if ("W" == cmd) {cb.setValue(param);}
+	else if ("E" == cmd) { cb.setSize(std::stoi(param)); }
 
-		posLba += lba.length() - 1;
-		string::size_type posSize = cmd_content.find('_', posLba);
-		string size = cmd_content.substr(posLba, posSize - posLba);
-		cmd_buffer.setSize(std::stoi(size));
+	std::cout << cmd << ", " << lba << ", " << param << std::endl;
 
-		m_buffer.push_back(cmd_buffer);
-	}
+	return cb;
 }
 
 bool CommandBuffer::isDirectoryExist() {
