@@ -38,8 +38,11 @@ private:
 	// Develope command buffer algorithm
 	bool isDirectoryExist();
 	void setBufferDir();
+	void loadBuffer();
+	void loadBufferCmd(string cmd);
 
 	vector<Buffer> m_buffer;
 	const string EMPTY_VALUE = "0x00000000";
 	const string DIR_NAME = "buffer";
+	const string DIR_SEARCH_PATTERN = "buffer\\*.*";
 };

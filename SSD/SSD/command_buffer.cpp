@@ -1,3 +1,4 @@
+#include <iostream>
 #include <Windows.h>
 #include "command_buffer.h"
 
@@ -7,6 +8,8 @@ CommandBuffer::CommandBuffer() {
 	if (false == isDirectoryExist()) {
 		setBufferDir();
 	}
+
+	loadBuffer();
 }
 
 string CommandBuffer::readDataOnBuffer(int lba) {
@@ -43,6 +46,32 @@ void CommandBuffer::setBufferDir() {
 
 		HANDLE hFile = CreateFileA(fileName.c_str(), GENERIC_WRITE, 0, NULL, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, NULL);
 	}
+}
+
+void CommandBuffer::loadBuffer() {
+	WIN32_FIND_DATAA findFileData;
+	HANDLE hFind = FindFirstFileA(DIR_SEARCH_PATTERN.c_str(), &findFileData);
+
+	do {
+		if (std::string(findFileData.cFileName) == "." || 
+			std::string(findFileData.cFileName) == "..") {
+			continue;
+		}
+
+		loadBufferCmd(findFileData.cFileName);
+	} while (FindNextFileA(hFind, &findFileData) != 0);
+
+	FindClose(hFind); // ÇÚµé ´Ý±â
+}
+
+void CommandBuffer::loadBufferCmd(string cmd) {
+	string::size_type posCmdStart = cmd.find("_") + 1;
+	string cmd_content = cmd.substr(posCmdStart, cmd.find(".") - posCmdStart);
+
+	if (0 == cmd_content.compare("empty")) {
+		return;
+	}
+	// TODO
 }
 
 bool CommandBuffer::isDirectoryExist() {
