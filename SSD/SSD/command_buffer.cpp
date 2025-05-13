@@ -66,7 +66,7 @@ void CommandBuffer::storeDataToBuffer() {
 		}
 		else if ("E" == m_buffer[i].getCmd()) {
 			fileName.append(std::to_string(i))
-				.append("_W_")
+				.append("_E_")
 				.append(std::to_string(m_buffer[i].getLba()))
 				.append("_")
 				.append(std::to_string(m_buffer[i].getSize()));
@@ -109,14 +109,32 @@ void CommandBuffer::loadBufferCmd(string cmd) {
 	if (0 == cmd_content.find("W")) {
 		Buffer cmd_buffer;
 		cmd_buffer.setCmd("W");
-		std::cout << cmd_content << std::endl;
 
-		string lba = cmd_content.substr(2, cmd_content.find('_', 2) - 2);
-		std::cout << lba << std::endl;
+		string::size_type posLba = cmd_content.find('_', 2);
+		string lba = cmd_content.substr(2, posLba - 2);
+		cmd_buffer.setLba(std::stoi(lba));
+
+		posLba += lba.length()-1;
+		string::size_type posValue = cmd_content.find('_', posLba);
+		string value = cmd_content.substr(posLba, posValue - posLba);
+		cmd_buffer.setValue(value);
+
+		m_buffer.push_back(cmd_buffer);
 	}
 	else if (0 == cmd_content.find("E")) {
 		Buffer cmd_buffer;
 		cmd_buffer.setCmd("E");
+
+		string::size_type posLba = cmd_content.find('_', 2);
+		string lba = cmd_content.substr(2, posLba - 2);
+		cmd_buffer.setLba(std::stoi(lba));
+
+		posLba += lba.length() - 1;
+		string::size_type posSize = cmd_content.find('_', posLba);
+		string size = cmd_content.substr(posLba, posSize - posLba);
+		cmd_buffer.setSize(std::stoi(size));
+
+		m_buffer.push_back(cmd_buffer);
 	}
 }
 
