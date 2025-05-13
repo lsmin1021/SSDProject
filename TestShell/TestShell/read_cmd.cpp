@@ -17,4 +17,5 @@ void ReadCmd::helpCmd() const {
 
 void ReadCmd::read(const string& lbaString) {
 	m_ssd->readData(lbaString);
+	cout << "[Read] LBA " << lbaString << " : " << getReadResult() << std::endl;
 }

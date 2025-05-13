@@ -20,4 +20,5 @@ void WriteCmd::helpCmd() const {
 
 void WriteCmd::write(const string& lba, const string& value) {
     m_ssd->writeData(lba, value);
+    cout << "[Write] DONE\n";
 }

@@ -12,21 +12,21 @@ void EraseAndWriteAgingTs::excuteCmd(const vector<string>& tokens) {
     cmdObj->excuteCmd(eraseCmd);
 
     lba += TEST_ERASE_SIZE_INT - 1;
+
     for (int iter = 0; iter < TEST_MAX_ITERATE; iter++) {
-        string addr = std::to_string(lba);
-        lba = eraseAndReadAssert(addr, lba);
-        lba = eraseAndReadAssert(addr, lba);
-        lba = eraseAndReadAssert(addr, lba);
-    }   
+        for(lba = 2; lba < MAX_LBA; lba+= TEST_ERASE_SIZE_INT) {
+            string addr = std::to_string(lba);
+            eraseAndReadAssert(addr);
+        }
+    }
     
     std::cout << "PASS\n";
 }
 
-int EraseAndWriteAgingTs::eraseAndReadAssert(const string& addr, int lba) const
+void EraseAndWriteAgingTs::eraseAndReadAssert(const string& addr) const
 {
     writeAndErase(addr);
     readAndCompare(addr);
-    return nextLbaAddr(lba);
 }
 
 int EraseAndWriteAgingTs::nextLbaAddr(int lba) const
@@ -42,7 +42,7 @@ void EraseAndWriteAgingTs::readAndCompare(const string& addr) const
     CmdInterface* cmdObj = CmdFactory::getInstance().getCmd(readCmd[0]);
     cmdObj->excuteCmd(readCmd);
 #ifndef _DEBUG
-    if (getReadResult().compare(TEST_EXPECTED_VALUE) != 0)
+    if (m_ssd->getReadResult().compare(TEST_EXPECTED_VALUE) != 0)
     {
         std::cout << "FAIL";
         throw FailException();
