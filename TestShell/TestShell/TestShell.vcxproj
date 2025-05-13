@@ -129,7 +129,7 @@
   <ItemGroup>
     <ClCompile Include="cmd_factory.cpp" />
     <ClCompile Include="cmd_interface.cpp" />
-    <ClCompile Include="exit.cpp" />
+    <ClCompile Include="exit_cmd.cpp" />
     <ClCompile Include="full_read_cmd.cpp" />
     <ClCompile Include="full_write_cmd.cpp" />
     <ClCompile Include="full_write_read_compare_ts.cpp" />

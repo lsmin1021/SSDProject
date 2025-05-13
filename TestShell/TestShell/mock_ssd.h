@@ -5,6 +5,6 @@
 
 class MockSsd : public SsdInterface {
 public:
-	MOCK_METHOD(void, readData, (string lba), (override));
-	MOCK_METHOD(void, writeData, (string lba, string data), (override));
+	MOCK_METHOD(void, readData, (const string& lba), (override));
+	MOCK_METHOD(void, writeData, (const string& lba, const string& data), (override));
 };

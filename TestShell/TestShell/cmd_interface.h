@@ -1,9 +1,7 @@
 #pragma once
+#include "cmd_interface.h"
 #include <string>
 #include <vector>
-#include <fstream>
-#include "cmd_factory.h"
-#include <stdexcept>
 
 using std::string;
 using std::vector;
@@ -12,34 +10,51 @@ class SsdInterface;
 
 class CmdInterface {
 public:
-	CmdInterface(string name, int numToken) : m_numToken(numToken){
-		m_names.push_back(name);
-		CmdFactory::getInstance().registerCmd(this);
-	}
-
+	CmdInterface(const string& name, int numToken);
 	virtual ~CmdInterface() = default;
-	virtual void checkInvalidCmd(const vector<string>& tokens) = 0;
+	virtual void checkInvalidCmd(const vector<string>& tokens) const = 0;
 	virtual void excuteCmd(const vector<string>& tokens) = 0;
-	virtual void helpCmd() = 0;
+	virtual void helpCmd() const  = 0;
 
 	vector<string>  getName() const {
 		return m_names;
 	}
-	static const int MAX_LBA = 99;
 
 	void setSdd(SsdInterface* sdd) {
 		m_ssd = sdd;
 	}
 protected :
+	static const int MAX_LBA = 99;
+	static const int MIN_LBA = 0;
+	static const unsigned int MAX_DATA_VALUE = 0xFFFFFFFF;
+	static const int MIN_DATA_VALUE = 0;
 	SsdInterface* m_ssd;
 
-	void checkNumToken(const vector<string>& tokens);
-	void checkLbaArg(const string& lbaString);
-	void checkDataArg(const string& dataString);
-	string updateReadResult();
+	void checkNumToken(const vector<string>& tokens) const;
+	void checkLbaArg(const string& lbaString) const;
+	void checkDataArg(const string& dataString) const;
+	string getReadResult() const;
 protected :
 	vector<string> m_names;
 private:
+	bool isValidNumToken(const vector<string>& tokens) const {
+		return (tokens.size() == m_numToken);
+	}
+	bool isValidLbaString(const string& lbaString, int errorPos) const {
+		return (errorPos == lbaString.size());
+	}
+	bool isValidLbaRange(int lba) const {
+		return (lba <= MAX_LBA && lba >= MIN_LBA);
+	}
+	bool isValidDataStringLen(const string& dataString) const {
+		return (10 == dataString.size());
+	}
+	bool isValidDataString(const string& dataString, int errorPos) const {
+		return (errorPos == dataString.size());
+	}
+	bool isValidDataRange(unsigned int data) const {
+		return (data <= MAX_DATA_VALUE && int(data) >= MIN_DATA_VALUE);
+	}
 	const int m_numToken;
 };
 
@@ -50,7 +65,7 @@ public:
 	}
 	~TsInterface() override {
 	}
-	virtual void helpCmd() override {}
+	virtual void helpCmd() const override {}
 
 	void addCmd(CmdInterface* cmd) {
 		m_cmds.push_back(cmd);

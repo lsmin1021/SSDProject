@@ -3,15 +3,16 @@
 #include "iostream"
 
 using std::cout;
-void FullWriteCmd::checkInvalidCmd(const vector<string>& tokens) {
+void FullWriteCmd::checkInvalidCmd(const vector<string>& tokens) const {
 	checkNumToken(tokens);
-	checkDataArg(tokens[1]);
+    string dataString = tokens[1];
+	checkDataArg(dataString);
 }
 void FullWriteCmd::excuteCmd(const vector<string>& tokens) {
-    string value = tokens[1];
-    fullWrite(value);
+    string dataString = tokens[1];
+    fullWrite(dataString);
 }
-void FullWriteCmd::helpCmd() {
+void FullWriteCmd::helpCmd() const {
     cout << "  fullwrite                Write default data to all LBA addresses (0 ~ 99)\n";
 }
 

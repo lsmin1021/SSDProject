@@ -1,6 +1,6 @@
 #include "write_read_aging_ts.h"
 
-void WriteReadAging::checkInvalidCmd(const vector<string>& tokens) {
+void WriteReadAging::checkInvalidCmd(const vector<string>& tokens) const {
 	checkNumToken(tokens);
 }
 
@@ -29,7 +29,7 @@ void WriteReadAging::excuteCmd(const vector<string>& tokens) {
 
         m_ssd->readData(START_LBA);
 #ifndef _DEBUG
-        if (updateReadResult().compare(valueForStartLba) != 0)
+        if (getReadResult().compare(valueForStartLba) != 0)
         {
             std::cout << "FAIL\n";
             return;
@@ -38,7 +38,7 @@ void WriteReadAging::excuteCmd(const vector<string>& tokens) {
 
         m_ssd->readData(END_LBA);
 #ifndef _DEBUG
-        if (updateReadResult().compare(valueForEndLba) != 0)
+        if (getReadResult().compare(valueForEndLba) != 0)
         {
             std::cout << "  FAIL\n";
             return;

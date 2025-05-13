@@ -4,9 +4,9 @@
 class ReadCmd : public CmdInterface {
 public:
 	ReadCmd() : CmdInterface("read", 2) {}
-	void checkInvalidCmd(const vector<string>& tokens) override;
+	void checkInvalidCmd(const vector<string>& tokens) const override;
 	void excuteCmd(const vector<string>& tokens) override;
-	void helpCmd() override;
+	void helpCmd() const override;
 private :
 	void read(const string& lbaString);
 };
