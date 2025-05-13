@@ -154,6 +154,22 @@ TEST_F(MockSddFixture, InvalidExit) {
 	EXPECT_THROW({ m_tespApp->cmdParserAndExcute(INVALID_EXIT_CMD); }, std::invalid_argument);
 }
 
+TEST_F(MockSddFixture, EraseMore10Size) {
+
+	const string ERASE = "erase 0 13";
+	EXPECT_CALL(m_mockSsd, eraseData(_,_)).Times(2);
+
+	m_tespApp->cmdParserAndExcute(ERASE);
+}
+
+TEST_F(MockSddFixture, EraseRangeMore10Size) {
+
+	const string ERASE = "erase_range 0 13";
+	EXPECT_CALL(m_mockSsd, eraseData(_, _)).Times(2);
+
+	m_tespApp->cmdParserAndExcute(ERASE);
+}
+
 
 TEST_F(MockSddFixture, CmdFactoryTc) {
 	excuteFactoryTc("read");
