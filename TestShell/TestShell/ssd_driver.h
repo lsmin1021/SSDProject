@@ -1,6 +1,7 @@
 #pragma once
 #include <cstdlib>  
 #include "ssd_interface.h"
+#include "logger.h"
 
 class SsdDriver : public SsdInterface {
 public:

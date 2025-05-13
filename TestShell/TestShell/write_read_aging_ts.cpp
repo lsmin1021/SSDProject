@@ -40,7 +40,7 @@ void WriteReadAging::excuteCmd(const vector<string>& tokens) {
 #ifndef _DEBUG
         if (getReadResult().compare(valueForEndLba) != 0)
         {
-            std::cout << "  FAIL\n";
+            std::cout << "FAIL\n";
             return;
         }
 #endif

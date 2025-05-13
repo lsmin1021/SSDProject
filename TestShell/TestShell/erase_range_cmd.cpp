@@ -26,6 +26,6 @@ void EraseRangeCmd::excuteCmd(const vector<string>& tokens) {
    EraseCmd::excuteCmd(newTokens);  
 }
 void EraseRangeCmd::helpCmd() const {
-    LOG_PRINT("EraseRangeCmd", "  erase <START LBA>  <END LBA>       Erase 4-byte DATAs from START LBA to END LBA\n");
+    cout << "  erase <START LBA>  <END LBA>       Erase 4-byte DATAs from START LBA to END LBA\n";
 }
 

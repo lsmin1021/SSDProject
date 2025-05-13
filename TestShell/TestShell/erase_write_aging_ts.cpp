@@ -39,7 +39,7 @@ void EraseAndWriteAgingTs::readAndCompare(const string& addr) const
 #ifndef _DEBUG
     if (getReadResult().compare(TEST_EXPECTED_VALUE) != 0)
     {
-        std::cout << "FAIL\n";
+        std::cout << "FAIL";
         throw FailException();
     }
 #endif
