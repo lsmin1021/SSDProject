@@ -28,7 +28,7 @@ public:
 
 	CommandBuffer();
 
-	//? ? ? getAllCommand();
+	vector<Buffer> getBufferCommands();
 	string readDataOnBuffer(int lba);
 	int getUsableBufferSize();
 	void insertCmd(int lba, int size);

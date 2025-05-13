@@ -6,6 +6,10 @@ string CommandBuffer::readDataOnBuffer(int lba) {
 	return "";
 }
 
+vector<Buffer> CommandBuffer::getBufferCommands() {
+	return m_buffer;
+}
+
 int CommandBuffer::getUsableBufferSize() {
 	return m_buffer.size();
 }
