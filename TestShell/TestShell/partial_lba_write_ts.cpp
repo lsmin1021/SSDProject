@@ -21,7 +21,7 @@ void PartialLbaWriteTs::excuteCmd(const vector<string>& tokens) {
             CmdInterface* cmdObj = CmdFactory::getInstance().getCmd(readCmd[0]);
             cmdObj->excuteCmd(readCmd);
 #ifndef _DEBUG
-            if (m_ssd->getReadResult().compare(TEST_SCRIPT_VALUE) != 0)
+            if (getReadResult().compare(TEST_SCRIPT_VALUE) != 0)
             {
                 std::cout << "FAIL\n";
                 throw FailException();
