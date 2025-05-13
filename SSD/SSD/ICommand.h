@@ -17,19 +17,25 @@ public:
 
 protected:
 	bool isValidLBA(const string& lbaStr) {
+		int lba = getInt(lbaStr);
+		if (lba < MIN_LBA || lba > MAX_LBA) return false;
+		return true;
+	}
+
+	int getInt(const string& sizeStr) {
+		int size;
 		try {
 			size_t pos = 0;
-			int lba = std::stoi(lbaStr, &pos);
-			if (pos != lbaStr.length())	return false;
-			if (lba < MIN_LBA || lba > MAX_LBA) return false;
+			size = std::stoi(sizeStr, &pos);
+			if (pos != sizeStr.length()) return -1;
 		}
 		catch (std::invalid_argument&) {
-			return false;
+			return -1;
 		}
 		catch (std::out_of_range&) {
-			return false;
+			return -1;
 		}
-		return true;
+		return size;
 	}
 
 	NandHandler* m_nandHandler;

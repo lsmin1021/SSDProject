@@ -27,18 +27,9 @@ void EraseCommand::eraseData(int lba, int size) {
 }
 
 bool EraseCommand::isValidSize(const string& sizeStr) {
-	try {
-		size_t pos = 0;
-		int size = std::stoi(sizeStr, &pos);
-		if (pos != sizeStr.length())	return false;
-		if (size < MIN_SIZE || size > MAX_SIZE) return false;
-	}
-	catch (std::invalid_argument&) {
-		return false;
-	}
-	catch (std::out_of_range&) {
-		return false;
-	}
+	int size = getInt(sizeStr);
+	
+	if (size < MIN_SIZE || size > MAX_SIZE) return false;
 
 	return true;
 }
