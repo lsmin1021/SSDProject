@@ -160,9 +160,11 @@
     <ClInclude Include="full_read_cmd.h" />
     <ClInclude Include="full_write_cmd.h" />
     <ClInclude Include="full_write_read_compare_ts.h" />
+    <ClInclude Include="mock_shell_excuter.h" />
     <ClInclude Include="mock_ssd.h" />
     <ClInclude Include="partial_lba_write_ts.h" />
     <ClInclude Include="read_cmd.h" />
+    <ClInclude Include="shell_excuter.h" />
     <ClInclude Include="ssd_driver.h" />
     <ClInclude Include="ssd_interface.h" />
     <ClInclude Include="test_shell_app.h" />

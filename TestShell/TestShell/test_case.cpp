@@ -2,6 +2,7 @@
 
 #include <gmock/gmock.h>
 #include "mock_ssd.h"
+#include "mock_shell_excuter.h"
 #include "ssd_driver.h"
 #include "test_shell_app.h"
 #include "cmd_factory.h"
@@ -16,6 +17,10 @@ protected:
 
 	void excuteFactoryTc(string cmdName){
 		EXPECT_EQ(cmdName, m_cmdFactory.getCmd(cmdName)->getName().at(0));
+	}
+
+	void TearDown() override {
+		delete m_tespApp;
 	}
 
 public:
@@ -60,6 +65,25 @@ public:
 	TestShellApp* m_tespApp;
 
 	const CmdFactory& m_cmdFactory = CmdFactory::getInstance();
+};
+
+class MockShellExecutorFixture : public Test {
+protected:
+	void SetUp() {
+		m_driver = new SsdDriver(&m_mockExec);
+	}
+
+	void TearDown() override {
+		delete m_driver;
+	}
+
+public:
+	const string WRITE_EXPECTED_CMD = "SSD W 3 0xAAAABBBB";
+	const string READ_EXPECTED_CMD = "SSD R 3";
+	const string ERASE_EXPECTED_CMD = "SSD E 3 10";
+
+	MockShellExecutor m_mockExec;
+	SsdDriver* m_driver;
 };
 
 TEST_F(MockSddFixture, ReadSuccess) {
@@ -228,4 +252,19 @@ TEST_F(MockSddFixture, TescScript4ShortCut) {
 	EXPECT_CALL(m_mockSsd, eraseData(_, _)).Times(TEST_SCRIPT4_ERASE_REPEAT_NUM);
 	// Act
 	EXPECT_NO_THROW(m_tespApp->cmdParserAndExcute(TEST_SCRIPT4_SHORT_CUT));
+}
+
+TEST_F(MockShellExecutorFixture, WriteCommandIsCorrect) {
+	m_driver->writeData("3", "0xAAAABBBB");
+	EXPECT_EQ(m_mockExec.lastCommand, WRITE_EXPECTED_CMD);
+}
+
+TEST_F(MockShellExecutorFixture, ReadCommandIsCorrect) {
+	m_driver->readData("3");
+	EXPECT_EQ(m_mockExec.lastCommand, READ_EXPECTED_CMD);
+}
+
+TEST_F(MockShellExecutorFixture, EraseCommandIsCorrect) {
+	m_driver->eraseData("3", "10");
+	EXPECT_EQ(m_mockExec.lastCommand, ERASE_EXPECTED_CMD);
 }

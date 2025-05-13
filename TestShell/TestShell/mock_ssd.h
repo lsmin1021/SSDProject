@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ssd_interface.h"
-#include <gmock/gmock.h>
+#include "gmock/gmock.h"
 
 class MockSsd : public SsdInterface {
 public:

@@ -3,15 +3,18 @@
 
 void SsdDriver::readData(const string& lba) {
 	string cmd = READ_CMD + lba;
-	int ret = system(cmd.c_str());
+	int ret = m_executor->run(cmd);
 }
 void SsdDriver::writeData(const string& lba, const string& data) {
 	string cmd = WRITE_CMD + lba + " " + data;
-	int ret = system(cmd.c_str());
+	int ret = m_executor->run(cmd);
  }
 
-void eraseData(const string& lba, const string& size) {
+void SsdDriver::eraseData(const string& lba, const string& size) {
+	string cmd = ERASE_CMD + lba + " " + size;
+	int ret = m_executor->run(cmd);
 }
 
-void eraseDataRange(const string& StartLba, const string& endLba) {
+void SsdDriver::eraseDataRange(const string& StartLba, const string& endLba) {
+
 }

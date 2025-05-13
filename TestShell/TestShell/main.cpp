@@ -14,10 +14,9 @@ int main(int argc, char* argv[]) {
     ::testing::InitGoogleMock(&argc, argv);
     return RUN_ALL_TESTS();
 #else
-    //TestShellApp testShell{ssdInterface};
-    //testShell.argParser(&argc, argv);
     string input;
-    SsdDriver ssd;
+    RealShellExecutor shellExcuter;
+    SsdDriver ssd{ &shellExcuter };
     TestShellApp app{ &ssd };
 
     while (true) {
