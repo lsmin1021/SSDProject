@@ -1,5 +1,5 @@
 #include "command_write.h"
-#include "nand_handler.h"
+#include "buffer_handler.h"
 
 WriteCommand::WriteCommand() {}
 
@@ -38,5 +38,10 @@ bool WriteCommand::isValidValue(const string& valueStr) {
 }
 
 void WriteCommand::writeDataOnAddr(int lba, string value) {
-	NandHandler::getInstance().write(lba, value);
+	CommandBufferHandler& instance = CommandBufferHandler::getInstance();
+	if (true == instance.isFull()) {
+		instance.flush();
+	}
+
+	instance.writeBuffer(lba, value);
 }
