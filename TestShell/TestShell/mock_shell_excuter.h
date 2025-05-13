@@ -2,7 +2,7 @@
 
 #include "shell_excuter.h"
 
-class MockShellExecutor : public IShellExecutor {
+class MockShellExecutor : public ShellExecutorInterface {
 public:
     string lastCommand;
 
