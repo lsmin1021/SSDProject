@@ -169,7 +169,6 @@
     <ClInclude Include="ssd_driver.h" />
     <ClInclude Include="ssd_interface.h" />
     <ClInclude Include="testscript_factory.h" />
-    <ClInclude Include="testscript_interface.h" />
     <ClInclude Include="test_shell_app.h" />
     <ClInclude Include="write_cmd.h" />
     <ClInclude Include="write_read_aging_ts.h" />
