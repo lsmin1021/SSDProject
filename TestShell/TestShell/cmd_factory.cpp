@@ -8,11 +8,6 @@
 #include "exit_cmd.h"
 #include "erase_cmd.h"
 #include "erase_range_cmd.h"
-#include "full_write_read_compare_ts.h"
-#include "partial_lba_write_ts.h"
-#include "write_read_aging_ts.h"
-#include "erase_write_aging_ts.h"
-#include "ssd_interface.h"
 
 static WriteCmd writeCmd;
 static ReadCmd readCmd;
