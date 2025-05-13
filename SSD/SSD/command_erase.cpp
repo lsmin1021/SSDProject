@@ -1,4 +1,4 @@
-#include "ICommand.h"
+#include "command_erase.h"
 
 EraseCommand::EraseCommand(NandHandler* nandHandler) : ICommand(nandHandler) {}
 

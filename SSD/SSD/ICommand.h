@@ -15,6 +15,7 @@ public:
 	virtual bool isValid(const vector<string>& param) = 0;
 	virtual void execute(const vector<string>& param) = 0;
 
+protected:
 	bool isValidLBA(const string& lbaStr) {
 		try {
 			size_t pos = 0;
@@ -31,67 +32,10 @@ public:
 		return true;
 	}
 
-
 	NandHandler* m_nandHandler;
 
 	const int MAX_LBA = 99;
 	const int MIN_LBA = 0;
-	const int DATA_VALUE_LENGTH = 10;
 
 	const int LBA_INDEX = 1;
-};
-
-class ReadCommand : public ICommand {
-public:
-	ReadCommand(NandHandler* nandHandler);
-	bool isValid(const vector<string>& param) override;
-	void execute(const vector<string>& param) override;
-
-private:
-	string readDataOnAddr(int lba);
-
-	const int PARAMETER_COUNT = 2;
-};
-
-class WriteCommand : public ICommand {
-public:
-	WriteCommand(NandHandler* nandHandler);
-	bool isValid(const vector<string>& param) override;
-	void execute(const vector<string>& param) override;
-
-private:
-	void writeDataOnAddr(int lba, string value);
-	bool isValidValue(const string& valueStr);
-
-	const int PARAMETER_COUNT = 3;
-	const int VALUE_INDEX = 2;
-};
-
-class EraseCommand : public ICommand {
-public:
-	EraseCommand(NandHandler* nandHandler);
-	bool isValid(const vector<string>& param) override;
-	void execute(const vector<string>& param) override;
-
-private:
-	void eraseData(int lba, int size);
-	bool isValidSize(const string& valueStr);
-
-	const int PARAMETER_COUNT = 3;
-	const int SIZE_INDEX = 2;
-
-	const int MAX_SIZE = 10;
-	const int MIN_SIZE = 0;
-};
-
-class FlushCommand : public ICommand {
-public:
-	FlushCommand(NandHandler* nandHandler);
-	bool isValid(const vector<string>& param) override;
-	void execute(const vector<string>& param) override;
-
-private:
-	void flushBuffer();
-
-	const int PARAMETER_COUNT = 1;
 };

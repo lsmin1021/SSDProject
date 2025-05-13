@@ -1,4 +1,4 @@
-#include "ICommand.h"
+#include "command_write.h"
 
 WriteCommand::WriteCommand(NandHandler* nandHandler) : ICommand(nandHandler) { }
 
