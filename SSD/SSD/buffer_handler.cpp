@@ -7,7 +7,7 @@ CommandBufferHandler& CommandBufferHandler::getInstance() {
 }
 
 string CommandBufferHandler::readBuffer(int lba) {
-	return "";
+	return m_commandBuffer.readDataOnBuffer(lba);
 }
 
 bool CommandBufferHandler::isFull() {
