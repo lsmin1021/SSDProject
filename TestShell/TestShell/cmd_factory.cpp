@@ -6,6 +6,8 @@
 #include "full_read_cmd.h"
 #include "help_cmd.h"
 #include "exit_cmd.h"
+#include "erase_cmd.h"
+#include "erase_range_cmd.h"
 #include "full_write_read_compare_ts.h"
 #include "partial_lba_write_ts.h"
 #include "write_read_aging_ts.h"
@@ -17,6 +19,8 @@ static FullWriteCmd fullWriteCmd;
 static FullReadCmd fullReadCmd;
 static ExitCmd exitCmd;
 static HelpCmd  helpCmd;
+static EraseCmd eraseCmd;
+static EraseRangeCmd eraseRangeCmd;
 static FullWriteAndReadCompareTs fullWriteAndReadCompareTs;
 static PartialLbaWriteTs partialLbaWriteTs;
 static WriteReadAging writeReadAging;
