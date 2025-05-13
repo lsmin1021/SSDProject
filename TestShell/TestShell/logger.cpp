@@ -33,7 +33,7 @@ std::string Logger::getCurrentTimeString() {
 
 void Logger::rotateIfNeeded() {
     struct stat stat_buf;
-    if (stat(logFileName.c_str(), &stat_buf) == 0 && stat_buf.st_size > maxFileSize) {
+    if (stat(logFileName.c_str(), &stat_buf) == 0 && stat_buf.st_size > MAX_FILE_SIZE) {
         logFile.close();
 
         std::string timestamp = getCurrentTimeString();

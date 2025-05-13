@@ -38,7 +38,8 @@ private:
 
 private:
     const string logFileName = "latest.log";
-    const size_t maxFileSize = 10 * 1024;
+    const size_t K_BYTE = 1024;
+    const size_t MAX_FILE_SIZE = 10 * K_BYTE;
     LogMode logMode = LogMode::ConsoleAndFile;
     std::ofstream logFile;
 };
