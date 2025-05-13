@@ -36,7 +36,10 @@ public:
 
 private:
 	// Develope command buffer algorithm
+	bool isDirectoryExist();
+	void setBufferDir();
 
 	vector<Buffer> m_buffer;
-	string EMPTY_VALUE = "0x00000000";
+	const string EMPTY_VALUE = "0x00000000";
+	const string DIR_NAME = "buffer";
 };
