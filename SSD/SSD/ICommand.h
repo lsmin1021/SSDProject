@@ -53,6 +53,7 @@ public:
 
 	const int LBA_INDEX = 1;
 	const int VALUE_INDEX = 2;
+	const int ERASE_CNT_INDEX = 2;
 };
 
 class ReadCommand : public ICommand {
@@ -75,6 +76,19 @@ public:
 
 private:
 	void writeDataOnAddr(int lba, string value);
+
+	const int PARAMETER_COUNT = 3;
+};
+
+class EraseCommand : public ICommand {
+public:
+	EraseCommand(NandHandler* nandHandler);
+	bool isValid(const vector<string>& param) override;
+	void execute(const vector<string>& param) override;
+
+private:
+	bool isValidEraseNum(const string& eraseSizeStr);
+	void eraseDataOnAddr(int lba, int cnt);
 
 	const int PARAMETER_COUNT = 3;
 };

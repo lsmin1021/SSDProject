@@ -1,17 +1,26 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="cmd_executor.cpp" />
     <ClCompile Include="command_handler.cpp" />
-    <ClCompile Include="command_handler_test_case.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="cmd_exec_testcase.cpp" />
     <ClCompile Include="nand_handler.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)..\..\lib\native\src\gtest\gtest-all.cc" />
     <ClCompile Include="$(MSBuildThisFileDirectory)..\..\lib\native\src\gmock\gmock-all.cc" />
+    <ClCompile Include="ICommand.h" />
+    <ClCompile Include="command_handler_testcase.cpp" />
+    <ClCompile Include="output_handler.cpp" />
+    <ClCompile Include="command_read.cpp" />
+    <ClCompile Include="command_write.cpp" />
+    <ClCompile Include="command_erase.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="command_executor.h" />
+    <ClInclude Include="command_handler.h" />
+    <ClInclude Include="nand_handler.h" />
+    <ClInclude Include="output_handler.h" />
   </ItemGroup>
 </Project>
