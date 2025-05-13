@@ -5,7 +5,7 @@
 
 using std::cout;
 
-void HelpCmd::checkInvalidCmd(const vector<string>& tokens)  {
+void HelpCmd::checkInvalidCmd(const vector<string>& tokens) const {
 	checkNumToken(tokens);
 }
 void HelpCmd::excuteCmd(const vector<string>& tokens)  {
@@ -27,6 +27,6 @@ void HelpCmd::excuteCmd(const vector<string>& tokens)  {
         cmd->helpCmd();
     }
 }
-void HelpCmd::helpCmd()  {
+void HelpCmd::helpCmd() const {
     cout << "  help                     Show this help message\n\n";
 }

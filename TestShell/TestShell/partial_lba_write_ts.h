@@ -7,7 +7,7 @@
 class PartialLbaWriteTs : public TsInterface {
 public:
 	PartialLbaWriteTs() : TsInterface("2_PartialLBAWrite", 1) {}
-	void checkInvalidCmd(const vector<string>& tokens) override;
+	void checkInvalidCmd(const vector<string>& tokens) const override;
 	void excuteCmd(const vector<string>& tokens) override;
 private:
 	static const int TEST_SCRIPT2_REPEAT_NUM = 30;

@@ -1,42 +1,44 @@
 #include "cmd_interface.h"
+#include "cmd_factory.h"
+#include <fstream>
+#include <stdexcept>
 
-void CmdInterface::checkNumToken(const vector<string>& tokens) {
-    if (tokens.size() != m_numToken) {
-        throw std::invalid_argument("Invalid number of tokens");
-    }
+CmdInterface::CmdInterface(const string& name, int numToken) : m_numToken(numToken) {
+    m_names.push_back(name);
+    CmdFactory::getInstance().registerCmd(this);
 }
 
-void CmdInterface::checkLbaArg(const string& lbaString)
-{
+void CmdInterface::checkNumToken(const vector<string>& tokens) const {
+    if (isValidNumToken(tokens)) return;
+    throw std::invalid_argument("Invalid number of tokens");
+}
+
+void CmdInterface::checkLbaArg(const string& lbaString) const {
     std::size_t errorPos = 0;
     int lba = std::stoi(lbaString, &errorPos);
-    if (errorPos != lbaString.size())
+    if (isValidLbaString(lbaString, errorPos))
     {
-        throw std::invalid_argument("Usage: decimal LBA");
-    }
-    if (lba > MAX_LBA || lba < 0) {
+        if (isValidLbaRange(lba)) return;
         throw std::invalid_argument("Usage: 0 <= LBA < 100");
     }
+    throw std::invalid_argument("Usage: decimal LBA");
 }
-void CmdInterface::checkDataArg(const string& dataString)
-{
-    if (dataString.size() != 10)
+void CmdInterface::checkDataArg(const string& dataString) const {
+    if (isValidDataStringLen(dataString))
     {
-        throw std::invalid_argument("Usage: 10 length data");
-    }
-
-    std::size_t errorPos = 0;
-    int data = std::stoi(dataString, &errorPos, 16);
-    if (errorPos != dataString.size())
-    {
+        std::size_t errorPos = 0;
+        unsigned int data = std::stoi(dataString, &errorPos, 16);
+        if (isValidDataString(dataString, errorPos))
+        {
+            if (isValidDataRange(data)) return;
+            throw std::invalid_argument("Usage: 0 <= data < 0xFFFFFFFF");
+        }
         throw std::invalid_argument("Usage: hex data");
     }
-    if (data > 0xFFFFFFFF || data < 0) {
-        throw std::invalid_argument("Usage: 0 <= LBA < 100");
-    }
+    throw std::invalid_argument("Usage: 10 length data");
 }
 
-string CmdInterface::updateReadResult() {
+string CmdInterface::getReadResult() const {
     std::ifstream file("ssd_output.txt");
 
     if (!file.is_open()) {

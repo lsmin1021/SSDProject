@@ -3,7 +3,7 @@
 #include "iostream"
 
 using std::cout;
-void WriteCmd::checkInvalidCmd(const vector<string>& tokens) {
+void WriteCmd::checkInvalidCmd(const vector<string>& tokens) const {
 	checkNumToken(tokens);
     checkLbaArg(tokens[1]);
     checkDataArg(tokens[2]);
@@ -13,7 +13,7 @@ void WriteCmd::excuteCmd(const vector<string>& tokens) {
     string value = tokens[2];
     write(lba, value);
 }
-void WriteCmd::helpCmd() {
+void WriteCmd::helpCmd() const {
     cout << "  write <LBA> <DATA>       Write 4-byte DATA to logical block address (LBA)\n";
 }
 

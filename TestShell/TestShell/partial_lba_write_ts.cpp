@@ -1,6 +1,6 @@
 #include "partial_lba_write_ts.h"
 
-void PartialLbaWriteTs::checkInvalidCmd(const vector<string>& tokens) {
+void PartialLbaWriteTs::checkInvalidCmd(const vector<string>& tokens) const {
 	checkNumToken(tokens);
 }
 
@@ -16,7 +16,7 @@ void PartialLbaWriteTs::excuteCmd(const vector<string>& tokens) {
         for (int addr = 0; addr < TEST_SCRIPT2_LBA_STEP; addr++) {
             m_ssd->readData(std::to_string(addr));
 #ifndef _DEBUG
-            if (updateReadResult().compare(TEST_SCRIPT_VALUE) != 0)
+            if (getReadResult().compare(TEST_SCRIPT_VALUE) != 0)
             {
                 std::cout << "FAIL\n";
                 return;
