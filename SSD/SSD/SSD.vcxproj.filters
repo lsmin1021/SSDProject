@@ -12,6 +12,7 @@
     <ClCompile Include="command_read.cpp" />
     <ClCompile Include="command_write.cpp" />
     <ClCompile Include="command_erase.cpp" />
+    <ClCompile Include="command_flush.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />

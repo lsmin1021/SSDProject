@@ -94,6 +94,16 @@ private:
 
 	const int MAX_SIZE = 10;
 	const int MIN_SIZE = 0;
+};
 
-	const string ERASE_VALUE = "0x00000000";
+class FlushCommand : public ICommand {
+public:
+	FlushCommand(NandHandler* nandHandler);
+	bool isValid(const vector<string>& param) override;
+	void execute(const vector<string>& param) override;
+
+private:
+	void flushBuffer();
+
+	const int PARAMETER_COUNT = 1;
 };
