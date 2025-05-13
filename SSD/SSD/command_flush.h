@@ -3,7 +3,7 @@
 
 class FlushCommand : public ICommand {
 public:
-	FlushCommand(NandHandler* nandHandler);
+	FlushCommand();
 	bool isValid(const vector<string>& param) override;
 	void execute(const vector<string>& param) override;
 

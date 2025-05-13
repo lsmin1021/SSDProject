@@ -3,14 +3,12 @@
 
 class CommandFactory {
 public:
-	static std::unique_ptr<ICommand> makeCommand(const string& cmd, NandHandler* handler);
 	static std::unique_ptr<ICommand> makeCommand(const string& cmd);
 };
 
 class CommandHandler {
 public:
 	CommandHandler();
-	CommandHandler(NandHandler* handler);
 
 	bool handleCommand(const vector<string>& cmdArr);
 
@@ -19,5 +17,4 @@ private:
 	void executeCommand(const vector<string>& cmdArr);
 
 	std::unique_ptr<ICommand> m_command;
-	NandHandler* m_nandHandler = nullptr;
 };

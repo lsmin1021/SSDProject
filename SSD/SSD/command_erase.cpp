@@ -1,6 +1,7 @@
 #include "command_erase.h"
+#include "nand_handler.h"
 
-EraseCommand::EraseCommand(NandHandler* nandHandler) : ICommand(nandHandler) {}
+EraseCommand::EraseCommand() {}
 
 bool EraseCommand::isValid(const vector<string>& param) {
 	if (PARAMETER_COUNT != param.size()) {
@@ -23,7 +24,7 @@ void EraseCommand::execute(const vector<string>& param) {
 }
 
 void EraseCommand::eraseData(int lba, int size) {
-	m_nandHandler->erase(lba, size);
+	NandHandler::getInstance().erase(lba, size);
 }
 
 bool EraseCommand::isValidSize(const string& sizeStr) {

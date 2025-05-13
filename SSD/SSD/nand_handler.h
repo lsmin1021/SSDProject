@@ -10,12 +10,15 @@ using std::map;
 
 class NandHandler {
 public:
-	NandHandler();
-	virtual string read(int lba);
-	virtual void write(int lba, string value);
-	virtual void erase(int lba, int cnt);
+	static NandHandler& getInstance();
+
+	string read(int lba);
+	void write(int lba, string value);
+	void erase(int lba, int cnt);
 
 private:
+	NandHandler();
+
 	bool isEmptyLBA(int lba);
 	map<int, string> getSSDData(string ssdDataStr);
 	string readNand();
