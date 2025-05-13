@@ -3,6 +3,9 @@
 #include "cmd_interface.h"
 #include "ssd_interface.h"
 
+class FailException : public std::exception {
+};
+
 class EraseAndWriteAgingTs : public TsInterface {
 public:
 	EraseAndWriteAgingTs() : TsInterface("4_EraseAndWriteAging", 1) {}
@@ -16,6 +19,7 @@ private:
 	const string TEST_SCRIPT_OVERWRITE_VALUE = "0xA5A5A5A5";
 	const string TEST_EXPECTED_VALUE = "0x00000000";
 	int eraseAndReadAssert(const string& addr, int lba) const;
+	int nextLbaAddr(int lba) const;
 	void readAndCompare(const string& addr) const;
 	void writeAndErase(const string& addr) const;
 };
