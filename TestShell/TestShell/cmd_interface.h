@@ -72,7 +72,6 @@ public:
 	~TsInterface() override {
 	}
 	virtual void helpCmd() const override {}
-
 	void addCmd(CmdInterface* cmd) {
 		m_cmds.push_back(cmd);
 	}

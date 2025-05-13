@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -21,32 +21,32 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{b2805efb-bbc6-47e4-9a18-204de6aa7dc4}</ProjectGuid>
-    <RootNamespace>TestShell</RootNamespace>
+    <ProjectGuid>{c1588d21-0ec1-47d2-9c4b-7f008ec6aade}</ProjectGuid>
+    <RootNamespace>TestShellLib</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -74,12 +74,15 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;TESTSHELLLIB_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableUAC>false</EnableUAC>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -88,28 +91,32 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;TESTSHELLLIB_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableUAC>false</EnableUAC>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;TESTSHELLLIB_EXPORTS;_WINDOWS;_USRDLL;MYLIBRARY_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\dy\project\SSDProject\TestShell\x64\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <EnableUAC>false</EnableUAC>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -118,61 +125,64 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;TESTSHELLLIB_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableUAC>false</EnableUAC>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="cmd_factory.cpp" />
-    <ClCompile Include="cmd_interface.cpp" />
-    <ClCompile Include="erase_cmd.cpp" />
-    <ClCompile Include="erase_range_cmd.cpp" />
-    <ClCompile Include="erase_write_aging_ts.cpp" />
-    <ClCompile Include="exit_cmd.cpp" />
-    <ClCompile Include="full_read_cmd.cpp" />
-    <ClCompile Include="full_write_cmd.cpp" />
-    <ClCompile Include="full_write_read_compare_ts.cpp" />
-    <ClCompile Include="help_cmd.cpp" />
-    <ClCompile Include="help_cmd.h" />
-    <ClCompile Include="logger.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="partial_lba_write_ts.cpp" />
-    <ClCompile Include="read_cmd.cpp" />
-    <ClCompile Include="ssd_driver.cpp" />
-    <ClCompile Include="test_case.cpp" />
-    <ClCompile Include="test_shell_app.cpp" />
-    <ClCompile Include="write_cmd.cpp" />
-    <ClCompile Include="write_read_aging_ts.cpp" />
+    <ClCompile Include="..\..\..\TestShell\TestShell\cmd_factory.cpp" />
+    <ClCompile Include="..\..\..\TestShell\TestShell\cmd_interface.cpp" />
+    <ClCompile Include="..\..\..\TestShell\TestShell\dll_main.cpp" />
+    <ClCompile Include="..\..\..\TestShell\TestShell\erase_cmd.cpp" />
+    <ClCompile Include="..\..\..\TestShell\TestShell\erase_range_cmd.cpp" />
+    <ClCompile Include="..\..\..\TestShell\TestShell\erase_write_aging_ts.cpp" />
+    <ClCompile Include="..\..\..\TestShell\TestShell\exit_cmd.cpp" />
+    <ClCompile Include="..\..\..\TestShell\TestShell\full_read_cmd.cpp" />
+    <ClCompile Include="..\..\..\TestShell\TestShell\full_write_cmd.cpp" />
+    <ClCompile Include="..\..\..\TestShell\TestShell\full_write_read_compare_ts.cpp" />
+    <ClCompile Include="..\..\..\TestShell\TestShell\help_cmd.cpp" />
+    <ClCompile Include="..\..\..\TestShell\TestShell\logger.cpp" />
+    <ClCompile Include="..\..\..\TestShell\TestShell\partial_lba_write_ts.cpp" />
+    <ClCompile Include="..\..\..\TestShell\TestShell\read_cmd.cpp" />
+    <ClCompile Include="..\..\..\TestShell\TestShell\ssd_driver.cpp" />
+    <ClCompile Include="..\..\..\TestShell\TestShell\ts_factory.cpp" />
+    <ClCompile Include="..\..\..\TestShell\TestShell\write_cmd.cpp" />
+    <ClCompile Include="..\..\..\TestShell\TestShell\write_read_aging_ts.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="cmd_factory.h" />
-    <ClInclude Include="cmd_interface.h" />
+    <ClInclude Include="..\..\..\TestShell\TestShell\cmd_factory.h" />
+    <ClInclude Include="..\..\..\TestShell\TestShell\cmd_interface.h" />
+    <ClInclude Include="..\..\..\TestShell\TestShell\dll_main.h" />
+    <ClInclude Include="..\..\..\TestShell\TestShell\erase_cmd.h" />
+    <ClInclude Include="..\..\..\TestShell\TestShell\erase_range_cmd.h" />
+    <ClInclude Include="..\..\..\TestShell\TestShell\erase_write_aging_ts.h" />
+    <ClInclude Include="..\..\..\TestShell\TestShell\exit_cmd.h" />
+    <ClInclude Include="..\..\..\TestShell\TestShell\full_read_cmd.h" />
+    <ClInclude Include="..\..\..\TestShell\TestShell\full_write_cmd.h" />
+    <ClInclude Include="..\..\..\TestShell\TestShell\full_write_read_compare_ts.h" />
+    <ClInclude Include="..\..\..\TestShell\TestShell\help_cmd.h" />
+    <ClInclude Include="..\..\..\TestShell\TestShell\logger.h" />
+    <ClInclude Include="..\..\..\TestShell\TestShell\mock_ssd.h" />
+    <ClInclude Include="..\..\..\TestShell\TestShell\partial_lba_write_ts.h" />
+    <ClInclude Include="..\..\..\TestShell\TestShell\read_cmd.h" />
+    <ClInclude Include="..\..\..\TestShell\TestShell\ssd_driver.h" />
+    <ClInclude Include="..\..\..\TestShell\TestShell\ssd_interface.h" />
+    <ClInclude Include="..\..\..\TestShell\TestShell\write_cmd.h" />
+    <ClInclude Include="..\..\..\TestShell\TestShell\write_read_aging_ts.h" />
     <ClInclude Include="dll_main.h" />
-    <ClInclude Include="erase_cmd.h" />
-    <ClInclude Include="erase_range_cmd.h" />
-    <ClInclude Include="erase_write_aging_ts.h" />
-    <ClInclude Include="exit_cmd.h" />
-    <ClInclude Include="full_read_cmd.h" />
-    <ClInclude Include="full_write_cmd.h" />
-    <ClInclude Include="full_write_read_compare_ts.h" />
-    <ClInclude Include="logger.h" />
-    <ClInclude Include="mock_ssd.h" />
-    <ClInclude Include="partial_lba_write_ts.h" />
-    <ClInclude Include="read_cmd.h" />
-    <ClInclude Include="ssd_driver.h" />
-    <ClInclude Include="ssd_interface.h" />
-    <ClInclude Include="test_shell_app.h" />
-    <ClInclude Include="write_cmd.h" />
-    <ClInclude Include="write_read_aging_ts.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\TestShell\TestShell\packages.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
