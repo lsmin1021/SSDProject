@@ -16,12 +16,11 @@ public:
 	virtual void execute(const vector<string>& param) = 0;
 
 protected:
-	bool isValidLBA(const string& lbaStr) {
+	bool toInt(const string& str, int& result) {
 		try {
 			size_t pos = 0;
-			int lba = std::stoi(lbaStr, &pos);
-			if (pos != lbaStr.length())	return false;
-			if (lba < MIN_LBA || lba > MAX_LBA) return false;
+			result = std::stoi(str, &pos);
+			if (pos != str.length()) return false;
 		}
 		catch (std::invalid_argument&) {
 			return false;
@@ -31,6 +30,13 @@ protected:
 		}
 		return true;
 	}
+
+	bool isValidLBA(const string& lbaStr) {
+		int lba;
+		if (toInt(lbaStr, lba)) return (lba >= MIN_LBA && lba <= MAX_LBA);
+		return false;
+	}
+
 
 	NandHandler* m_nandHandler;
 
