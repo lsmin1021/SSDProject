@@ -25,7 +25,6 @@ private:
 
 class CommandBuffer {
 public:
-
 	CommandBuffer();
 
 	vector<Buffer> getBufferCommands();
