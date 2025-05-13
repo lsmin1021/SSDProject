@@ -11,6 +11,12 @@ public:
 
 class OutputHandler : public OutputInterface{
 public:
+	static OutputHandler& getInstance() {
+		static OutputHandler instance;
+		
+		return instance;
+	}
+
 	void write(string value) override {
 		std::ofstream fs;
 
@@ -22,5 +28,7 @@ public:
 	}
 
 private:
+	OutputHandler() {}
+
 	const string FILE_NAME = "ssd_output.txt";
 };
