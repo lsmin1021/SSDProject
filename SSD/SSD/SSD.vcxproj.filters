@@ -1,26 +1,60 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="command_handler.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="nand_handler.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)..\..\lib\native\src\gtest\gtest-all.cc" />
     <ClCompile Include="$(MSBuildThisFileDirectory)..\..\lib\native\src\gmock\gmock-all.cc" />
-    <ClCompile Include="ICommand.h" />
-    <ClCompile Include="command_handler_testcase.cpp" />
-    <ClCompile Include="output_handler.cpp" />
-    <ClCompile Include="command_read.cpp" />
-    <ClCompile Include="command_write.cpp" />
-    <ClCompile Include="command_erase.cpp" />
+    <ClCompile Include="command_erase.cpp">
+      <Filter>소스파일</Filter>
+    </ClCompile>
+    <ClCompile Include="command_handler.cpp">
+      <Filter>소스파일</Filter>
+    </ClCompile>
+    <ClCompile Include="ICommand.h">
+      <Filter>헤더파일</Filter>
+    </ClCompile>
+    <ClCompile Include="command_read.cpp">
+      <Filter>소스파일</Filter>
+    </ClCompile>
+    <ClCompile Include="command_write.cpp">
+      <Filter>소스파일</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>소스파일</Filter>
+    </ClCompile>
+    <ClCompile Include="nand_handler.cpp">
+      <Filter>소스파일</Filter>
+    </ClCompile>
+    <ClCompile Include="output_handler.cpp">
+      <Filter>소스파일</Filter>
+    </ClCompile>
+    <ClCompile Include="command_handler_testcase.cpp">
+      <Filter>테스트파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="command_executor.h" />
-    <ClInclude Include="command_handler.h" />
-    <ClInclude Include="nand_handler.h" />
-    <ClInclude Include="output_handler.h" />
+    <ClInclude Include="command_handler.h">
+      <Filter>헤더파일</Filter>
+    </ClInclude>
+    <ClInclude Include="nand_handler.h">
+      <Filter>헤더파일</Filter>
+    </ClInclude>
+    <ClInclude Include="output_handler.h">
+      <Filter>헤더파일</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="소스파일">
+      <UniqueIdentifier>{28a9d713-e533-46a9-a32b-5c8f2a08a5a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더파일">
+      <UniqueIdentifier>{0ddb48fa-f99b-4b73-89ff-8d8da9b51adc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="테스트파일">
+      <UniqueIdentifier>{6f1da1c4-1496-4b2d-bd5a-4a8c1e222b2c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>
