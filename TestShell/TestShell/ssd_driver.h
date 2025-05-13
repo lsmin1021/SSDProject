@@ -8,6 +8,8 @@ public:
 	~SsdDriver() override = default;
 	void readData(const string& lba) override;
 	void writeData(const string& lba, const string& data) override;
+	void eraseData(const string& lba, const string& data) override;
+	void eraseDataRange(const string& StartLba, const string& endLba) override;
 
 private:
 	const string WRITE_CMD = "SSD W ";

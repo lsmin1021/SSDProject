@@ -30,6 +30,12 @@
     <ClCompile Include="cmd_factory.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\lib\native\src\gtest\gtest-all.cc">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\lib\native\src\gmock\gmock-all.cc">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
     <ClCompile Include="help_cmd.h">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -61,6 +67,12 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="write_read_aging_ts.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="erase_cmd.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="erase_range_cmd.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -108,6 +120,12 @@
       <Filter>소스 파일</Filter>
     </ClInclude>
     <ClInclude Include="write_read_aging_ts.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="erase_cmd.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="erase_range_cmd.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
   </ItemGroup>
