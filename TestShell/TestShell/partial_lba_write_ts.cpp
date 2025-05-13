@@ -19,7 +19,7 @@ void PartialLbaWriteTs::excuteCmd(const vector<string>& tokens) {
             if (getReadResult().compare(TEST_SCRIPT_VALUE) != 0)
             {
                 std::cout << "FAIL\n";
-                return;
+                throw FailException();
             }
 #endif
         }

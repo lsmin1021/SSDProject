@@ -16,9 +16,39 @@ int main(int argc, char* argv[]) {
 #else
     //TestShellApp testShell{ssdInterface};
     //testShell.argParser(&argc, argv);
-    string input;
+
     SsdDriver ssd;
     TestShellApp app{ &ssd };
+
+    if (argc > 1) {
+        std::ifstream file(argv[1]);
+        if (!file) {
+            std::cerr << "Error: Unable to open file " << argv[1] << std::endl;
+            return 1;
+        }
+
+        std::string line;
+        while (std::getline(file, line)) {
+            std::cout << line << " --- Run...";
+
+            try {
+                app.cmdParserAndExcute(line);
+            }
+            catch (const std::invalid_argument& e) {
+                std::cout << "INVALID COMMAND" << std::endl;;
+            }
+            catch (const FailException& e) {
+                break;
+            }
+            catch (const ExitException& e) {
+                break;
+            }
+        }
+        file.close();
+        return 0;  // 파일을 성공적으로 처리한 후 종료
+    }
+
+    string input;
 
     while (true) {
         std::cout << "Shell> ";
@@ -34,6 +64,8 @@ int main(int argc, char* argv[]) {
         }
         catch (const std::invalid_argument& e) {
             cout << "INVALID COMMAND\n";
+        }
+        catch (const FailException& e) {
         }
         catch (const ExitException& e) {
             break;
