@@ -40,6 +40,7 @@ private:
 	void setBufferDir();
 	void loadBuffer();
 	void loadBufferCmd(string cmd);
+	void storeDataToBuffer();
 
 	vector<Buffer> m_buffer;
 	const string EMPTY_VALUE = "0x00000000";
