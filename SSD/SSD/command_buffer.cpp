@@ -1,8 +1,10 @@
 #include <iostream>
 #include <Windows.h>
+#include <filesystem>
+#include <fstream>
 #include "command_buffer.h"
 
-using namespace std;
+namespace fs = std::filesystem;
 
 CommandBuffer::CommandBuffer() {
 	if (false == isDirectoryExist()) {
@@ -43,77 +45,57 @@ void CommandBuffer::clear() {
 }
 
 void CommandBuffer::storeDataToBuffer() {
-	WIN32_FIND_DATAA findFileData;
-	HANDLE hFind = FindFirstFileA(DIR_SEARCH_PATTERN.c_str(), &findFileData);
-
-	do {
-		if (std::string(findFileData.cFileName) == "." ||
-			std::string(findFileData.cFileName) == "..") {
-			continue;
+	for (const auto& entry : fs::directory_iterator(DIR_NAME)) {
+		if (fs::is_regular_file(entry)) {
+			fs::remove(entry.path());
 		}
-
-		string delFileName = DIR_NAME + "\\";
-		delFileName.append(findFileData.cFileName);
-
-		DeleteFileA(delFileName.c_str());
-	} while (FindNextFileA(hFind, &findFileData) != 0);
-
-	FindClose(hFind);
+	}
 
 	for (int i = 0; i < 5; i++) {
-		string fileName = DIR_NAME;
+		string fileName = DIR_NAME + "\\";
 
 		if (i >= m_buffer.size()) {
-			fileName.append("\\").append(std::to_string(i)).append("_").append("empty");
+			fileName.append(std::to_string(i)).append("_").append("empty");
 		}
 		else if ( "W" == m_buffer[i].getCmd() ) {
-			fileName.append("\\")
-				.append(std::to_string(i))
+			fileName.append(std::to_string(i))
 				.append("_W_")
 				.append(std::to_string(m_buffer[i].getLba()))
 				.append("_")
 				.append(m_buffer[i].getValue());
 		}
 		else if ("E" == m_buffer[i].getCmd()) {
-			fileName.append("\\")
-				.append(std::to_string(i))
+			fileName.append(std::to_string(i))
 				.append("_W_")
 				.append(std::to_string(m_buffer[i].getLba()))
 				.append("_")
 				.append(std::to_string(m_buffer[i].getSize()));
 		}
-		HANDLE hFile = CreateFileA(fileName.c_str(), GENERIC_ALL, 0, NULL, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, NULL);
-		CloseHandle(hFile);
+
+		std::ofstream f(fileName);
+		f.close();
 	}
 }
 
 void CommandBuffer::setBufferDir() {
-	bool ret = CreateDirectoryA(DIR_NAME.data(), NULL);
+	fs::create_directory(DIR_NAME);
 
 	for (int i = 0; i < 5; i++) {
-		string fileName = DIR_NAME;
+		string fileName = DIR_NAME + "\\";
 
-		fileName.append("\\").append(std::to_string(i)).append("_").append("empty");
+		fileName.append(std::to_string(i)).append("_empty");
 
-		HANDLE hFile = CreateFileA(fileName.c_str(), GENERIC_ALL, 0, NULL, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, NULL);
-		CloseHandle(hFile);
+		std::ofstream f(fileName);
+		f.close();
 	}
 }
 
 void CommandBuffer::loadBuffer() {
-	WIN32_FIND_DATAA findFileData;
-	HANDLE hFind = FindFirstFileA(DIR_SEARCH_PATTERN.c_str(), &findFileData);
-
-	do {
-		if (std::string(findFileData.cFileName) == "." || 
-			std::string(findFileData.cFileName) == "..") {
-			continue;
+	for (const auto& entry : fs::directory_iterator(DIR_NAME)) {
+		if (fs::is_regular_file(entry)) {
+			loadBufferCmd(entry.path().filename().string());
 		}
-
-		loadBufferCmd(findFileData.cFileName);
-	} while (FindNextFileA(hFind, &findFileData) != 0);
-
-	FindClose(hFind);
+	}
 }
 
 void CommandBuffer::loadBufferCmd(string cmd) {
@@ -123,13 +105,23 @@ void CommandBuffer::loadBufferCmd(string cmd) {
 	if (0 == cmd_content.compare("empty")) {
 		return;
 	}
-	// TODO
+	
+	if (0 == cmd_content.find("W")) {
+		Buffer cmd_buffer;
+		cmd_buffer.setCmd("W");
+		std::cout << cmd_content << std::endl;
+
+		string lba = cmd_content.substr(2, cmd_content.find('_', 2) - 2);
+		std::cout << lba << std::endl;
+	}
+	else if (0 == cmd_content.find("E")) {
+		Buffer cmd_buffer;
+		cmd_buffer.setCmd("E");
+	}
 }
 
 bool CommandBuffer::isDirectoryExist() {
-	DWORD ftyp = GetFileAttributesA(DIR_NAME.c_str());
-
-	if (ftyp == FILE_ATTRIBUTE_DIRECTORY) {
+	if (fs::exists(DIR_NAME) && fs::is_directory(DIR_NAME)) {
 		return true;
 	}
 
