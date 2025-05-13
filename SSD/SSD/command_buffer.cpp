@@ -32,9 +32,63 @@ void CommandBuffer::insertCmdWrite(int lba, string value) {
 }
 
 void CommandBuffer::insertCmdErase(int lba, int size) {
-	m_buffer.push_back(Buffer(ERASE_CMD, "", lba, size));
+	Buffer cmd(ERASE_CMD, "", lba, size);
+
+	ignoreCommand(cmd);
+	m_buffer.push_back(cmd);
 
 	storeDataToBuffer();
+}
+
+void CommandBuffer::ignoreCommand(Buffer& cmd) {
+	if (true == m_buffer.empty()) return;
+
+	if (WRITE_CMD == cmd.getCmd()) {
+		do {
+			Buffer& preCmd = m_buffer.back();
+
+			if (WRITE_CMD == preCmd.getCmd()) {
+				if (preCmd.getLba() == cmd.getLba()) {
+					m_buffer.pop_back();
+					continue;
+				}
+				break;
+			}
+			else if (ERASE_CMD == preCmd.getCmd()) {
+				if (preCmd.getLba() == cmd.getLba() && preCmd.getSize() == 1) {
+					m_buffer.pop_back();
+					continue;
+				}
+
+				break;
+			}
+		} while (false == m_buffer.empty());
+	}
+	else if (ERASE_CMD == cmd.getCmd()) {
+		do {
+			Buffer& preCmd = m_buffer.back();
+
+			if (WRITE_CMD == preCmd.getCmd()) {
+				if (cmd.getSize() != 0 &&
+					cmd.getLba() <= preCmd.getLba() &&
+					cmd.getSize() + cmd.getLba() > preCmd.getLba()) {
+					m_buffer.pop_back();
+					continue;
+				}
+				break;
+			}
+			else if (ERASE_CMD == preCmd.getCmd()) {
+				if (cmd.getSize() != 0 &&
+					cmd.getLba() <= preCmd.getLba() &&
+					cmd.getSize() + cmd.getLba() >= preCmd.getLba() + preCmd.getSize()) {
+					m_buffer.pop_back();
+					continue;
+				}
+
+				break;
+			}
+		} while (false == m_buffer.empty());
+	}
 }
 
 void CommandBuffer::clear() {
