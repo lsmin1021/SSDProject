@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <vector>
+#include <iostream>
 
 using std::string;
 using std::vector;
@@ -21,6 +22,10 @@ public:
 	string getValue() { return m_value; }
 	int getLba() { return m_lba; }
 	int getSize() { return m_size; }
+
+	void show() {
+		std::cout << m_cmd << ", " << m_value << ", " << m_lba << ", " << m_size << std::endl;
+	}
 
 private:
 	string m_cmd;
