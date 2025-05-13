@@ -13,14 +13,14 @@ string NandHandler::read(int lba) {
 }
 
 void NandHandler::write(int lba, string value) {	
-	if (m_ssdData.find(lba) == m_ssdData.end()) {
+	if (true == isEmptyLBA(lba)) {
 		m_ssdData.insert(std::make_pair(lba, value));
 	}
 	else {
 		m_ssdData[lba] = value;
 	}
 
-	writeDataToSSD();
+	storeDataToSSD();
 }
 
 void NandHandler::erase(int lba, int cnt) {
@@ -30,14 +30,22 @@ void NandHandler::erase(int lba, int cnt) {
 			break;
 		}
 
-		if (m_ssdData.find(targetIndex) == m_ssdData.end()) {
+		if (true == isEmptyLBA(targetIndex)) {
 			continue;
 		}
 
 		m_ssdData.erase(targetIndex);
 	}
 
-	writeDataToSSD();
+	storeDataToSSD();
+}
+
+bool NandHandler::isEmptyLBA(int lba) {
+	if (m_ssdData.find(lba) == m_ssdData.end()) {
+		return true;
+	}
+
+	return false;
 }
 
 map<int, string> NandHandler::getSSDData(string ssdDataStr) {
@@ -71,7 +79,7 @@ string NandHandler::readNand() {
 	return content;
 }
 
-void NandHandler::writeDataToSSD() {
+void NandHandler::storeDataToSSD() {
 	std::ofstream fs;
 
 	fs.open(FILE_NAME, std::ofstream::out | std::ofstream::trunc);

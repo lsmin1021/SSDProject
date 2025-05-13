@@ -16,9 +16,10 @@ public:
 	virtual void erase(int lba, int cnt);
 
 private:
+	bool isEmptyLBA(int lba);
 	map<int, string> getSSDData(string ssdDataStr);
 	string readNand();
-	void writeDataToSSD();
+	void storeDataToSSD();
 
 	map<int, string> m_ssdData;
 	const string FILE_NAME = "ssd_nand.txt";

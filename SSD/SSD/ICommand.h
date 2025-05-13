@@ -31,19 +31,6 @@ public:
 		return true;
 	}
 
-	bool isValidValue(const string& valueStr) {
-		if (valueStr.length() != DATA_VALUE_LENGTH)
-			return false;
-		if (valueStr.find("0x") != 0)
-			return false;
-
-		for (char ch : valueStr.substr(2)) {
-			if (!isxdigit(static_cast<unsigned char>(ch)))
-				return false;
-		}
-
-		return true;
-	}
 
 	NandHandler* m_nandHandler;
 
@@ -74,6 +61,7 @@ public:
 
 private:
 	void writeDataOnAddr(int lba, string value);
+	bool isValidValue(const string& valueStr);
 
 	const int PARAMETER_COUNT = 3;
 	const int VALUE_INDEX = 2;
@@ -94,6 +82,16 @@ private:
 
 	const int MAX_SIZE = 10;
 	const int MIN_SIZE = 0;
+};
 
-	const string ERASE_VALUE = "0x00000000";
+class FlushCommand : public ICommand {
+public:
+	FlushCommand(NandHandler* nandHandler);
+	bool isValid(const vector<string>& param) override;
+	void execute(const vector<string>& param) override;
+
+private:
+	void flushBuffer();
+
+	const int PARAMETER_COUNT = 1;
 };
