@@ -30,19 +30,3 @@ void CommandBufferHandler::eraseBuffer(int lba, int size) {
 	m_commandBuffer.insertCmd(lba, size);
 }
 
-CommandBuffer::CommandBuffer() {}
-
-string CommandBuffer::readDataOnBuffer(int lba) {
-	return "";
-}
-
-int CommandBuffer::getUsableBufferSize() {
-	return 0;
-}
-
-void CommandBuffer::insertCmd(int lba, int size) {
-}
-
-void CommandBuffer::insertCmd(int lba, string value) {
-}
-

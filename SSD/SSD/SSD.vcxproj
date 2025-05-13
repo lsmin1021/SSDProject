@@ -129,6 +129,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="buffer_handler.cpp" />
+    <ClCompile Include="command_buffer.cpp" />
     <ClCompile Include="command_erase.cpp" />
     <ClCompile Include="command_flush.cpp" />
     <ClCompile Include="ICommand.h">
@@ -152,6 +153,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="buffer_handler.h" />
+    <ClInclude Include="command_buffer.h" />
     <ClInclude Include="command_erase.h" />
     <ClInclude Include="command_flush.h" />
     <ClInclude Include="command_handler.h" />
