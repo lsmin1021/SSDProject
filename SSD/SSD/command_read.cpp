@@ -1,7 +1,8 @@
 #include "command_read.h"
+#include "nand_handler.h"
 #include "output_handler.h"
 
-ReadCommand::ReadCommand(NandHandler* nandHandler) : ICommand(nandHandler) { }
+ReadCommand::ReadCommand() {}
 
 bool ReadCommand::isValid(const vector<string>& param) {
 	if (PARAMETER_COUNT != param.size()) {
@@ -19,5 +20,5 @@ void ReadCommand::execute(const vector<string>& param) {
 }
 
 string ReadCommand::readDataOnAddr(int lba) {
-	return m_nandHandler->read(lba);
+	return NandHandler::getInstance().read(lba);
 }

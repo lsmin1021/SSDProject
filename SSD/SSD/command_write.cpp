@@ -1,6 +1,7 @@
 #include "command_write.h"
+#include "nand_handler.h"
 
-WriteCommand::WriteCommand(NandHandler* nandHandler) : ICommand(nandHandler) { }
+WriteCommand::WriteCommand() {}
 
 bool WriteCommand::isValid(const vector<string>& param) {
 	if (PARAMETER_COUNT != param.size()) {
@@ -37,5 +38,5 @@ bool WriteCommand::isValidValue(const string& valueStr) {
 }
 
 void WriteCommand::writeDataOnAddr(int lba, string value) {
-	m_nandHandler->write(lba, value);
+	NandHandler::getInstance().write(lba, value);
 }

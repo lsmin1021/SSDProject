@@ -3,7 +3,7 @@
 
 class EraseCommand : public ICommand {
 public:
-	EraseCommand(NandHandler* nandHandler);
+	EraseCommand();
 	bool isValid(const vector<string>& param) override;
 	void execute(const vector<string>& param) override;
 

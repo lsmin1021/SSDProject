@@ -3,7 +3,7 @@
 
 class WriteCommand : public ICommand {
 public:
-	WriteCommand(NandHandler* nandHandler);
+	WriteCommand();
 	bool isValid(const vector<string>& param) override;
 	void execute(const vector<string>& param) override;
 

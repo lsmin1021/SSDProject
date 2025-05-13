@@ -1,6 +1,6 @@
 #include "command_flush.h"
 
-FlushCommand::FlushCommand(NandHandler* nandHandler) : ICommand(nandHandler) {}
+FlushCommand::FlushCommand() {}
 
 bool FlushCommand::isValid(const vector<string>& param) {
 	if (PARAMETER_COUNT != param.size()) {
