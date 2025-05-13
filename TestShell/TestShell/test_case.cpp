@@ -40,6 +40,10 @@ public:
 	const string FULL_WRITE_FAIL_MORE_NUM_ARG = "fullwrite 0x00000000 o";
 	const string FULL_WRITE_FAIL_INVALD_DATA= "fullwrite 0x00";
 	const string HELP_CMD = "help";
+	const string ERASE_SIZE_13 = "erase 0 13";
+	const string ERASE_TO0_BIG_SIZE = "erase 90 13";
+	const string ERASE_END_FIT_SIZE = "erase 99 1";
+	const string ERASE_RANAGE_0_13 = "erase_range 0 13";
 	const string INVALID_HELP_CMD = "hel v";
 	const string INVALID_EXIT_CMD = "exit 0";
 	const string TEST_SCRIPT1 = "1_FullWriteAndReadCompare";
@@ -152,6 +156,29 @@ TEST_F(MockSddFixture, InvalidHelp) {
 
 TEST_F(MockSddFixture, InvalidExit) {
 	EXPECT_THROW({ m_tespApp->cmdParserAndExcute(INVALID_EXIT_CMD); }, std::invalid_argument);
+}
+
+TEST_F(MockSddFixture, EraseSize13) {
+	EXPECT_CALL(m_mockSsd, eraseData("0", "10"));
+	EXPECT_CALL(m_mockSsd, eraseData("10", "3"));
+	m_tespApp->cmdParserAndExcute(ERASE_SIZE_13);
+}
+
+TEST_F(MockSddFixture, EraseTooBigSize) {
+	EXPECT_CALL(m_mockSsd, eraseData("90", "10"));
+	m_tespApp->cmdParserAndExcute(ERASE_TO0_BIG_SIZE);
+}
+
+TEST_F(MockSddFixture, EraseEndFitSize) {
+	EXPECT_CALL(m_mockSsd, eraseData("99", "1"));
+	m_tespApp->cmdParserAndExcute(ERASE_END_FIT_SIZE);
+}
+
+TEST_F(MockSddFixture, EraseRange0_13) {
+	EXPECT_CALL(m_mockSsd, eraseData("0", "10"));
+	EXPECT_CALL(m_mockSsd, eraseData("10", "4"));
+
+	m_tespApp->cmdParserAndExcute(ERASE_RANAGE_0_13);
 }
 
 

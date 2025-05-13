@@ -36,12 +36,14 @@ protected :
 	string getReadResult() const;
 protected :
 	vector<string> m_names;
-private:
+	bool isValidIntString(const string& string, int errorPos) const {
+		return (errorPos == string.size());
+	}
 	bool isValidNumToken(const vector<string>& tokens) const {
 		return (tokens.size() == m_numToken);
 	}
 	bool isValidLbaString(const string& lbaString, int errorPos) const {
-		return (errorPos == lbaString.size());
+		return isValidIntString(lbaString, errorPos);
 	}
 	bool isValidLbaRange(int lba) const {
 		return (lba <= MAX_LBA && lba >= MIN_LBA);
@@ -50,7 +52,7 @@ private:
 		return (10 == dataString.size());
 	}
 	bool isValidDataString(const string& dataString, int errorPos) const {
-		return (errorPos == dataString.size());
+		return isValidIntString(dataString, errorPos);
 	}
 	bool isValidDataRange(unsigned int data) const {
 		return (data <= MAX_DATA_VALUE && int(data) >= MIN_DATA_VALUE);
