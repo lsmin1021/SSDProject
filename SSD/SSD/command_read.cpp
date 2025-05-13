@@ -1,29 +1,23 @@
 #include "ICommand.h"
+#include "output_handler.h"
 
-class ReadCommand : public ICommand {
-public:
-	ReadCommand(NandHandler* nandHandler) : ICommand(nandHandler) { }
+ReadCommand::ReadCommand(NandHandler* nandHandler) : ICommand(nandHandler) { }
 
-	bool isValid(const vector<string>& param) override {
-		if (PARAMETER_COUNT != param.size()) {
-			return false;
-		}
-
-		return isValidLBA(param[LBA_INDEX]);
+bool ReadCommand::isValid(const vector<string>& param) {
+	if (PARAMETER_COUNT != param.size()) {
+		return false;
 	}
 
-	void execute(const vector<string>& param) override {
-		int lba = std::stoi(param[LBA_INDEX]);
-		string ret = readDataOnAddr(lba);
+	return isValidLBA(param[LBA_INDEX]);
+}
 
-		OutputHandler::getInstance().write(ret);
-	}
+void ReadCommand::execute(const vector<string>& param) {
+	int lba = std::stoi(param[LBA_INDEX]);
+	string ret = readDataOnAddr(lba);
 
-private:
-	string readDataOnAddr(int lba) {
-		return m_nandHandler->read(lba);
-	}
+	OutputHandler::getInstance().write(ret);
+}
 
-	const int PARAMETER_COUNT = 2;
-
-};
+string ReadCommand::readDataOnAddr(int lba) {
+	return m_nandHandler->read(lba);
+}

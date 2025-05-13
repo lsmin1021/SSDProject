@@ -2,7 +2,7 @@
 #ifdef _DEBUG
 #include <gmock/gmock.h>
 #endif
-#include "command_handler.cpp"
+#include "command_handler.h"
 
 int main(int argc, char* argv[]) {
 #ifdef _DEBUG

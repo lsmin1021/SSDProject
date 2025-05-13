@@ -1,34 +1,21 @@
-#include <fstream>
-#include <ostream>
-#include <string>
+#include "output_handler.h"
 
-using std::string;
 
-class OutputInterface {
-public:
-	virtual void write(string value) = 0;
-};
+OutputHandler::OutputHandler() {}
 
-class OutputHandler : public OutputInterface{
-public:
-	static OutputHandler& getInstance() {
-		static OutputHandler instance;
+OutputHandler& OutputHandler::getInstance() {
+	static OutputHandler instance;
 		
-		return instance;
-	}
+	return instance;
+}
 
-	void write(string value) override {
-		std::ofstream fs;
+void OutputHandler::write(string value)  {
+	std::ofstream fs;
 
-		fs.open(FILE_NAME, std::ofstream::out | std::ofstream::trunc);
+	fs.open(FILE_NAME, std::ofstream::out | std::ofstream::trunc);
 
-		fs << value << std::endl;
+	fs << value << std::endl;
 
-		fs.close();
-	}
+	fs.close();
+}
 
-private:
-	OutputHandler() {}
-
-	const string FILE_NAME = "ssd_output.txt";
-};
