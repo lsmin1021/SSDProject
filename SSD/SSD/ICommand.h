@@ -10,7 +10,7 @@ using std::vector;
 
 class ICommand {
 public:
-	ICommand(NandHandler* nandHandler) : m_nandHandler(nandHandler) { }
+	ICommand(NandHandler* nandHandler) : m_nandHandler(nandHandler) {}
 
 	virtual bool isValid(const vector<string>& param) = 0;
 	virtual void execute(const vector<string>& param) = 0;
@@ -52,8 +52,6 @@ public:
 	const int DATA_VALUE_LENGTH = 10;
 
 	const int LBA_INDEX = 1;
-	const int VALUE_INDEX = 2;
-	const int ERASE_CNT_INDEX = 2;
 };
 
 class ReadCommand : public ICommand {
@@ -78,6 +76,7 @@ private:
 	void writeDataOnAddr(int lba, string value);
 
 	const int PARAMETER_COUNT = 3;
+	const int VALUE_INDEX = 2;
 };
 
 class EraseCommand : public ICommand {
@@ -87,8 +86,14 @@ public:
 	void execute(const vector<string>& param) override;
 
 private:
-	bool isValidEraseNum(const string& eraseSizeStr);
-	void eraseDataOnAddr(int lba, int cnt);
+	void eraseData(int lba, int size);
+	bool isValidSize(const string& valueStr);
 
 	const int PARAMETER_COUNT = 3;
+	const int SIZE_INDEX = 2;
+
+	const int MAX_SIZE = 10;
+	const int MIN_SIZE = 0;
+
+	const string ERASE_VALUE = "0x00000000";
 };
