@@ -34,8 +34,6 @@ protected:
 		return false;
 	}
 
-	NandHandler* m_nandHandler;
-
 	const int MAX_LBA = 99;
 	const int MIN_LBA = 0;
 

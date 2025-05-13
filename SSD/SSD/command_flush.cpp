@@ -1,4 +1,5 @@
 #include "command_flush.h"
+#include "buffer_handler.h"
 
 FlushCommand::FlushCommand() {}
 
@@ -15,5 +16,5 @@ void FlushCommand::execute(const vector<string>& param) {
 }
 
 void FlushCommand::flushBuffer() {
-	// TODO
+	CommandBufferHandler::getInstance().flush();
 }

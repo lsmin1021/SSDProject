@@ -1,5 +1,5 @@
 #include "command_erase.h"
-#include "nand_handler.h"
+#include "buffer_handler.h"
 
 EraseCommand::EraseCommand() {}
 
@@ -24,7 +24,12 @@ void EraseCommand::execute(const vector<string>& param) {
 }
 
 void EraseCommand::eraseData(int lba, int size) {
-	NandHandler::getInstance().erase(lba, size);
+	CommandBufferHandler& instance = CommandBufferHandler::getInstance();
+	if (true == instance.isFull()) {
+		instance.flush();
+	}
+
+	instance.eraseBuffer(lba, size);
 }
 
 bool EraseCommand::isValidSize(const string& sizeStr) {
