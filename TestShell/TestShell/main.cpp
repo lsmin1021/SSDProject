@@ -14,9 +14,6 @@ int main(int argc, char* argv[]) {
 	::testing::InitGoogleMock(&argc, argv);
 	return RUN_ALL_TESTS();
 #else
-	//TestShellApp testShell{ssdInterface};
-	//testShell.argParser(&argc, argv);
-
 	SsdDriver ssd;
 	TestShellApp app{ &ssd };
 
@@ -39,9 +36,6 @@ int main(int argc, char* argv[]) {
 				break;
 			}
 			catch (const FailException& e) {
-				break;
-			}
-			catch (const ExitException& e) {
 				break;
 			}
 		}
