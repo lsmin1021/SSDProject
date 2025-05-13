@@ -14,7 +14,7 @@ void FullWriteAndReadCompareTs::excuteCmd(const vector<string>& tokens) {
         for (int addr = lba; addr < lba + TEST_LBA_STEP; addr++) {
             m_ssd->readData(std::to_string(addr));
 #ifndef _DEBUG
-            if (getReadResult() != TEST_SCRIPT_VALUE)
+            if (m_ssd->getReadResult() != TEST_SCRIPT_VALUE)
             {
                 std::cout << "FAIL\n";
                 throw FailException();

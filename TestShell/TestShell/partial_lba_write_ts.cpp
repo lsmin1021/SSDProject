@@ -16,7 +16,7 @@ void PartialLbaWriteTs::excuteCmd(const vector<string>& tokens) {
         for (int addr = 0; addr < TEST_SCRIPT2_LBA_STEP; addr++) {
             m_ssd->readData(std::to_string(addr));
 #ifndef _DEBUG
-            if (getReadResult().compare(TEST_SCRIPT_VALUE) != 0)
+            if (m_ssd->getReadResult().compare(TEST_SCRIPT_VALUE) != 0)
             {
                 std::cout << "FAIL\n";
                 throw FailException();

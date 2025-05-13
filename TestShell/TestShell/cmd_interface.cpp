@@ -38,16 +38,3 @@ void CmdInterface::checkDataArg(const string& dataString) const {
     throw std::invalid_argument("Usage: 10 length data");
 }
 
-string CmdInterface::getReadResult() const {
-    std::ifstream file("ssd_output.txt");
-
-    if (!file.is_open()) {
-        return "";
-    }
-
-    string result;
-    getline(file, result);
-    file.close();
-
-    return result;
-}

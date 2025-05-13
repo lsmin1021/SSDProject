@@ -29,7 +29,7 @@ void WriteReadAging::excuteCmd(const vector<string>& tokens) {
 
         m_ssd->readData(START_LBA);
 #ifndef _DEBUG
-        if (getReadResult().compare(valueForStartLba) != 0)
+        if (m_ssd->getReadResult().compare(valueForStartLba) != 0)
         {
             std::cout << "FAIL\n";
             throw FailException();
@@ -38,9 +38,9 @@ void WriteReadAging::excuteCmd(const vector<string>& tokens) {
 
         m_ssd->readData(END_LBA);
 #ifndef _DEBUG
-        if (getReadResult().compare(valueForEndLba) != 0)
+        if (m_ssd->getReadResult().compare(valueForEndLba) != 0)
         {
-            std::cout << "  FAIL\n";
+            std::cout << "FAIL\n";
             throw FailException();
         }
 #endif

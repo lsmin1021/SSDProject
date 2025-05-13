@@ -21,7 +21,6 @@ class Logger {
 public:
     static Logger& getInstance();
     void setMode(LogMode mode);
-    void flush();
     void log(const string& className, const string& functionName,const string& message);
     string extractFunctionName(const string& fullName);
 
@@ -34,6 +33,7 @@ private:
     Logger(const Logger&) = delete;
     Logger& operator=(const Logger&) = delete;
 
+    void flushLog();
     void rotateIfNeeded();
     string getCurrentTimeString();
 
