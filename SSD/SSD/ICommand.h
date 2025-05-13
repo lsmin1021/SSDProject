@@ -15,6 +15,7 @@ public:
 	virtual bool isValid(const vector<string>& param) = 0;
 	virtual void execute(const vector<string>& param) = 0;
 
+protected:
 	bool isValidLBA(const string& lbaStr) {
 		try {
 			size_t pos = 0;
@@ -35,7 +36,6 @@ public:
 
 	const int MAX_LBA = 99;
 	const int MIN_LBA = 0;
-	const int DATA_VALUE_LENGTH = 10;
 
 	const int LBA_INDEX = 1;
 };

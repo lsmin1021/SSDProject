@@ -12,5 +12,8 @@ private:
 	bool isValidValue(const string& valueStr);
 
 	const int PARAMETER_COUNT = 3;
+
+	const int DATA_VALUE_LENGTH = 10;
+
 	const int VALUE_INDEX = 2;
 };
