@@ -16,11 +16,6 @@ public:
 	virtual void execute(const vector<string>& param) = 0;
 
 protected:
-	bool isValidLBA(const string& lbaStr) {
-		int lba = getInt(lbaStr);
-		if (lba < MIN_LBA || lba > MAX_LBA) return false;
-		return true;
-	}
 
 	int getInt(const string& sizeStr) {
 		int size;
@@ -37,6 +32,13 @@ protected:
 		}
 		return size;
 	}
+
+	bool isValidLBA(const string& lbaStr) {
+		int lba = getInt(lbaStr);
+		if (lba < MIN_LBA || lba > MAX_LBA) return false;
+		return true;
+	}
+
 
 	NandHandler* m_nandHandler;
 
