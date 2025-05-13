@@ -18,8 +18,6 @@ void EraseCmd::excuteCmd(const vector<string>& tokens) {
     for (auto arg : args) {
         m_ssd->eraseData(arg.lbaString, arg.sizeString);
     }
-    
-   
 }
 void EraseCmd::helpCmd() const {
     cout << "  erase <LBA>  <SIZE>       Erase 4-byte DATAs of SIZE from logical block address (LBA)\n";
@@ -28,7 +26,7 @@ void EraseCmd::helpCmd() const {
 void EraseCmd::checkSizeArg(const string& sizeString) const {
     std::size_t errorPos = 0;
     int size = std::stoi(sizeString, &errorPos);
-    if (isValidIntString(sizeString, errorPos))
+    if (isValidSizeString(sizeString, errorPos))
     {
         if (size >= 0) {
             return;
@@ -39,13 +37,12 @@ void EraseCmd::checkSizeArg(const string& sizeString) const {
 }
 
 vector<EraseArg> EraseCmd::makeFitSizeForSsd(const string& lbaString, const string& sizeSring) {
-   int lba = std::stoi(lbaString);
-    int size = std::stoi(sizeSring);
-
     vector<EraseArg> result;
     EraseArg eraseArg;
     int resize = 0;
-    while(size > 0){
+    int lba = std::stoi(lbaString);
+    int size = std::stoi(sizeSring);
+    while(size > 0 && lba <= MAX_LBA){
 
         if (size > MAX_SIZE_FOR_SSD) resize = MAX_SIZE_FOR_SSD;
         else resize = size;
@@ -57,6 +54,5 @@ vector<EraseArg> EraseCmd::makeFitSizeForSsd(const string& lbaString, const stri
         lba += resize;
         size -= resize;
     }
-    
     return result;
 }
