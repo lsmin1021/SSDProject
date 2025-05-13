@@ -1,10 +1,19 @@
 #pragma once
 #include <string>
+#include <vector>
 
 using std::string;
+using std::vector;
 
 class CommandBuffer {
 public:
+	typedef struct {
+		string cmd;
+		string value;
+		int lba = -1;
+		int size = -1;
+	} ST_COMMAND;
+
 	CommandBuffer();
 
 	//? ? ? getAllCommand();
@@ -14,7 +23,8 @@ public:
 	void insertCmd(int lba, string value);
 
 private:
-	// 최적화 기능들 구현
+	// Develope command buffer algorithm
 
+	vector<ST_COMMAND> m_buffer;
 	string EMPTY_VALUE = "0x00000000";
 };

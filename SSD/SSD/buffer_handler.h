@@ -1,7 +1,6 @@
 #pragma once
 #include "command_buffer.h"
 
-
 class CommandBufferHandler {
 public:
 	static CommandBufferHandler& getInstance();
