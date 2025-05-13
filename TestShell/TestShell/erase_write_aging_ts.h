@@ -3,9 +3,6 @@
 #include "cmd_interface.h"
 #include "ssd_interface.h"
 
-class FailException : public std::exception {
-};
-
 class EraseAndWriteAgingTs : public TsInterface {
 public:
 	EraseAndWriteAgingTs() : TsInterface("4_EraseAndWriteAging", 1) {}
