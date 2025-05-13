@@ -149,7 +149,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="command_executor.h" />
     <ClInclude Include="command_handler.h" />
     <ClInclude Include="nand_handler.h" />
     <ClInclude Include="output_handler.h" />
