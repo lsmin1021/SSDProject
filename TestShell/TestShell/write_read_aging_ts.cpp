@@ -20,7 +20,7 @@ void WriteReadAging::excuteCmd(const vector<string>& tokens) {
     string valueForStartLba = "";
     string valueForEndLba = "";
 
-    for (int iter = 0; iter < TEST_SCRIPT3_REPEAT_NUM; iter++) {
+    for (int iter = 0; iter < TEST_MAX_ITERATE; iter++) {
         valueForStartLba = generateRandomHexString();
         valueForEndLba = generateRandomHexString();
 
