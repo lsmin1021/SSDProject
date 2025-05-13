@@ -8,6 +8,9 @@ std::unique_ptr<ICommand> CommandFactory::makeCommand(const string& cmd) {
     else if ("R" == cmd) {
         return std::make_unique<ReadCommand>(new NandHandler());
     }
+    else if ("E" == cmd) {
+        return std::make_unique<EraseCommand>(new NandHandler());
+    }
 
     return nullptr;
 }
@@ -21,6 +24,9 @@ std::unique_ptr<ICommand> CommandFactory::makeCommand(const string& cmd, NandHan
     }
     else if ("R" == cmd) {
         return std::make_unique<ReadCommand>(handler);
+    }
+    else if ("E" == cmd) {
+        return std::make_unique<EraseCommand>(handler);
     }
 
     return nullptr;
