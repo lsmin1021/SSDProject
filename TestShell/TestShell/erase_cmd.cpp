@@ -33,28 +33,29 @@ void EraseCmd::checkSizeArg(const string& sizeString) const {
 vector<EraseArg> EraseCmd::makeFitSizeForSsd(const string& lbaString, const string& sizeSring) {
     vector<EraseArg> result;
     EraseArg eraseArg;
-    int resize = 0;
-    int lba = std::stoi(lbaString);
-    int size = std::stoi(sizeSring);
-    if (size < 0) {
-        size *= -1;
-        lba = lba - size + 1;
-        if (lba < MIN_LBA) {
-            size = size + lba;
-            lba = MIN_LBA;
+    int startLba = std::stoi(lbaString);
+    int eraseSize = std::stoi(sizeSring);
+
+    if (eraseSize < 0) {
+        eraseSize *= -1;
+        startLba = startLba - eraseSize + 1;
+        if (startLba < MIN_LBA) {
+            eraseSize += startLba;
+            startLba = MIN_LBA;
         }
     }
-    while(size > 0 && lba <= MAX_LBA){
 
-        if (size > MAX_SIZE_FOR_SSD) resize = MAX_SIZE_FOR_SSD;
-        else resize = size;
+    while(eraseSize > 0 && startLba <= MAX_LBA){
+        int resize = 0;
+        if (eraseSize > MAX_SIZE_FOR_SSD) resize = MAX_SIZE_FOR_SSD;
+        else resize = eraseSize;
 
-        eraseArg.lbaString = std::to_string(lba);
+        eraseArg.lbaString = std::to_string(startLba);
         eraseArg.sizeString = std::to_string(resize);
         result.push_back(eraseArg);
 
-        lba += resize;
-        size -= resize;
+        startLba += resize;
+        eraseSize -= resize;
     }
     return result;
 }
