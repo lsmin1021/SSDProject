@@ -10,7 +10,7 @@ using std::vector;
 
 class ICommand {
 public:
-	ICommand(NandHandler* nandHandler) : m_nandHandler(nandHandler) { }
+	ICommand(NandHandler* nandHandler) : m_nandHandler(nandHandler) {}
 
 	virtual bool isValid(const vector<string>& param) = 0;
 	virtual void execute(const vector<string>& param) = 0;

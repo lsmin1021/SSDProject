@@ -13,6 +13,7 @@ public:
 	NandHandler();
 	virtual string read(int lba);
 	virtual void write(int lba, string value);
+	virtual void erase(int lba, int cnt);
 
 private:
 	map<int, string> getSSDData(string ssdDataStr);

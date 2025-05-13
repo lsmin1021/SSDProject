@@ -4,6 +4,8 @@
     <ClCompile Include="command_handler.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="nand_handler.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\lib\native\src\gtest\gtest-all.cc" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\lib\native\src\gmock\gmock-all.cc" />
     <ClCompile Include="ICommand.h" />
     <ClCompile Include="command_handler_testcase.cpp" />
     <ClCompile Include="output_handler.cpp" />

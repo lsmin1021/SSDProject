@@ -7,6 +7,7 @@ class MockNand : public NandHandler {
 public:
 	MOCK_METHOD(void, write, (int, string), (override));
 	MOCK_METHOD(string, read, (int), (override));
+	MOCK_METHOD(void, erase, (int, int), (override));
 };
 
 class CommandHandlerFixture : public Test {
