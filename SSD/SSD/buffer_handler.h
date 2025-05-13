@@ -10,8 +10,8 @@ public:
 	//? ? ? getAllCommand();
 	string readDataOnBuffer(int lba);
 	int getUsableBufferSize();
-	int insertCmd(int lba, int size);
-	int insertCmd(int lba, string value);
+	void insertCmd(int lba, int size);
+	void insertCmd(int lba, string value);
 
 private:
 	// 최적화 기능들 구현
@@ -33,4 +33,6 @@ private:
 	CommandBufferHandler() {};
 
 	CommandBuffer m_commandBuffer;
+
+	const int BUFFER_SIZE_MAX = 5;
 };

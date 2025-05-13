@@ -23,11 +23,11 @@ void CommandBufferHandler::flush() {
 }
 
 void CommandBufferHandler::writeBuffer(int lba, string value) {
-
+	m_commandBuffer.insertCmd(lba, value);
 }
 
 void CommandBufferHandler::eraseBuffer(int lba, int size) {
-
+	m_commandBuffer.insertCmd(lba, size);
 }
 
 CommandBuffer::CommandBuffer() {}
@@ -40,11 +40,9 @@ int CommandBuffer::getUsableBufferSize() {
 	return 0;
 }
 
-int CommandBuffer::insertCmd(int lba, int size) {
-	return 0;
+void CommandBuffer::insertCmd(int lba, int size) {
 }
 
-int CommandBuffer::insertCmd(int lba, string value) {
-	return 0;
+void CommandBuffer::insertCmd(int lba, string value) {
 }
 
