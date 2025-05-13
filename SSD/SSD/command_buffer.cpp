@@ -7,11 +7,14 @@ string CommandBuffer::readDataOnBuffer(int lba) {
 }
 
 int CommandBuffer::getUsableBufferSize() {
-	return 0;
-}
-
-void CommandBuffer::insertCmd(int lba, int size) {
+	return m_buffer.size();
 }
 
 void CommandBuffer::insertCmd(int lba, string value) {
+	m_buffer.push_back(Buffer("W", value, lba, 0));
 }
+
+void CommandBuffer::insertCmd(int lba, int size) {
+	m_buffer.push_back(Buffer("E", "", lba, size));
+}
+

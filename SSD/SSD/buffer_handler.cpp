@@ -19,7 +19,6 @@ bool CommandBufferHandler::isFull() {
 }
 
 void CommandBufferHandler::flush() {
-	CommandBuffer::ST_COMMAND st = {"", "", 0, 0};
 }
 
 void CommandBufferHandler::writeBuffer(int lba, string value) {
