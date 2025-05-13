@@ -27,7 +27,8 @@ void CmdInterface::checkDataArg(const string& dataString) const {
     if (isValidDataStringLen(dataString))
     {
         std::size_t errorPos = 0;
-        unsigned int data = std::stoi(dataString, &errorPos, 16);
+        unsigned int data = std::stoul(dataString, &errorPos, 16);
+        std::cout << data << "\n";
         if (isValidDataString(dataString, errorPos))
         {
             if (isValidDataRange(data)) return;

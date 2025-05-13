@@ -12,7 +12,7 @@ void ReadCmd::excuteCmd(const vector<string>& tokens) {
 	read(lba);
 }
 void ReadCmd::helpCmd() const {
-	cout << "  read <LBA>               Read data from the specified LBA\n";
+	LOG_PRINT("ReadCmd", "  read <LBA>               Read data from the specified LBA\n");
 }
 
 void ReadCmd::read(const string& lbaString) {

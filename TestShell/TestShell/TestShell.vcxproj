@@ -138,6 +138,7 @@
     <ClCompile Include="full_write_read_compare_ts.cpp" />
     <ClCompile Include="help_cmd.cpp" />
     <ClCompile Include="help_cmd.h" />
+    <ClCompile Include="logger.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="partial_lba_write_ts.cpp" />
     <ClCompile Include="read_cmd.cpp" />
@@ -160,6 +161,7 @@
     <ClInclude Include="full_read_cmd.h" />
     <ClInclude Include="full_write_cmd.h" />
     <ClInclude Include="full_write_read_compare_ts.h" />
+    <ClInclude Include="logger.h" />
     <ClInclude Include="mock_ssd.h" />
     <ClInclude Include="partial_lba_write_ts.h" />
     <ClInclude Include="read_cmd.h" />

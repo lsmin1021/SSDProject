@@ -22,11 +22,11 @@ int main(int argc, char* argv[]) {
 
     while (true) {
         std::cout << "Shell> ";
-        std::getline(std::cin, input);  // 한 줄 입력 받아 input에 저장
+        std::getline(std::cin, input);
 
         if (input.empty()) {
             std::cout << std::endl;
-            continue;  // 아무 처리도 하지 않고 다음 루프로
+            continue;
         }
 
         try {
