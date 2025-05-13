@@ -34,10 +34,10 @@ void CommandBufferHandler::flush() {
 }
 
 void CommandBufferHandler::writeBuffer(int lba, string value) {
-	m_commandBuffer.insertCmd(lba, value);
+	m_commandBuffer.insertCmdWrite(lba, value);
 }
 
 void CommandBufferHandler::eraseBuffer(int lba, int size) {
-	m_commandBuffer.insertCmd(lba, size);
+	m_commandBuffer.insertCmdErase(lba, size);
 }
 

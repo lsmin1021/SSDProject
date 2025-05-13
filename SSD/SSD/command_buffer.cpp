@@ -25,14 +25,14 @@ int CommandBuffer::getUsableBufferSize() {
 	return m_buffer.size();
 }
 
-void CommandBuffer::insertCmd(int lba, string value) {
-	m_buffer.push_back(Buffer("W", value, lba, 0));
+void CommandBuffer::insertCmdWrite(int lba, string value) {
+	m_buffer.push_back(Buffer(WRITE_CMD, value, lba, 0));
 
 	storeDataToBuffer();
 }
 
-void CommandBuffer::insertCmd(int lba, int size) {
-	m_buffer.push_back(Buffer("E", "", lba, size));
+void CommandBuffer::insertCmdErase(int lba, int size) {
+	m_buffer.push_back(Buffer(ERASE_CMD, "", lba, size));
 
 	storeDataToBuffer();
 }
@@ -54,7 +54,7 @@ void CommandBuffer::storeDataToBuffer() {
 		string fileName = DIR_NAME + "\\";
 
 		if (i >= m_buffer.size()) {
-			fileName.append(std::to_string(i)).append("_").append("empty");
+			fileName.append(std::to_string(i)).append("_").append(EMPTY_CMD);
 		}
 		else {
 			fileName.append(makeBufferCmd(i, m_buffer[i]));
@@ -71,7 +71,7 @@ void CommandBuffer::setBufferDir() {
 	for (int i = 0; i < 5; i++) {
 		string fileName = DIR_NAME + "\\";
 
-		fileName.append(std::to_string(i)).append("_empty");
+		fileName.append(std::to_string(i)).append("_").append(EMPTY_CMD);
 
 		std::ofstream f(fileName);
 		f.close();
@@ -90,7 +90,7 @@ void CommandBuffer::loadBufferCmd(string cmd) {
 	string::size_type posCmdStart = cmd.find("_") + 1;
 	string cmd_content = cmd.substr(posCmdStart);
 
-	if (0 == cmd_content.compare("empty")) {
+	if (0 == cmd_content.compare(EMPTY_CMD)) {
 		return;
 	}
 	
@@ -111,8 +111,8 @@ Buffer CommandBuffer::parseBufferCmd(string bufferCmd) {
 	cb.setCmd(cmd);
 	cb.setLba(std::stoi(lba));
 	
-	if ("W" == cmd) {cb.setValue(param);}
-	else if ("E" == cmd) { cb.setSize(std::stoi(param)); }
+	if (WRITE_CMD == cmd) {cb.setValue(param);}
+	else if (ERASE_CMD == cmd) { cb.setSize(std::stoi(param)); }
 
 	return cb;
 }
@@ -124,8 +124,8 @@ string CommandBuffer::makeBufferCmd(int index, Buffer& bufferCmd) {
 	ret.append(bufferCmd.getCmd()).append("_");
 	ret.append(std::to_string(bufferCmd.getLba())).append("_");
 
-	if ("W" == bufferCmd.getCmd()) { ret.append(bufferCmd.getValue()); }
-	else if ("E" == bufferCmd.getCmd()) { ret.append(std::to_string(bufferCmd.getSize())); }
+	if (WRITE_CMD == bufferCmd.getCmd()) { ret.append(bufferCmd.getValue()); }
+	else if (ERASE_CMD == bufferCmd.getCmd()) { ret.append(std::to_string(bufferCmd.getSize())); }
 
 	return ret;
 }

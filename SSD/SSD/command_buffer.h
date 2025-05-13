@@ -36,8 +36,8 @@ public:
 	vector<Buffer> getBufferCommands();
 	string readDataOnBuffer(int lba);
 	int getUsableBufferSize();
-	void insertCmd(int lba, int size);
-	void insertCmd(int lba, string value);
+	void insertCmdErase(int lba, int size);
+	void insertCmdWrite(int lba, string value);
 	void clear();
 
 private:
@@ -54,4 +54,8 @@ private:
 	const string EMPTY_VALUE = "0x00000000";
 	const string DIR_NAME = "buffer";
 	const string DIR_SEARCH_PATTERN = "buffer\\*";
+	
+	const string EMPTY_CMD = "empty";
+	const string WRITE_CMD = "W";
+	const string ERASE_CMD = "E";
 };
