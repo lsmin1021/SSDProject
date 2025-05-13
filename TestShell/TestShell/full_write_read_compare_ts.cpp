@@ -4,25 +4,14 @@ void FullWriteAndReadCompareTs::checkInvalidCmd(const vector<string>& tokens) co
 	checkNumToken(tokens);
 }
 void FullWriteAndReadCompareTs::excuteCmd(const vector<string>& tokens) {
-    fullWirte();
-    fullRead();
-    std::cout << "PASS\n";
-}
-
-void FullWriteAndReadCompareTs::fullWirte() {
     int lba = 0;
 
     while (lba <= MAX_LBA) {
-        for (int addr = lba; addr < lba + TEST_SCRIPT1_LBA_STEP; addr++) {
+        for (int addr = lba; addr < lba + TEST_LBA_STEP; addr++) {
             m_ssd->writeData(std::to_string(addr), TEST_SCRIPT_VALUE);
         }
-        lba += TEST_SCRIPT1_LBA_STEP;
-    }
-}
-void FullWriteAndReadCompareTs::fullRead() {
-    int lba = 0;
-    while (lba <= MAX_LBA) {
-        for (int addr = lba; addr < lba + TEST_SCRIPT1_LBA_STEP; addr++) {
+
+        for (int addr = lba; addr < lba + TEST_LBA_STEP; addr++) {
             m_ssd->readData(std::to_string(addr));
 #ifndef _DEBUG
             if (getReadResult() != TEST_SCRIPT_VALUE)
@@ -32,6 +21,7 @@ void FullWriteAndReadCompareTs::fullRead() {
             }
 #endif
         }
-        lba += TEST_SCRIPT1_LBA_STEP;
+        lba += TEST_LBA_STEP;
     }
+    std::cout << "PASS\n";
 }
