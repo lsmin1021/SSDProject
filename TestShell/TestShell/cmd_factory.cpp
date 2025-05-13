@@ -22,10 +22,6 @@ static ExitCmd exitCmd;
 static HelpCmd  helpCmd;
 static EraseCmd eraseCmd;
 static EraseRangeCmd eraseRangeCmd;
-static FullWriteAndReadCompareTs fullWriteAndReadCompareTs;
-static PartialLbaWriteTs partialLbaWriteTs;
-static WriteReadAging writeReadAging;
-static EraseAndWriteAgingTs eraseWriteAging;
 
 CmdFactory& CmdFactory::getInstance()
 {
