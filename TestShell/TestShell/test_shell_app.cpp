@@ -17,22 +17,23 @@ bool TestShellApp::cmdParserAndExcute(const string& cmdString)
     bool isTS = true;
     bool isCmd = true;
     try {
-        tsObj = TestScriptFactory::getInstance().getCmd(tokens[0]);
+        tsObj = TestScriptFactory::getInstance().getCmd(tokens[0].substr(0, 2));
         tsObj->checkInvalidCmd(tokens);
         tsObj->excuteCmd(tokens);
     }
     catch (const std::invalid_argument& e) {
         isTS = false;
     }
-    
-    CmdInterface* cmdObj;
-    try {
-        cmdObj = CmdFactory::getInstance().getCmd(tokens[0]);
-        cmdObj->checkInvalidCmd(tokens);
-        cmdObj->excuteCmd(tokens);
-    }
-    catch (const std::invalid_argument& e) {
-        isCmd = false;
+    if (isTS == false) {
+        CmdInterface* cmdObj;
+        try {
+            cmdObj = CmdFactory::getInstance().getCmd(tokens[0]);
+            cmdObj->checkInvalidCmd(tokens);
+            cmdObj->excuteCmd(tokens);
+        }
+        catch (const std::invalid_argument& e) {
+            isCmd = false;
+        }
     }
 
     if (!isTS && !isCmd) {
