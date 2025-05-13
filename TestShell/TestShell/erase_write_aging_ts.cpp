@@ -23,7 +23,14 @@ int EraseAndWriteAgingTs::eraseAndReadAssert(const string& addr, int lba) const
 {
     writeAndErase(addr);
     readAndCompare(addr);
-    return lba + TEST_ERASE_SIZE_INT - 1;
+    return nextLbaAddr(lba);
+}
+
+int EraseAndWriteAgingTs::nextLbaAddr(int lba) const
+{
+    int result = lba + TEST_ERASE_SIZE_INT - 1;
+    if (result > MAX_LBA) return result - MAX_LBA - 1;
+    return result;
 }
 
 void EraseAndWriteAgingTs::readAndCompare(const string& addr) const 
@@ -33,7 +40,7 @@ void EraseAndWriteAgingTs::readAndCompare(const string& addr) const
     if (getReadResult().compare(TEST_EXPECTED_VALUE) != 0)
     {
         std::cout << "FAIL\n";
-        return;
+        throw FailException();
     }
 #endif
 }
