@@ -21,7 +21,7 @@ private :
 	static const int MAX_SIZE_FOR_SSD = 10;
 	void checkSizeArg(const string& sizeSring) const;
 	vector<EraseArg> makeFitSizeForSsd(const string& lba, const string& sizeSring);
-	bool isValidSizeString(const string& sizeString, int errorPos) const {
+	bool isValidSizeString(const string& sizeString, size_t errorPos) const {
 		return  isValidIntString(sizeString, errorPos);
 	}
 };
