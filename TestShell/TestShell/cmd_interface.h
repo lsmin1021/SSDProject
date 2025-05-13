@@ -1,5 +1,4 @@
 #pragma once
-#include "cmd_interface.h"
 #include <string>
 #include <vector>
 #include <iomanip>
@@ -64,19 +63,34 @@ protected :
 	const int m_numToken;
 };
 
-class TsInterface : public CmdInterface {
+class TsInterface {
 public:
-	TsInterface(string name, int numToken) : CmdInterface(name, numToken){
-		m_names.push_back(name.substr(0, 2));
-	}
-	~TsInterface() override {
-	}
-	virtual void helpCmd() const override {}
+	TsInterface(const string& name, int numToken);
+	virtual ~TsInterface() = default;
 
+	vector<string>  getName() const {
+		return m_names;
+	}
+
+	virtual void checkInvalidCmd(const vector<string>& tokens) const = 0;
+	virtual void excuteCmd(const vector<string>& tokens) = 0;
+
+	void checkNumToken(const vector<string>& tokens) const {
+		if (isValidNumToken(tokens)) return;
+		throw std::invalid_argument("Invalid number of tokens");
+	}
+	string getReadResult() const;
 	void addCmd(CmdInterface* cmd) {
 		m_cmds.push_back(cmd);
 	}
 private:
+	bool isValidNumToken(const vector<string>& tokens) const {
+		return (tokens.size() == m_numToken);
+	}
 	vector<CmdInterface*> m_cmds;
-
+	vector<string> m_names;
+protected:
+	static const int MAX_LBA = 99;
+	static const int MIN_LBA = 0;
+	const int m_numToken;
 };

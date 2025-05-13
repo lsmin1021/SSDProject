@@ -4,7 +4,6 @@
 #include <random>
 #include <sstream>
 #include "cmd_interface.h"
-#include "ssd_interface.h"
 class WriteReadAging : public TsInterface {
 public:
 	WriteReadAging() : TsInterface("3_WriteReadAging", 1) {}

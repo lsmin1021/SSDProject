@@ -2,7 +2,6 @@
 #pragma once
 #include <iostream>
 #include "cmd_interface.h"
-#include "ssd_interface.h"
 
 class PartialLbaWriteTs : public TsInterface {
 public:
