@@ -1,13 +1,11 @@
 #pragma once
-#include "cmd_interface.h"
+#include "ssd_interface.h"
 #include <string>
 #include <vector>
 #include <iomanip>
 
 using std::string;
 using std::vector;
-
-class SsdInterface;
 
 class FailException : public std::exception {
 };
@@ -32,14 +30,17 @@ protected :
 	static const int MIN_LBA = 0;
 	static const unsigned int MAX_DATA_VALUE = 0xFFFFFFFF;
 	static const int MIN_DATA_VALUE = 0;
-	SsdInterface* m_ssd;
 
 	void checkNumToken(const vector<string>& tokens) const;
 	void checkLbaArg(const string& lbaString) const;
 	void checkDataArg(const string& dataString) const;
-	string getReadResult() const;
-protected :
 	vector<string> m_names;
+	string getReadResult() const {
+		if (m_ssd)
+			return m_ssd->getReadResult();
+		else
+			return "";
+	}
 	bool isValidIntString(const string& string, size_t errorPos) const {
 		return (errorPos == string.size());
 	}
@@ -61,7 +62,9 @@ protected :
 	bool isValidDataRange(unsigned int data) const {
 		return (data <= MAX_DATA_VALUE && data >= MIN_DATA_VALUE);
 	}
+
 	const int m_numToken;
+	SsdInterface* m_ssd = nullptr;
 };
 
 class TsInterface : public CmdInterface {

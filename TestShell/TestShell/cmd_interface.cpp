@@ -37,4 +37,3 @@ void CmdInterface::checkDataArg(const string& dataString) const {
     }
     throw std::invalid_argument("Usage: 10 length data");
 }
-
