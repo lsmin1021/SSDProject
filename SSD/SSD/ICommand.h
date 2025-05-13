@@ -16,8 +16,7 @@ public:
 	virtual void execute(const vector<string>& param) = 0;
 
 protected:
-
-	int getInt(const string& sizeStr) {
+	int toInt(const string& sizeStr) {
 		int size;
 		try {
 			size_t pos = 0;
@@ -34,7 +33,7 @@ protected:
 	}
 
 	bool isValidLBA(const string& lbaStr) {
-		int lba = getInt(lbaStr);
+		int lba = toInt(lbaStr);
 		if (lba < MIN_LBA || lba > MAX_LBA) return false;
 		return true;
 	}
