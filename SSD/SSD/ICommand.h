@@ -16,25 +16,25 @@ public:
 	virtual void execute(const vector<string>& param) = 0;
 
 protected:
-	int toInt(const string& sizeStr) {
-		int size;
+	bool toInt(const string& str, int& result) {
 		try {
 			size_t pos = 0;
-			size = std::stoi(sizeStr, &pos);
-			if (pos != sizeStr.length()) return -1;
+			result = std::stoi(str, &pos);
+			if (pos != str.length()) return false;
 		}
 		catch (std::invalid_argument&) {
-			return -1;
+			return false;
 		}
 		catch (std::out_of_range&) {
-			return -1;
+			return false;
 		}
-		return size;
+		return true;
 	}
 
 	bool isValidLBA(const string& lbaStr) {
-		int lba = toInt(lbaStr);
-		return (lba >= MIN_LBA && lba <= MAX_LBA);
+		int lba;
+		if (toInt(lbaStr, lba)) return (lba >= MIN_LBA && lba <= MAX_LBA);
+		return false;
 	}
 
 

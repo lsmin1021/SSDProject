@@ -9,7 +9,7 @@ public:
 
 private:
 	void eraseData(int lba, int size);
-	bool isValidSize(const string& valueStr);
+	bool isValidSize(const string& sizeStr);
 
 	const int PARAMETER_COUNT = 3;
 	const int SIZE_INDEX = 2;

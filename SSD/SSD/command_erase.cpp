@@ -27,6 +27,7 @@ void EraseCommand::eraseData(int lba, int size) {
 }
 
 bool EraseCommand::isValidSize(const string& sizeStr) {
-	int size = toInt(sizeStr);
-	return (size >= MIN_SIZE && size <= MAX_SIZE);
+	int size;
+	if(toInt(sizeStr, size)) return (size >= MIN_SIZE && size <= MAX_SIZE);
+	return false;
 }
