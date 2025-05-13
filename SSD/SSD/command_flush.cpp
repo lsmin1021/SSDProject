@@ -1,4 +1,4 @@
-#include "ICommand.h"
+#include "command_flush.h"
 
 FlushCommand::FlushCommand(NandHandler* nandHandler) : ICommand(nandHandler) {}
 

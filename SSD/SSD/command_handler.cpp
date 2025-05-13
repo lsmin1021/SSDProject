@@ -1,5 +1,9 @@
 #include "command_handler.h"
 #include "output_handler.h"
+#include "command_write.h"
+#include "command_read.h"
+#include "command_erase.h"
+#include "command_flush.h"
 
 std::unique_ptr<ICommand> CommandFactory::makeCommand(const string& cmd) {
     if ("W" == cmd) {
