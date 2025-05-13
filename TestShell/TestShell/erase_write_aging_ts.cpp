@@ -10,52 +10,37 @@ void EraseAndWriteAgingTs::excuteCmd(const vector<string>& tokens) {
     m_ssd->eraseData(std::to_string(lba), TEST_ERASE_SIZE);
     lba += TEST_ERASE_SIZE_INT - 1;
     for (int iter = 0; iter < TEST_MAX_ITERATE; iter++) {
-        // 2번LBA Write
-        // 2번LBA OverWrite
-        // 2 ~4번 LBA 삭제
         string addr = std::to_string(lba);
-        m_ssd->writeData(addr, TEST_SCRIPT_VALUE);
-        m_ssd->writeData(addr, TEST_SCRIPT_OVERWRITE_VALUE);
-        m_ssd->eraseData(addr, TEST_ERASE_SIZE);
-        lba += TEST_ERASE_SIZE_INT - 1;
-
-        m_ssd->readData(addr);
-#ifndef _DEBUG
-        if (getReadResult().compare(TEST_EXPECTED_VALUE) != 0)
-        {
-            std::cout << "FAIL\n";
-            return;
-        }
-#endif
-
-        m_ssd->writeData(addr, TEST_SCRIPT_VALUE);
-        m_ssd->writeData(addr, TEST_SCRIPT_OVERWRITE_VALUE);
-        m_ssd->eraseData(addr, TEST_ERASE_SIZE);
-        lba += TEST_ERASE_SIZE_INT - 1;
-
-        m_ssd->readData(addr);
-#ifndef _DEBUG
-        if (getReadResult().compare(TEST_EXPECTED_VALUE) != 0)
-        {
-            std::cout << "FAIL\n";
-            return;
-        }
-#endif
-
-        m_ssd->writeData(addr, TEST_SCRIPT_VALUE);
-        m_ssd->writeData(addr, TEST_SCRIPT_OVERWRITE_VALUE);
-        m_ssd->eraseData(addr, TEST_ERASE_SIZE);
-        lba += TEST_ERASE_SIZE_INT - 1;
-
-        m_ssd->readData(addr);
-#ifndef _DEBUG
-        if (getReadResult().compare(TEST_EXPECTED_VALUE) != 0)
-        {
-            std::cout << "FAIL\n";
-            return;
-        }
-#endif
+        lba = eraseAndReadAssert(addr, lba);
+        lba = eraseAndReadAssert(addr, lba);
+        lba = eraseAndReadAssert(addr, lba);
     }   
     
     std::cout << "PASS\n";
+}
+
+int EraseAndWriteAgingTs::eraseAndReadAssert(const string& addr, int lba) const
+{
+    writeAndErase(addr);
+    readAndCompare(addr);
+    return lba + TEST_ERASE_SIZE_INT - 1;
+}
+
+void EraseAndWriteAgingTs::readAndCompare(const string& addr) const 
+{
+    m_ssd->readData(addr);
+#ifndef _DEBUG
+    if (getReadResult().compare(TEST_EXPECTED_VALUE) != 0)
+    {
+        std::cout << "FAIL\n";
+        return;
+    }
+#endif
+}
+
+void EraseAndWriteAgingTs::writeAndErase(const string& addr) const
+{
+    m_ssd->writeData(addr, TEST_SCRIPT_VALUE);
+    m_ssd->writeData(addr, TEST_SCRIPT_OVERWRITE_VALUE);
+    m_ssd->eraseData(addr, TEST_ERASE_SIZE);
 }

@@ -15,4 +15,7 @@ private:
 	const string TEST_SCRIPT_VALUE = "0x5A5A5A5A";
 	const string TEST_SCRIPT_OVERWRITE_VALUE = "0xA5A5A5A5";
 	const string TEST_EXPECTED_VALUE = "0x00000000";
+	int eraseAndReadAssert(const string& addr, int lba) const;
+	void readAndCompare(const string& addr) const;
+	void writeAndErase(const string& addr) const;
 };
