@@ -12,13 +12,29 @@ string NandHandler::read(int lba) {
 	return m_ssdData[lba];
 }
 
-void NandHandler::write(int lba, string value) {
-		
+void NandHandler::write(int lba, string value) {	
 	if (m_ssdData.find(lba) == m_ssdData.end()) {
 		m_ssdData.insert(std::make_pair(lba, value));
 	}
 	else {
 		m_ssdData[lba] = value;
+	}
+
+	writeDataToSSD();
+}
+
+void NandHandler::erase(int lba, int cnt) {
+	for (int i = 0; i < cnt; i++) {
+		int targetIndex = lba + i;
+		if (99 < targetIndex) {
+			break;
+		}
+
+		if (m_ssdData.find(targetIndex) == m_ssdData.end()) {
+			continue;
+		}
+
+		m_ssdData.erase(targetIndex);
 	}
 
 	writeDataToSSD();
