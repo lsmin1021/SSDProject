@@ -17,7 +17,7 @@ void FullWriteAndReadCompareTs::excuteCmd(const vector<string>& tokens) {
             if (getReadResult() != TEST_SCRIPT_VALUE)
             {
                 std::cout << "FAIL\n";
-                return;
+                throw FailException();
             }
 #endif
         }

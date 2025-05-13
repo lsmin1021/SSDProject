@@ -9,6 +9,9 @@ using std::vector;
 
 class SsdInterface;
 
+class FailException : public std::exception {
+};
+
 class CmdInterface {
 public:
 	CmdInterface(const string& name, int numToken);
