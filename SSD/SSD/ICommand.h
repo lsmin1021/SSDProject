@@ -34,8 +34,7 @@ protected:
 
 	bool isValidLBA(const string& lbaStr) {
 		int lba = toInt(lbaStr);
-		if (lba < MIN_LBA || lba > MAX_LBA) return false;
-		return true;
+		return (lba >= MIN_LBA && lba <= MAX_LBA);
 	}
 
 
