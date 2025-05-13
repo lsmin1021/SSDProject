@@ -33,6 +33,7 @@ public:
 	int getUsableBufferSize();
 	void insertCmd(int lba, int size);
 	void insertCmd(int lba, string value);
+	void clear();
 
 private:
 	// Develope command buffer algorithm

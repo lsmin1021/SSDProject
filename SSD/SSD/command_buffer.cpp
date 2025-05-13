@@ -18,3 +18,6 @@ void CommandBuffer::insertCmd(int lba, int size) {
 	m_buffer.push_back(Buffer("E", "", lba, size));
 }
 
+void CommandBuffer::clear() {
+	m_buffer.clear();
+}
