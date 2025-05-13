@@ -26,13 +26,7 @@ void EraseCmd::helpCmd() const {
 void EraseCmd::checkSizeArg(const string& sizeString) const {
     std::size_t errorPos = 0;
     int size = std::stoi(sizeString, &errorPos);
-    if (isValidSizeString(sizeString, errorPos))
-    {
-        if (size >= 0) {
-            return;
-        }
-        throw std::invalid_argument("Usage: size >= 0");
-    }
+    if (isValidSizeString(sizeString, errorPos)) return;
     throw std::invalid_argument("Usage: decial size");
 }
 
@@ -42,6 +36,14 @@ vector<EraseArg> EraseCmd::makeFitSizeForSsd(const string& lbaString, const stri
     int resize = 0;
     int lba = std::stoi(lbaString);
     int size = std::stoi(sizeSring);
+    if (size < 0) {
+        size *= -1;
+        lba = lba - size + 1;
+        if (lba < MIN_LBA) {
+            size = size + lba;
+            lba = MIN_LBA;
+        }
+    }
     while(size > 0 && lba <= MAX_LBA){
 
         if (size > MAX_SIZE_FOR_SSD) resize = MAX_SIZE_FOR_SSD;
