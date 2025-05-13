@@ -1,14 +1,16 @@
 #pragma once
 #include <iostream>
+#include <string>
 #include <vector>
-#include "output_handler.cpp"
-#include "nand_handler.cpp"
 
+#include "nand_handler.h"
+
+using std::string;
 using std::vector;
 
 class ICommand {
 public:
-	ICommand(NandHandler* nandHandler) : m_nandHandler(nandHandler) { }
+	ICommand(NandHandler* nandHandler) : m_nandHandler(nandHandler) {}
 
 	virtual bool isValid(const vector<string>& param) = 0;
 	virtual void execute(const vector<string>& param) = 0;
@@ -50,5 +52,48 @@ public:
 	const int DATA_VALUE_LENGTH = 10;
 
 	const int LBA_INDEX = 1;
+};
+
+class ReadCommand : public ICommand {
+public:
+	ReadCommand(NandHandler* nandHandler);
+	bool isValid(const vector<string>& param) override;
+	void execute(const vector<string>& param) override;
+
+private:
+	string readDataOnAddr(int lba);
+
+	const int PARAMETER_COUNT = 2;
+};
+
+class WriteCommand : public ICommand {
+public:
+	WriteCommand(NandHandler* nandHandler);
+	bool isValid(const vector<string>& param) override;
+	void execute(const vector<string>& param) override;
+
+private:
+	void writeDataOnAddr(int lba, string value);
+
+	const int PARAMETER_COUNT = 3;
 	const int VALUE_INDEX = 2;
+};
+
+class EraseCommand : public ICommand {
+public:
+	EraseCommand(NandHandler* nandHandler);
+	bool isValid(const vector<string>& param) override;
+	void execute(const vector<string>& param) override;
+
+private:
+	void eraseData(int lba, int size);
+	bool isValidSize(const string& valueStr);
+
+	const int PARAMETER_COUNT = 3;
+	const int SIZE_INDEX = 2;
+
+	const int MAX_SIZE = 10;
+	const int MIN_SIZE = 0;
+
+	const string ERASE_VALUE = "0x00000000";
 };

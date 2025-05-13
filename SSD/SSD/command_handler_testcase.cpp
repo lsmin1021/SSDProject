@@ -1,5 +1,5 @@
 #include "gmock/gmock.h"
-#include "command_handler.cpp"
+#include "command_handler.h"
 
 using namespace testing;
 
@@ -7,6 +7,7 @@ class MockNand : public NandHandler {
 public:
 	MOCK_METHOD(void, write, (int, string), (override));
 	MOCK_METHOD(string, read, (int), (override));
+	MOCK_METHOD(void, erase, (int, int), (override));
 };
 
 class CommandHandlerFixture : public Test {
