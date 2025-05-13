@@ -11,6 +11,10 @@ string CommandBufferHandler::readBuffer(int lba) {
 }
 
 bool CommandBufferHandler::isFull() {
+	if (BUFFER_SIZE_MAX == m_commandBuffer.getUsableBufferSize()) {
+		return true;
+	}
+
 	return false;
 }
 
