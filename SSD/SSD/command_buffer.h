@@ -42,6 +42,7 @@ public:
 
 private:
 	// Develope command buffer algorithm
+	string getValueOnBuffer(int lba);
 	bool isDirectoryExist();
 	void setBufferDir();
 	void loadBuffer();

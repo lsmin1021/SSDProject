@@ -14,7 +14,7 @@ CommandBuffer::CommandBuffer() {
 }
 
 string CommandBuffer::readDataOnBuffer(int lba) {
-	return "";
+	return getValueOnBuffer(lba);
 }
 
 vector<Buffer> CommandBuffer::getBufferCommands() {
@@ -41,6 +41,27 @@ void CommandBuffer::clear() {
 	m_buffer.clear();
 
 	storeDataToBuffer();
+}
+
+string CommandBuffer::getValueOnBuffer(int lba) {
+	string value = "";
+
+	for (Buffer cmd : m_buffer) {
+		if (WRITE_CMD == cmd.getCmd()) {
+			if (cmd.getLba() == lba) {
+				value = cmd.getValue();
+			}
+		}
+		else if (ERASE_CMD == cmd.getCmd()) {
+			if (0 < cmd.getSize() &&
+				cmd.getLba() <= lba &&
+				cmd.getLba() + cmd.getSize() > lba) {
+				value = EMPTY_VALUE;
+			}
+		}
+	}
+
+	return value;
 }
 
 void CommandBuffer::storeDataToBuffer() {
