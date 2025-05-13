@@ -8,7 +8,13 @@ CommandBufferHandler& CommandBufferHandler::getInstance() {
 }
 
 string CommandBufferHandler::readBuffer(int lba) {
-	return m_commandBuffer.readDataOnBuffer(lba);
+	string ret = m_commandBuffer.readDataOnBuffer(lba);
+
+	if (true == ret.empty()) {
+		ret = NandHandler::getInstance().read(lba);
+	}
+
+	return ret;
 }
 
 bool CommandBufferHandler::isFull() {
