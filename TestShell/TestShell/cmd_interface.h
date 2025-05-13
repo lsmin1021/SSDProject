@@ -1,5 +1,6 @@
 #pragma once
 #include "cmd_interface.h"
+#include "logger.h"
 #include <string>
 #include <vector>
 
@@ -55,7 +56,7 @@ protected :
 		return isValidIntString(dataString, errorPos);
 	}
 	bool isValidDataRange(unsigned int data) const {
-		return (data <= MAX_DATA_VALUE && int(data) >= MIN_DATA_VALUE);
+		return (data <= MAX_DATA_VALUE && data >= MIN_DATA_VALUE);
 	}
 	const int m_numToken;
 };

@@ -14,7 +14,8 @@ void WriteCmd::excuteCmd(const vector<string>& tokens) {
     write(lba, value);
 }
 void WriteCmd::helpCmd() const {
-    cout << "  write <LBA> <DATA>       Write 4-byte DATA to logical block address (LBA)\n";
+    LOG_PRINT("WriteCmd", "  write <LBA> <DATA>       Write 4-byte DATA to logical block address (LBA)\n");
+
 }
 
 void WriteCmd::write(const string& lba, const string& value) {
