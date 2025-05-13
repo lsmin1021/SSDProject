@@ -1,4 +1,4 @@
-#include "ICommand.h"
+#include "command_write.h"
 
 WriteCommand::WriteCommand(NandHandler* nandHandler) : ICommand(nandHandler) { }
 
@@ -20,6 +20,20 @@ bool WriteCommand::isValid(const vector<string>& param) {
 
 void WriteCommand::execute(const vector<string>& param) {
 	writeDataOnAddr(std::stoi(param[LBA_INDEX]), param[VALUE_INDEX]);
+}
+
+bool WriteCommand::isValidValue(const string& valueStr) {
+	if (valueStr.length() != DATA_VALUE_LENGTH)
+		return false;
+	if (valueStr.find("0x") != 0)
+		return false;
+
+	for (char ch : valueStr.substr(2)) {
+		if (!isxdigit(static_cast<unsigned char>(ch)))
+			return false;
+	}
+
+	return true;
 }
 
 void WriteCommand::writeDataOnAddr(int lba, string value) {

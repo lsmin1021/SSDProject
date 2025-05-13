@@ -1,5 +1,9 @@
 #include "command_handler.h"
 #include "output_handler.h"
+#include "command_write.h"
+#include "command_read.h"
+#include "command_erase.h"
+#include "command_flush.h"
 
 std::unique_ptr<ICommand> CommandFactory::makeCommand(const string& cmd) {
     if ("W" == cmd) {
@@ -10,6 +14,9 @@ std::unique_ptr<ICommand> CommandFactory::makeCommand(const string& cmd) {
     }
     else if ("E" == cmd) {
         return std::make_unique<EraseCommand>(new NandHandler());
+    }
+    else if ("F" == cmd) {
+        return std::make_unique<FlushCommand>(new NandHandler());
     }
 
     return nullptr;
@@ -27,6 +34,9 @@ std::unique_ptr<ICommand> CommandFactory::makeCommand(const string& cmd, NandHan
     }
     else if ("E" == cmd) {
         return std::make_unique<EraseCommand>(handler);
+    }
+    else if ("F" == cmd) {
+        return std::make_unique<FlushCommand>(handler);
     }
 
     return nullptr;

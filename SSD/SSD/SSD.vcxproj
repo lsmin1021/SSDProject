@@ -129,6 +129,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="command_erase.cpp" />
+    <ClCompile Include="command_flush.cpp" />
     <ClCompile Include="ICommand.h">
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">  %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
@@ -149,7 +150,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="command_erase.h" />
+    <ClInclude Include="command_flush.h" />
     <ClInclude Include="command_handler.h" />
+    <ClInclude Include="command_read.h" />
+    <ClInclude Include="command_write.h" />
     <ClInclude Include="nand_handler.h" />
     <ClInclude Include="output_handler.h" />
   </ItemGroup>

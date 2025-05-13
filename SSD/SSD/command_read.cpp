@@ -1,4 +1,4 @@
-#include "ICommand.h"
+#include "command_read.h"
 #include "output_handler.h"
 
 ReadCommand::ReadCommand(NandHandler* nandHandler) : ICommand(nandHandler) { }
