@@ -8,11 +8,13 @@
 #include <iomanip>
 #include <random>
 #include <unordered_map>
-#include "ssd_interface.h"
+
 using std::cout;
 using std::string;
 using std::vector;
 using std::ifstream;
+
+class SsdInterface;
 
 class TestShellApp {
 public:
