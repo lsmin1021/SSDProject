@@ -21,7 +21,7 @@ bool TestShellApp::cmdParserAndExcute(const string& cmdString)
         tsObj->checkInvalidCmd(tokens);
         tsObj->excuteCmd(tokens);
     }
-    catch (const std::invalid_argument& e) {
+    catch (const std::invalid_argument&) {
         isTS = false;
     }
     if (isTS == false) {
@@ -31,7 +31,7 @@ bool TestShellApp::cmdParserAndExcute(const string& cmdString)
             cmdObj->checkInvalidCmd(tokens);
             cmdObj->excuteCmd(tokens);
         }
-        catch (const std::invalid_argument& e) {
+        catch (const std::invalid_argument&) {
             isCmd = false;
         }
     }
