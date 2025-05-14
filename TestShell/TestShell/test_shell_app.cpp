@@ -35,7 +35,7 @@ void TestShellApp::runBasicMode(void) {
         std::getline(std::cin, input);
 
         if (input.empty()) {
-            MSG_PRINT(std::endl);
+            MSG_PRINT("\n");
             continue;
         }
 
@@ -43,7 +43,7 @@ void TestShellApp::runBasicMode(void) {
             cmdParserAndExecute(input);
         }
         catch (const std::invalid_argument&) {
-            cout << "INVALID COMMAND\n";
+            MSG_PRINT("INVALID COMMAND\n");
         }
         catch (const FailException&) {
         }
@@ -51,7 +51,7 @@ void TestShellApp::runBasicMode(void) {
             break;
         }
 
-        std::cout << std::endl;
+        MSG_PRINT("\n");
     }
 }
 
