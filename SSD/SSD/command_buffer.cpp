@@ -39,15 +39,14 @@ void CommandBuffer::clear() {
 }
 
 void CommandBuffer::loadBuffer() {
-	if (false == isDirectoryExist()) {
+	if (false == FileHandler::isDirectoryExist(DIR_NAME)) {
 		setBufferDir();
 		return;
 	}
 
-	for (const auto& entry : fs::directory_iterator(DIR_NAME)) {
-		if (fs::is_regular_file(entry)) {
-			loadBufferCmd(entry.path().filename().string());
-		}
+	vector<string> fileList = FileHandler::getFileList(DIR_NAME);
+	for (string fileName : fileList) {
+		loadBufferCmd(fileName);
 	}
 }
 
@@ -153,14 +152,13 @@ void CommandBuffer::loadBufferCmd(string cmd) {
 	m_buffer.push_back(Instruction().setInstString(cmd_content));
 }
 
-bool CommandBuffer::isDirectoryExist() {
-	if (fs::exists(DIR_NAME) && fs::is_directory(DIR_NAME)) {
+bool FileHandler::isDirectoryExist(const string& dir) {
+	if (fs::exists(dir) && fs::is_directory(dir)) {
 		return true;
 	}
 
 	return false;
 }
-
 
 void FileHandler::clearDir(const string& dir) {
 	for (const auto& entry : fs::directory_iterator(dir)) {
@@ -177,6 +175,12 @@ void FileHandler::makeFile(string path) {
 
 vector<string> FileHandler::getFileList(string dir) {
 	vector<string> ret;
+
+	for (const auto& entry : fs::directory_iterator(dir)) {
+		if (fs::is_regular_file(entry)) {
+			ret.push_back(entry.path().filename().string());
+		}
+	}
 
 	return ret;
 }

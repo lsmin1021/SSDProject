@@ -9,6 +9,7 @@ public:
 	static void clearDir(const string& dir);
 	static void makeFile(string path);
 	static vector<string> getFileList(string dir);
+	static bool isDirectoryExist(const string& dir);
 };
 
 class CommandBuffer {
@@ -28,7 +29,6 @@ private:
 	string getValueOnBuffer(int lba);
 	void ignoreCommand(Instruction& cmd);
 
-	bool isDirectoryExist();
 	void setBufferDir();
 	void loadBufferCmd(string cmd);
 	void storeDataToBuffer();
