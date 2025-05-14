@@ -402,3 +402,6 @@ FodyWeavers.xsd
 
 # Output Text File
 *.txt
+
+# Ignore SSD Command Buffer
+Buffer/

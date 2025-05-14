@@ -25,7 +25,12 @@ public:
 
 	const string WRITE_COMMAND = "W";
 	const string READ_COMMAND = "R";
+	const string ERASE_COMMAND = "E";
+	const string FLUSH_COMMAND = "F";
 	const string VALID_LBA = "0";
+	const string INVALID_LBA = "100";
+	const string VALID_ERASE_SIZE = "10";
+	const string INVALID_ERASE_SIZE = "11";
 	const string VALID_VALUE = "0x1A2B3E4F";
 	const string EMPTY_VALUE = "0x00000000";
 
@@ -33,6 +38,12 @@ public:
 	const vector<string> INVALID_WRITE_CMD = { WRITE_COMMAND, VALID_LBA, VALID_VALUE , VALID_VALUE };
 	const vector<string> VALID_READ_CMD = { READ_COMMAND, VALID_LBA };
 	const vector<string> INVALID_READ_CMD = { READ_COMMAND, VALID_LBA, VALID_LBA};
+	const vector<string> VALID_ERASE_CMD = { ERASE_COMMAND, VALID_LBA, VALID_ERASE_SIZE };
+	const vector<string> INVALID_ERASE_CMD_SIZE_ERROR = { ERASE_COMMAND, VALID_LBA, INVALID_ERASE_SIZE };
+	const vector<string> INVALID_ERASE_CMD_LBA_ERROR = { ERASE_COMMAND, INVALID_LBA, INVALID_ERASE_SIZE };
+	const vector<string> INVALID_ERASE_CMD_ARGUMENT_ERROR = { ERASE_COMMAND, VALID_LBA, VALID_ERASE_SIZE,  VALID_ERASE_SIZE };
+	const vector<string> VALID_FLUSH_CMD = { FLUSH_COMMAND };
+	const vector<string> INVALID_FLUSH_CMD = { FLUSH_COMMAND, VALID_LBA };
 };
 
 TEST_F(CommandHandlerFixture, WriteValidCheckSuccess) {
@@ -83,6 +94,28 @@ TEST_F(CommandHandlerFixture, ReadValidCheckFail_InvalidLBA) {
 	isInvalidCommand({ READ_COMMAND, "123fe" });
 	isInvalidCommand({ READ_COMMAND, "0.2" });
 }
+
+TEST_F(CommandHandlerFixture, EraseValidCheckSuccess) {
+	isValidCommand(VALID_ERASE_CMD);
+}
+
+TEST_F(CommandHandlerFixture, EraseValidCheckFail_InvalidValue) {
+	isInvalidCommand(INVALID_ERASE_CMD_SIZE_ERROR);
+	isInvalidCommand(INVALID_ERASE_CMD_LBA_ERROR);
+}
+
+TEST_F(CommandHandlerFixture, EraseValidCheckFail_InvalidArgumentCount) {
+	isInvalidCommand(INVALID_ERASE_CMD_ARGUMENT_ERROR);
+}
+
+TEST_F(CommandHandlerFixture, FlushValidCheckSuccess) {
+	isValidCommand(VALID_FLUSH_CMD);
+}
+
+TEST_F(CommandHandlerFixture, FlushValidCheckFail_InvalidArgumentCount) {
+	isInvalidCommand(INVALID_FLUSH_CMD);
+}
+
 /*
 
 TEST_F(CommandHandlerFixture, WriteCommandExecute) {
