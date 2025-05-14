@@ -90,6 +90,7 @@ void TestShellApp::runRunnerMode(const string& scriptFileName) {
 bool TestShellApp::cmdParserAndExecute(const string& cmdString) {
     vector<string> cmdTokens = parseCmd(cmdString);
     if (cmdTokens.empty()) {
+        LOG_PRINT("TestShellApp", "Empty command\n");
         throw std::invalid_argument("Empty command");
     }
     

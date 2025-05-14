@@ -2,6 +2,7 @@
 #include "ssd_interface.h"
 #include "iostream"
 #include "msg_handler.h"
+#include "logger.h"
 
 void EraseCmd::checkInvalidCmd(const vector<string>& tokens) const {
     checkNumToken(tokens);
@@ -26,6 +27,7 @@ void EraseCmd::checkSizeArg(const string& sizeString) const {
     std::size_t errorPos = 0;
     int size = std::stoi(sizeString, &errorPos);
     if (isValidSizeString(sizeString, errorPos)) return;
+    LOG_PRINT("EraseCmd", "Usage: decial size\n");
     throw std::invalid_argument("Usage: decial size");
 }
 
