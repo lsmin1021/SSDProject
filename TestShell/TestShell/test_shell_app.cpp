@@ -8,16 +8,18 @@
 #include "dll_driver.h"
 #include <windows.h>
 
-TestShellApp::TestShellApp(SsdInterface* m_ssd): m_ssd(m_ssd) {
+TestShellApp::TestShellApp(SsdInterface* m_ssd): m_ssd(m_ssd), m_shellMode(MODE_NULL) {
     CmdFactory::getInstance().setSdd(m_ssd);
     DllDriver::getInstance().openDll();
 }
 
 void TestShellApp::run(int argc, char* argv[]) {
     if (argc == 1) {
+        setShellMode(MODE_BASIC);
         runBasicMode();
     }
     else if (argc == 2) {
+        setShellMode(MODE_RUNNER);
         runRunnerMode(argv[1]);
     }
     else {
@@ -46,6 +48,7 @@ void TestShellApp::runBasicMode(void) {
             MSG_PRINT("INVALID COMMAND\n");
         }
         catch (const FailException&) {
+            MSG_PRINT("FAIL\n");
         }
         catch (const ExitException&) {
             break;
@@ -73,10 +76,11 @@ void TestShellApp::runRunnerMode(const string& scriptFileName) {
             cmdParserAndExecute(line);
         }
         catch (const std::invalid_argument&) {
-            std::cout << "FAIL" << std::endl;
+            std::cout << "FAIL!" << std::endl;
             break;
         }
         catch (const FailException&) {
+            std::cout << "FAIL!" << std::endl;
             break;
         }
         catch (const ExitException&) {
@@ -92,16 +96,31 @@ bool TestShellApp::cmdParserAndExecute(const string& cmdString) {
     if (cmdTokens.empty()) {
         LOG_PRINT("TestShellApp", "Empty command\n");
         throw std::invalid_argument("Empty command");
-    }
+    }    
     
+    if (executeSsdComand(cmdTokens)) {
+        if (getShellMode() == MODE_RUNNER) {
+            std::cout << "PASS" << std::endl;
+        }
+        return true;
+    }
+    executeTestScript(cmdTokens[0]);
+
+    return true;
+}
+
+void TestShellApp::executeTestScript(string& tsName) {
+    DllDriver::getInstance().getDllApi().executeTs(tsName.c_str());
+    if (getShellMode() != MODE_NULL) {
+        std::cout << "PASS\n";
+    }
+}
+
+bool TestShellApp::executeSsdComand(vector<string> cmdTokens) {
     if (CmdExecuter::getInstance().executeCmd(cmdTokens)) {
         return true;
     }
-    
-    string cmdName = cmdTokens[0];
-    DllDriver::getInstance().getDllApi().executeTs(cmdName.c_str());
-
-    return true;
+    return false;
 }
 
 vector<string> TestShellApp::parseCmd(const string& cmdString) {
