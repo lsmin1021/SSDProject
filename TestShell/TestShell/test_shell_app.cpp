@@ -17,18 +17,17 @@ TestShellApp::TestShellApp(SsdInterface* m_ssd): m_ssd(m_ssd) {
 
 void TestShellApp::run(int argc, char* argv[]) {
     if (argc == 1) {
-        runBasic();
+        runBasicMode();
     }
     else if (argc == 2) {
-        runRunner(argv[1]);
+        runRunnerMode(argv[1]);
     }
     else {
-        std::cerr << "Error: Invalid arguments for Runner Mode.\n";
-        std::cerr << "Usage: " << argv[0] << " <scripts_file>\n";
+        printInvalidArgsMessage(argv[0]);
     }
 }
 
-void TestShellApp::runBasic(void) {
+void TestShellApp::runBasicMode(void) {
     ConsoleOutputHandler outputHandler;
     MsgHandler::getInstance().setMsgHandler(&outputHandler);
     string input;
@@ -58,7 +57,7 @@ void TestShellApp::runBasic(void) {
     }
 }
 
-void TestShellApp::runRunner(string scriptFileName) {
+void TestShellApp::runRunnerMode(string scriptFileName) {
     FileOutputHandler outputHandler;
     MsgHandler::getInstance().setMsgHandler(&outputHandler);
 
@@ -110,4 +109,9 @@ vector<string>  TestShellApp::parseCmd(const string& cmdString) {
         cmdTokens.push_back(token);
     }
     return cmdTokens;
+}
+
+void TestShellApp::printInvalidArgsMessage(const std::string& programName) {
+    std::cerr << "Error: Invalid arguments for Runner Mode.\n";
+    std::cerr << "Usage: " << programName << " <scripts_file>\n";
 }

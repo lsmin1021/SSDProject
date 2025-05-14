@@ -23,11 +23,14 @@ public:
 	TestShellApp(SsdInterface* m_ssd);
 	~TestShellApp() = default;
 	void run(int argc, char* argv[]);
+	void printInvalidArgsMessage(char* argv[]);
 	bool cmdParserAndExecute(const string& cmdcmdString);
 
 private:
-	void runBasic(void);
-	void runRunner(string scriptFileName);
+	void runBasicMode(void);
+	void runRunnerMode(string scriptFileName);
+	void printInvalidArgsMessage(const string& programName);
+
 	SsdInterface* m_ssd;
 	ExecuteTs m_executeTs;
 	vector<string>  parseCmd(const string& cmd);
