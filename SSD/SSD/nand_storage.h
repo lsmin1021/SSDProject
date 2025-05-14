@@ -21,6 +21,8 @@ private:
 
 	void loadData();
 	void storeData();
+	string loadDataFile();
+	void convertDataFile(string content);
 
 	map<int, string> m_storage;
 	const string FILE_NAME = "ssd_nand.txt";

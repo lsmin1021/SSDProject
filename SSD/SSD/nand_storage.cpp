@@ -49,26 +49,7 @@ bool NandStorage::isEmptyLBA(int lba) {
 }
 
 void NandStorage::loadData() {
-	std::ifstream fs;
-	string content;
-
-	fs.open(FILE_NAME);
-
-	string line;
-	while (getline(fs, line)) {
-		content.append(line).append("\n");
-	}
-
-	fs.close();
-
-	std::istringstream iss(content);
-
-	while (std::getline(iss, line)) {
-		int lba = std::stoi(line.substr(0, line.find(" ")));
-		string value = line.substr(line.find(" ") + 1);
-
-		m_storage.insert(std::make_pair(lba, value));
-	}
+	convertDataFile(loadDataFile());
 }
 
 void NandStorage::storeData() {
@@ -81,4 +62,32 @@ void NandStorage::storeData() {
 	}
 
 	fs.close();
+}
+
+string NandStorage::loadDataFile() {
+	string content;
+	std::ifstream fs;
+
+	fs.open(FILE_NAME);
+
+	string line;
+	while (getline(fs, line)) {
+		content.append(line).append("\n");
+	}
+
+	fs.close();
+
+	return content;
+}
+
+void NandStorage::convertDataFile(string content) {
+	std::istringstream iss(content);
+
+	string line;
+	while (std::getline(iss, line)) {
+		int lba = std::stoi(line.substr(0, line.find(" ")));
+		string value = line.substr(line.find(" ") + 1);
+
+		m_storage.insert(std::make_pair(lba, value));
+	}
 }
