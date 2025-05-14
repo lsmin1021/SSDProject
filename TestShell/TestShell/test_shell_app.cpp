@@ -111,8 +111,9 @@ bool TestShellApp::cmdParserAndExecute(const string& cmdString) {
 
 void TestShellApp::executeTestScript(string& tsName) {
     DllDriver::getInstance().getDllApi().executeTs(tsName.c_str());
-
-    std::cout << "PASS\n";
+    if (getShellMode() != MODE_NULL) {
+        std::cout << "PASS\n";
+    }
 }
 
 bool TestShellApp::executeSsdComand(vector<string> cmdTokens) {
