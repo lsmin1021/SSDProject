@@ -15,11 +15,11 @@ static WriteCmd writeCmd;
 static ReadCmd readCmd;
 static FullWriteCmd fullWriteCmd;
 static FullReadCmd fullReadCmd;
-static ExitCmd exitCmd;
-static HelpCmd  helpCmd;
 static EraseCmd eraseCmd;
 static EraseRangeCmd eraseRangeCmd;
 static FlushCmd flushCmd;
+static ExitCmd exitCmd;
+static HelpCmd  helpCmd;
 
 CmdFactory& CmdFactory::getInstance()
 {
