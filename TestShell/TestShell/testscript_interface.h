@@ -3,11 +3,12 @@
 #include <string>
 #include <vector>
 #include <iomanip>
+#include <iostream>
 #include "dll_main.h"
 using std::string;
 using std::vector;
 
-extern AppCb appCb;
+extern AppCb cb;
 
 class FailException : public std::exception {
 };
@@ -31,12 +32,14 @@ public:
 	string getReadResult() const;
 
 	bool executeCmd(const vector<string>& cppTokens) {
-		char* tokens[10];
-		int numToken = converTokenCpptoC(cppTokens, tokens);
-		return appCb.excueteCmd(numToken, tokens);
+		m_numCbToken = converTokenCpptoC(cppTokens);
+		return cb.excueteCmd(m_numCbToken, m_cbTokens);
+		return true;
 	}
-	int converTokenCpptoC(const vector<string>& cppTokens, char* cTokens[]);
+	int converTokenCpptoC(const vector<string>& cppTokens);
 private:
+	static char m_cbTokens[10][100];
+	static int m_numCbToken;
 	bool isValidNumToken(const vector<string>& tokens) const {
 		return (tokens.size() == m_numToken);
 	}

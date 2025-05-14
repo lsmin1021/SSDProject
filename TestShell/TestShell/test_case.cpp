@@ -196,13 +196,13 @@ TEST_F(MockSddFixture, CmdFactoryTc) {
 	excuteFactoryTc("exit");
 	excuteFactoryTc("help");
 }
-#if 0 //LDY TODO
+
 TEST_F(MockSddFixture, TescScript1) {
 	// Arrange
 	EXPECT_CALL(m_mockSsd, writeData(_, _)).Times(TEST_SCRIPT1_ITERATION);
 	EXPECT_CALL(m_mockSsd, readData(_)).Times(TEST_SCRIPT1_ITERATION);
 	// Act
-	EXPECT_NO_THROW(m_tespApp->cmdParserAndExcute(TEST_SCRIPT1));
+	EXPECT_NO_THROW(m_tespApp->cmdParserAndExecute(TEST_SCRIPT1));
 }
 
 TEST_F(MockSddFixture, TescScript1ShortCut) {
@@ -210,7 +210,7 @@ TEST_F(MockSddFixture, TescScript1ShortCut) {
 	EXPECT_CALL(m_mockSsd, writeData(_, _)).Times(TEST_SCRIPT1_ITERATION);
 	EXPECT_CALL(m_mockSsd, readData(_)).Times(TEST_SCRIPT1_ITERATION);
 	// Act
-	EXPECT_NO_THROW(m_tespApp->cmdParserAndExcute(TEST_SCRIPT1_SHORT_CUT));
+	EXPECT_NO_THROW(m_tespApp->cmdParserAndExecute(TEST_SCRIPT1_SHORT_CUT));
 }
 
 TEST_F(MockSddFixture, TescScript2) {
@@ -218,7 +218,7 @@ TEST_F(MockSddFixture, TescScript2) {
 	EXPECT_CALL(m_mockSsd, writeData(_, _)).Times(TEST_SCRIPT2_ITERATION);
 	EXPECT_CALL(m_mockSsd, readData(_)).Times(TEST_SCRIPT2_ITERATION);
 	// Act
-	EXPECT_NO_THROW(m_tespApp->cmdParserAndExcute(TEST_SCRIPT2));
+	EXPECT_NO_THROW(m_tespApp->cmdParserAndExecute(TEST_SCRIPT2));
 }
 
 TEST_F(MockSddFixture, TescScript2ShortCut) {
@@ -226,7 +226,7 @@ TEST_F(MockSddFixture, TescScript2ShortCut) {
 	EXPECT_CALL(m_mockSsd, writeData(_, _)).Times(TEST_SCRIPT2_ITERATION);
 	EXPECT_CALL(m_mockSsd, readData(_)).Times(TEST_SCRIPT2_ITERATION);
 	// Act
-	EXPECT_NO_THROW(m_tespApp->cmdParserAndExcute(TEST_SCRIPT2_SHORT_CUT));
+	EXPECT_NO_THROW(m_tespApp->cmdParserAndExecute(TEST_SCRIPT2_SHORT_CUT));
 }
 
 TEST_F(MockSddFixture, TescScript3) {
@@ -234,7 +234,7 @@ TEST_F(MockSddFixture, TescScript3) {
 	EXPECT_CALL(m_mockSsd, writeData(_, _)).Times(TEST_SCRIPT3_ITERATION);
 	EXPECT_CALL(m_mockSsd, readData(_)).Times(TEST_SCRIPT3_ITERATION);
 	// Act
-	EXPECT_NO_THROW(m_tespApp->cmdParserAndExcute(TEST_SCRIPT3));
+	EXPECT_NO_THROW(m_tespApp->cmdParserAndExecute(TEST_SCRIPT3));
 }
 
 TEST_F(MockSddFixture, TescScript3ShortCut) {
@@ -242,7 +242,7 @@ TEST_F(MockSddFixture, TescScript3ShortCut) {
 	EXPECT_CALL(m_mockSsd, writeData(_, _)).Times(TEST_SCRIPT3_ITERATION);
 	EXPECT_CALL(m_mockSsd, readData(_)).Times(TEST_SCRIPT3_ITERATION);
 	// Act
-	EXPECT_NO_THROW(m_tespApp->cmdParserAndExcute(TEST_SCRIPT3_SHORT_CUT));
+	EXPECT_NO_THROW(m_tespApp->cmdParserAndExecute(TEST_SCRIPT3_SHORT_CUT));
 }
 
 TEST_F(MockSddFixture, TescScript4) {
@@ -251,7 +251,7 @@ TEST_F(MockSddFixture, TescScript4) {
 	EXPECT_CALL(m_mockSsd, readData(_)).Times(TEST_SCRIPT4_READ_REPEAT_NUM);
 	EXPECT_CALL(m_mockSsd, eraseData(_, _)).Times(TEST_SCRIPT4_ERASE_REPEAT_NUM);
 	// Act
-	EXPECT_NO_THROW(m_tespApp->cmdParserAndExcute(TEST_SCRIPT4));
+	EXPECT_NO_THROW(m_tespApp->cmdParserAndExecute(TEST_SCRIPT4));
 }
 
 TEST_F(MockSddFixture, TescScript4ShortCut) {
@@ -260,6 +260,5 @@ TEST_F(MockSddFixture, TescScript4ShortCut) {
 	EXPECT_CALL(m_mockSsd, readData(_)).Times(TEST_SCRIPT4_READ_REPEAT_NUM);
 	EXPECT_CALL(m_mockSsd, eraseData(_, _)).Times(TEST_SCRIPT4_ERASE_REPEAT_NUM);
 	// Act
-	EXPECT_NO_THROW(m_tespApp->cmdParserAndExcute(TEST_SCRIPT4_SHORT_CUT));
+	EXPECT_NO_THROW(m_tespApp->cmdParserAndExecute(TEST_SCRIPT4_SHORT_CUT));
 }
-#endif

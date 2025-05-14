@@ -3,10 +3,10 @@
 #include "testscript_factory.h"
 
 extern "C"{
-    AppCb appCb;
+    AppCb cb;
     
     LIB_API__ void openDll(AppCb* appCb) {
-        AppCb cb = *appCb;
+        cb = *appCb;
         TestScriptFactory::generateTs();
     }
 
@@ -14,7 +14,7 @@ extern "C"{
         std::string name = tsName;
         TsInterface* tsObj = TestScriptFactory::getInstance().getTs(name);
         vector<string> tokens;
-        tokens.push_back(tsName);
+        tokens.push_back(name);
         tsObj->excuteTs(tokens);
     }
 }

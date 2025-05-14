@@ -6,7 +6,6 @@ void FullWriteAndReadCompareTs::checkInvalidTs(const vector<string>& tokens) con
 }
 void FullWriteAndReadCompareTs::excuteTs(const vector<string>& tokens) {
     int lba = 0;
-
     while (lba <= MAX_LBA) {
         for (int addr = lba; addr < lba + TEST_LBA_STEP; addr++) {
             vector<string> wirteCmd = { "write", std::to_string(addr), TEST_SCRIPT_VALUE };
