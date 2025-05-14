@@ -8,6 +8,8 @@
 #include "exit_cmd.h"
 #include "erase_cmd.h"
 #include "erase_range_cmd.h"
+#include "ssd_interface.h"
+#include "flush_cmd.h"
 
 static WriteCmd writeCmd;
 static ReadCmd readCmd;
@@ -17,12 +19,14 @@ static ExitCmd exitCmd;
 static HelpCmd  helpCmd;
 static EraseCmd eraseCmd;
 static EraseRangeCmd eraseRangeCmd;
+static FlushCmd flushCmd;
 
 CmdFactory& CmdFactory::getInstance()
 {
 	static CmdFactory instance; 
 	return instance;
 }
+
 void CmdFactory::setSdd(SsdInterface* sdd) {
 	for (auto cmd : m_supportedCmds){
 		cmd->setSdd(sdd);
@@ -36,5 +40,11 @@ CmdInterface* CmdFactory::getCmd(const string& name) const {
 			return cmd;
 		}
 	}
-	throw std::invalid_argument("Invalid command: " + name);
+	return nullptr;
+}
+
+CmdInterface* CmdFactory::getTs(const string& name) const {
+	CmdInterface* tsObj = getCmd(name);
+	if(tsObj == nullptr)throw std::invalid_argument("Invalid command: " + name);
+	return tsObj;
 }

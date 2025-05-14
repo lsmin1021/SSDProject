@@ -1,7 +1,7 @@
 #pragma once
 #pragma once
 #include <iostream>
-#include "cmd_interface.h"
+#include "testscript_interface.h"
 
 class PartialLbaWriteTs : public TsInterface {
 public:

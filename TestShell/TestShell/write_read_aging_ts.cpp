@@ -26,15 +26,18 @@ void WriteReadAging::excuteCmd(const vector<string>& tokens) {
         valueForEndLba = generateRandomHexString();
 
         vector<string> writeCmd = { "write", START_LBA, valueForStartLba };
-        CmdInterface* cmdObj = CmdFactory::getInstance().getCmd(writeCmd[0]);
-        cmdObj->excuteCmd(writeCmd);
+        // LDY TODO
+        //CmdInterface* cmdObj = CmdFactory::getInstance().getCmd(writeCmd[0]);
+        //cmdObj->excuteCmd(writeCmd);
 
         writeCmd = { "write", END_LBA, valueForEndLba };
-        cmdObj->excuteCmd(writeCmd);
+        // LDY TODO
+        //cmdObj->excuteCmd(writeCmd);
 
         vector<string> readCmd = { "read", START_LBA };
-        CmdInterface* cmdObj2 = CmdFactory::getInstance().getCmd(readCmd[0]);
-        cmdObj2->excuteCmd(readCmd);
+        // LDY TODO
+        //CmdInterface* cmdObj2 = CmdFactory::getInstance().getCmd(readCmd[0]);
+        //cmdObj2->excuteCmd(readCmd);
 
 #ifndef _DEBUG
         if (cmdObj->getReadResult().compare(valueForStartLba) != 0)
@@ -44,7 +47,8 @@ void WriteReadAging::excuteCmd(const vector<string>& tokens) {
         }
 #endif
         readCmd = { "read", END_LBA };
-        cmdObj2->excuteCmd(readCmd);
+        // LDY TODO
+        //cmdObj2->excuteCmd(readCmd);
 #ifndef _DEBUG
         if (cmdObj->getReadResult().compare(valueForEndLba) != 0)
         {

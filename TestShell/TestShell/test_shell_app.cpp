@@ -3,45 +3,52 @@
 #include "cmd_interface.h"
 #include "testscript_factory.h"
 
-TestShellApp::TestShellApp(SsdInterface* ssd): m_ssd(ssd){
-    CmdFactory::getInstance().setSdd(ssd);
-}
+#include <windows.h>
+typedef void (*RegisterTs)(void);
 
+
+TestShellApp::TestShellApp(SsdInterface* ssd): m_ssd(ssd) {
+    CmdFactory::getInstance().setSdd(ssd);
+
+    HMODULE hDll = LoadLibraryA("TestShellLib.dll");
+    if (hDll == nullptr) {
+        std::cerr << "DLL load fail!" << std::endl;
+        return;
+    }
+    RegisterTs registerTs = (RegisterTs)GetProcAddress(hDll, "registerTs");
+    if (registerTs == nullptr) {
+        std::cerr << "registerTs symbol search fali!" << std::endl;
+    }
+    else {
+        registerTs();
+    }
+
+    m_executeTs = (ExecuteTs)GetProcAddress(hDll, "executeTs");
+    if (m_executeTs == nullptr) {
+        std::cerr << "setSdd symbol search fali!" << std::endl;
+    }
+}
+TestShellApp::~TestShellApp(){
+    //FreeLibrary(hDll);
+}
 bool TestShellApp::cmdParserAndExcute(const string& cmdString)
 {
     vector<string> tokens = parseCmd(cmdString);
     if (tokens.empty()) {
         throw std::invalid_argument("Empty command");
     }
-    TsInterface* tsObj;
-    bool isTS = true;
-    bool isCmd = true;
-    try {
-        tsObj = TestScriptFactory::getInstance().getCmd(tokens[0].substr(0, 2));
-        tsObj->checkInvalidCmd(tokens);
-        tsObj->excuteCmd(tokens);
+    string cmdName = tokens[0];
+    CmdInterface* cmdObj = CmdFactory::getInstance().getCmd(cmdName);
+    if (cmdObj != nullptr)
+    {
+        cmdObj->checkInvalidCmd(tokens);
+        cmdObj->excuteCmd(tokens);
+        return true;
     }
-    catch (const std::invalid_argument&) {
-        isTS = false;
-    }
-    if (isTS == false) {
-        CmdInterface* cmdObj;
-        try {
-            cmdObj = CmdFactory::getInstance().getCmd(tokens[0]);
-            cmdObj->checkInvalidCmd(tokens);
-            cmdObj->excuteCmd(tokens);
-        }
-        catch (const std::invalid_argument&) {
-            isCmd = false;
-        }
-    }
-
-    if (!isTS && !isCmd) {
-        throw std::invalid_argument("Invalid command: " + tokens[0]);
-    }
-
+    m_executeTs(cmdName.c_str());
     return true;
 }
+
 vector<string>  TestShellApp::parseCmd(const string& cmd) {
     std::istringstream iss(cmd);
     vector<string> tokens;

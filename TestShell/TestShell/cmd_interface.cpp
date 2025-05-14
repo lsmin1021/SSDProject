@@ -1,7 +1,6 @@
 #include "cmd_interface.h"
 #include "ssd_interface.h"
 #include "cmd_factory.h"
-#include "testscript_factory.h"
 #include <fstream>
 #include <stdexcept>
 
@@ -45,9 +44,4 @@ string CmdInterface::getReadResult() const {
         return m_ssd->getReadResult();
     else
         return "";
-}
-
-TsInterface::TsInterface(const string& name, int numToken) : m_numToken(numToken) {
-    m_names.push_back(name.substr(0, 2));
-    TestScriptFactory::getInstance().registerCmd(this);
 }

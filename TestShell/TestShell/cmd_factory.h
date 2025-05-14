@@ -22,10 +22,10 @@ public:
 	void setSdd(SsdInterface* sdd);
 
 	CmdInterface* getCmd(const string& name) const;
+	CmdInterface* getTs(const string& name) const;
 	const vector<CmdInterface*>& getSsupportedCmds() const{
 		return m_supportedCmds;
 	}
 private :
 	vector<CmdInterface*> m_supportedCmds;
-
 };

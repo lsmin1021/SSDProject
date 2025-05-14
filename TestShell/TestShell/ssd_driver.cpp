@@ -20,6 +20,12 @@ void SsdDriver::eraseData(const string& lba, const string& size) {
 	LOG_PRINT("SsdDriver", cmd + "\n");
 }
 
+void SsdDriver::flush(void) {
+	string cmd = FLUSH_CMD;
+	int ret = system(cmd.c_str());
+	LOG_PRINT("SsdDriver", cmd);
+}
+
 string SsdDriver::getReadResult() {
 	std::ifstream file("ssd_output.txt");
 
