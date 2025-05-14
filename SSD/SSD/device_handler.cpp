@@ -21,7 +21,7 @@ void DeviceHandler::write(int lba, string value) {
 		flush();
 	}
 
-	m_commandBuffer.insertCmd(Buffer("W", value, lba, 0));
+	m_commandBuffer.insertCmd(Buffer("W", lba, value));
 }
 
 void DeviceHandler::erase(int lba, int size) {
@@ -29,7 +29,7 @@ void DeviceHandler::erase(int lba, int size) {
 		flush();
 	}
 
-	m_commandBuffer.insertCmd(Buffer("E", "", lba, size));
+	m_commandBuffer.insertCmd(Buffer("E", lba, size));
 }
 
 void DeviceHandler::flush() {

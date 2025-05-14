@@ -9,8 +9,11 @@ using std::vector;
 class Buffer {
 public:
 	Buffer() {}	;
-	Buffer(string cmd, string value, int lba, int size) :
-		m_cmd(cmd), m_value(value), m_lba(lba), m_size(size) {
+	Buffer(string cmd, int lba, int size) :
+		m_cmd(cmd), m_value(""), m_lba(lba), m_size(size) {
+	}
+	Buffer(string cmd, int lba, string value) :
+		m_cmd(cmd), m_value(value), m_lba(lba), m_size(-1) {
 	}
 
 	void setCmd(string cmd) { m_cmd = cmd; }
