@@ -298,8 +298,8 @@ TEST_F(CommandBufferFixture, OutOfOrderEraseMerge) {
 TEST_F(CommandBufferFixture, EraseIgnoreWriteMerge) {
 	vector<string> expected = {
 		"0_E_90_4",
-		"1_W_91_0xAAAA0000",
-		"2_W_93_0xBBBB1111",
+		"1_W_93_0xBBBB1111",
+		"2_W_91_0xAAAA0000",
 		"3_empty", "4_empty"
 	};
 
@@ -313,3 +313,21 @@ TEST_F(CommandBufferFixture, EraseIgnoreWriteMerge) {
 		expected);
 }
 
+TEST_F(CommandBufferFixture, EraseIgnoreWriteMerge2) {
+	vector<string> expected = {
+		"0_W_93_0xBBBB1111",
+		"1_E_5_8",
+		"2_empty",
+		"3_empty", 
+		"4_empty"
+	};
+	
+	runTest({
+		{ ERASE_COMMAND, "5", "5" },
+		{ WRITE_COMMAND, "7", "0xAAAA0000" },
+		{ ERASE_COMMAND, "9", "4" },
+		{ WRITE_COMMAND, "93", "0xBBBB1111" },
+		{ ERASE_COMMAND, "7", "1" }
+		},
+		expected);
+}
