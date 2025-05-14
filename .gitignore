@@ -31,6 +31,7 @@ bld/
 [Oo]bj/
 [Ll]og/
 [Ll]ogs/
+docs/
 
 # Visual Studio 2015/2017 cache/options directory
 .vs/
@@ -400,5 +401,8 @@ FodyWeavers.xsd
 # JetBrains Rider
 *.sln.iml
 
-# Output File
+# Output Text File
 *.txt
+
+# Ignore SSD Command Buffer
+[Bb]uffer/

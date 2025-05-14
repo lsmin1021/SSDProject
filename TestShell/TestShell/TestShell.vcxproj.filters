@@ -81,6 +81,9 @@
     <ClCompile Include="msg_handler.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="erase_write_aging_ts.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -154,6 +157,9 @@
     </ClInclude>
     <ClInclude Include="msg_handler.h">
       <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="erase_write_aging_ts.h">
+      <Filter>소스 파일</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
