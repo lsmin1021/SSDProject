@@ -44,7 +44,7 @@ void EraseAndWriteAgingTs::readAndCompare(const string& addr) const
     //CmdInterface* cmdObj = CmdFactory::getInstance().getCmd(readCmd[0]);
     //cmdObj->excuteCmd(readCmd);
 #ifndef _DEBUG
-    if (getReadResult().compare(TEST_EXPECTED_VALUE) != 0)
+    if (cmdObj->getReadResult().compare(TEST_EXPECTED_VALUE) != 0)
     {
         std::cout << "FAIL";
         throw FailException();

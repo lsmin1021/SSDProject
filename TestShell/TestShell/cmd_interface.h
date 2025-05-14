@@ -1,12 +1,13 @@
 #pragma once
 
-#include "ssd_interface.h"
 #include <string>
 #include <vector>
 #include <iomanip>
 
 using std::string;
 using std::vector;
+
+class SsdInterface;
 
 class FailException : public std::exception {
 };
@@ -17,7 +18,8 @@ public:
 	virtual ~CmdInterface() = default;
 	virtual void checkInvalidCmd(const vector<string>& tokens) const = 0;
 	virtual void excuteCmd(const vector<string>& tokens) = 0;
-	virtual void helpCmd() const  = 0;
+	virtual void helpCmd() const = 0;
+	string getReadResult() const;
 
 	vector<string>  getName() const {
 		return m_names;
@@ -26,7 +28,7 @@ public:
 	void setSdd(SsdInterface* sdd) {
 		m_ssd = sdd;
 	}
-protected :
+protected:
 	static const int MAX_LBA = 99;
 	static const int MIN_LBA = 0;
 	static const unsigned int MAX_DATA_VALUE = 0xFFFFFFFF;
@@ -36,12 +38,6 @@ protected :
 	void checkLbaArg(const string& lbaString) const;
 	void checkDataArg(const string& dataString) const;
 	vector<string> m_names;
-	string getReadResult() const {
-		if (m_ssd)
-			return m_ssd->getReadResult();
-		else
-			return "";
-	}
 	bool isValidIntString(const string& string, size_t errorPos) const {
 		return (errorPos == string.size());
 	}
@@ -63,7 +59,7 @@ protected :
 	bool isValidDataRange(unsigned int data) const {
 		return (data <= MAX_DATA_VALUE && data >= MIN_DATA_VALUE);
 	}
-
 	const int m_numToken;
 	SsdInterface* m_ssd = nullptr;
 };
+
