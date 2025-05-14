@@ -13,16 +13,20 @@ CommandBuffer::CommandBuffer() {
 	loadBuffer();
 }
 
+bool CommandBuffer::isFull() {
+	if (MAX_BUFFER_SIZE <= m_buffer.size()) {
+		return true;
+	}
+
+	return false;
+}
+
 string CommandBuffer::readDataOnBuffer(int lba) {
 	return getValueOnBuffer(lba);
 }
 
 vector<Buffer> CommandBuffer::getBufferCommands() {
 	return m_buffer;
-}
-
-int CommandBuffer::getUsableBufferSize() {
-	return m_buffer.size();
 }
 
 void CommandBuffer::insertCmdWrite(int lba, string value) {

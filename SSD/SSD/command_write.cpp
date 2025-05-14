@@ -38,10 +38,5 @@ bool WriteCommand::isValidValue(const string& valueStr) {
 }
 
 void WriteCommand::writeDataOnAddr(int lba, string value) {
-	DeviceHandler& instance = DeviceHandler::getInstance();
-	if (true == instance.isFull()) {
-		instance.flush();
-	}
-
-	instance.writeBuffer(lba, value);
+	DeviceHandler::getInstance().write(lba, value);
 }

@@ -38,9 +38,9 @@ class CommandBuffer {
 public:
 	CommandBuffer();
 
+	bool isFull();
 	vector<Buffer> getBufferCommands();
 	string readDataOnBuffer(int lba);
-	int getUsableBufferSize();
 	void insertCmdErase(int lba, int size);
 	void insertCmdWrite(int lba, string value);
 	void clear();
@@ -66,4 +66,6 @@ private:
 	const string EMPTY_CMD = "empty";
 	const string WRITE_CMD = "W";
 	const string ERASE_CMD = "E";
+
+	const int MAX_BUFFER_SIZE = 5;
 };

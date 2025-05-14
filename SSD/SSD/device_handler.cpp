@@ -6,7 +6,7 @@ DeviceHandler& DeviceHandler::getInstance() {
 	return instance;
 }
 
-string DeviceHandler::readBuffer(int lba) {
+string DeviceHandler::read(int lba) {
 	string ret = m_commandBuffer.readDataOnBuffer(lba);
 
 	if (true == ret.empty()) {
@@ -16,12 +16,20 @@ string DeviceHandler::readBuffer(int lba) {
 	return ret;
 }
 
-bool DeviceHandler::isFull() {
-	if (BUFFER_SIZE_MAX == m_commandBuffer.getUsableBufferSize()) {
-		return true;
+void DeviceHandler::write(int lba, string value) {
+	if (true == m_commandBuffer.isFull()) {
+		flush();
 	}
 
-	return false;
+	m_commandBuffer.insertCmdWrite(lba, value);
+}
+
+void DeviceHandler::erase(int lba, int size) {
+	if (true == m_commandBuffer.isFull()) {
+		flush();
+	}
+
+	m_commandBuffer.insertCmdErase(lba, size);
 }
 
 void DeviceHandler::flush() {
@@ -38,13 +46,5 @@ void DeviceHandler::flush() {
 	}
 
 	m_nandHandler.commit();
-}
-
-void DeviceHandler::writeBuffer(int lba, string value) {
-	m_commandBuffer.insertCmdWrite(lba, value);
-}
-
-void DeviceHandler::eraseBuffer(int lba, int size) {
-	m_commandBuffer.insertCmdErase(lba, size);
 }
 

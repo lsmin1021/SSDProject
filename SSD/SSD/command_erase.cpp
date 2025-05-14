@@ -24,12 +24,7 @@ void EraseCommand::execute(const vector<string>& param) {
 }
 
 void EraseCommand::eraseData(int lba, int size) {
-	DeviceHandler& instance = DeviceHandler::getInstance();
-	if (true == instance.isFull()) {
-		instance.flush();
-	}
-
-	instance.eraseBuffer(lba, size);
+	DeviceHandler::getInstance().erase(lba, size);
 }
 
 bool EraseCommand::isValidSize(const string& sizeStr) {
