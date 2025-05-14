@@ -7,8 +7,8 @@
 typedef void (*RegisterTs)(void);
 
 
-TestShellApp::TestShellApp(SsdInterface* m_ssd): m_ssd(m_ssd) {
-    CmdFactory::getInstance().setSdd(m_ssd);
+TestShellApp::TestShellApp(SsdInterface* ssd): m_ssd(ssd) {
+    CmdFactory::getInstance().setSdd(ssd);
 
     HMODULE hDll = LoadLibraryA("TestShellLib.dll");
     if (hDll == nullptr) {

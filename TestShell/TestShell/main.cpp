@@ -6,7 +6,10 @@
 #include <string>
 #include "test_shell_app.h"
 #include "ssd_driver.h"
+#include "console_handler.h"
+#include "file_output_handler.h"
 #include "exit_cmd.h"
+#include "msg_handler.h"
 using std::string;
 
 int main(int argc, char* argv[]) {
@@ -16,8 +19,10 @@ int main(int argc, char* argv[]) {
 #else
 	SsdDriver ssd;
 	TestShellApp app{ &ssd };
-
 	if (argc > 1) {
+		FileOutputHandler outputHandler;
+		MsgHandler::getInstance().setMsgHandler(&outputHandler);
+
 		std::ifstream file(argv[1]);
 		if (!file) {
 			std::cerr << "Error: Unable to open file " << argv[1] << std::endl;
@@ -42,6 +47,8 @@ int main(int argc, char* argv[]) {
 		file.close();
 	}
 	else {
+		ConsoleOutputHandler outputHandler;
+		MsgHandler::getInstance().setMsgHandler(&outputHandler);
 		string input;
 
 		while (true) {

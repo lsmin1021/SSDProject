@@ -85,20 +85,20 @@ void Logger::rotateIfNeeded() {
 
 void Logger::log(const string& className, const string& functionName, const string& message) {
     std::ostringstream oss;
-    string funcDisplay = extractFunctionName(functionName + "() ");
+    string funcDisplay = className + "." + extractFunctionName(functionName) + "() ";
     oss << "[" << getCurrentTimeString() << "] "
-        << className << "."
         << std::left << std::setw(30) << funcDisplay
         << ": " << message;
 
     string output = oss.str();
 
     if (logMode == LogMode::ConsoleAndFile) {
-        std::cout << message << std::endl;
+        std::cout << message;
     }
 
     if (logFile.is_open()) {
-        logFile << output << std::endl;
+        logFile << output;
+        logFile.flush();
         rotateIfNeeded();
     }
 }
