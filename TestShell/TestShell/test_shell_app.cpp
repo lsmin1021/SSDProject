@@ -8,16 +8,18 @@
 #include "dll_driver.h"
 #include <windows.h>
 
-TestShellApp::TestShellApp(SsdInterface* m_ssd): m_ssd(m_ssd) {
+TestShellApp::TestShellApp(SsdInterface* m_ssd): m_ssd(m_ssd), m_shellMode(MODE_NULL) {
     CmdFactory::getInstance().setSdd(m_ssd);
     DllDriver::getInstance().openDll();
 }
 
 void TestShellApp::run(int argc, char* argv[]) {
     if (argc == 1) {
+        setShellMode(MODE_BASIC);
         runBasicMode();
     }
     else if (argc == 2) {
+        setShellMode(MODE_RUNNER);
         runRunnerMode(argv[1]);
     }
     else {
@@ -46,7 +48,7 @@ void TestShellApp::runBasicMode(void) {
             MSG_PRINT("INVALID COMMAND\n");
         }
         catch (const FailException&) {
-            std::cout << "FAIL" << std::endl;
+            MSG_PRINT("FAIL\n");
         }
         catch (const ExitException&) {
             break;
@@ -85,8 +87,7 @@ void TestShellApp::runRunnerMode(const string& scriptFileName) {
             std::cout << "EXIT" << std::endl;
             break;
         }
-
-        std::cout << "PASS\n";
+        std::cout << "PASS" << std::endl;
     }
     file.close();
 }
@@ -96,23 +97,23 @@ bool TestShellApp::cmdParserAndExecute(const string& cmdString) {
     if (cmdTokens.empty()) {
         LOG_PRINT("TestShellApp", "Empty command\n");
         throw std::invalid_argument("Empty command");
-    }
+    }    
     
-    if (CmdFactory::getInstance().isSsdCmd(cmdTokens[0])) {
-        if (executeSsdComand(cmdTokens)) {
-            return true;
+    if (executeSsdComand(cmdTokens)) {
+        if (getShellMode() == MODE_BASIC) {
+            MSG_PRINT("PASS\n");
         }
+        return true;
     }
-    else {
-        if (executeTestScript(cmdTokens[0])) return true;;
-    }
+    executeTestScript(cmdTokens[0]);
 
     return true;
 }
 
-bool TestShellApp::executeTestScript(string& tsName) {
+void TestShellApp::executeTestScript(string& tsName) {
     DllDriver::getInstance().getDllApi().executeTs(tsName.c_str());
-    return true;
+
+    std::cout << "PASS\n";
 }
 
 bool TestShellApp::executeSsdComand(vector<string> cmdTokens) {
