@@ -15,9 +15,66 @@ string CommandBuffer::readData(int lba) {
 
 void CommandBuffer::insertCmd(Instruction cmd) {
 	ignoreCommand(cmd);
+	mergeCmd(cmd);
 	m_buffer.push_back(cmd);
 
 	storeDataToBuffer();
+}
+
+void CommandBuffer::mergeCmd(Instruction& cmd) {
+	if (true == cmd.isWriteCommand() || true == m_buffer.empty()) {
+		return;
+	}
+
+	Instruction& latestInst = m_buffer.back();
+
+	if (true == cmd.isWriteCommand()) {
+		return;
+	}
+
+	if (true == isMergeable(latestInst, cmd)) {
+		Instruction mergedInst = merge(latestInst, cmd);
+
+		m_buffer.pop_back();
+
+		if (MAX_ERASE_SIZE < mergedInst.getSize()) {
+			m_buffer.push_back(Instruction().setCmdErase().setLba(mergedInst.getLba()).setSize(MAX_ERASE_SIZE));
+			cmd.setLba(mergedInst.getLba() + MAX_ERASE_SIZE);
+			cmd.setSize(mergedInst.getSize() - MAX_ERASE_SIZE);
+		}
+		else {
+			cmd = mergedInst;
+		}
+	}
+}
+
+Instruction CommandBuffer::merge(Instruction& inst1, Instruction& inst2) {
+	int lbaFrom = inst1.getLba() < inst2.getLba() ? inst1.getLba() : inst2.getLba();
+
+	int lbaTo1 = inst1.getLba() + inst1.getSize() - 1;
+	int lbaTo2 = inst2.getLba() + inst2.getSize() - 1;
+	int lbaTo = lbaTo1 > lbaTo2 ? lbaTo1 : lbaTo2;
+
+	int size = lbaTo - lbaFrom + 1;
+	
+	return Instruction().setCmdErase().setLba(lbaFrom).setSize(size);
+}
+
+bool CommandBuffer::isMergeable(Instruction& inst1, Instruction& inst2) {
+	int lbaFrom1 = inst1.getLba();
+	int lbaTo1 = lbaFrom1 + inst1.getSize() - 1;
+	int lbaFrom2 = inst2.getLba();
+	int lbaTo2 = lbaFrom2 + inst2.getSize() - 1;
+
+	if (lbaFrom1 <= lbaTo2 && lbaFrom2 <= lbaTo1) {
+		return true;
+	}
+	
+	if (lbaTo1 + 1 == lbaFrom2 || lbaTo2 + 1 == lbaFrom1) {
+		return true;
+	}
+
+	return false;
 }
 
 vector<Instruction> CommandBuffer::getBufferCommands() {
