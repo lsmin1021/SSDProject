@@ -31,20 +31,18 @@ public:
 	}
 	string getReadResult() const;
 
-	bool executeCmd(const vector<string>& cppTokens) {
-		m_numCbToken = converTokenCpptoC(cppTokens);
-		return cb.excueteCmd(m_numCbToken, m_cbTokens);
-		return true;
-	}
+	bool executeCmd(const vector<string>& cppTokens, const string& checkString = NOT_CHECK_RESULT);
 	int converTokenCpptoC(const vector<string>& cppTokens);
 private:
 	static char m_cbTokens[10][100];
+	static char m_checkString[100];
 	static int m_numCbToken;
 	bool isValidNumToken(const vector<string>& tokens) const {
 		return (tokens.size() == m_numToken);
 	}
 	vector<string> m_names;
 protected:
+	static const string NOT_CHECK_RESULT;
 	static const int MAX_LBA = 99;
 	static const int MIN_LBA = 0;
 	const int m_numToken;

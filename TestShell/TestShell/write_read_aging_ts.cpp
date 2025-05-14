@@ -32,23 +32,16 @@ void WriteReadAging::excuteTs(const vector<string>& tokens) {
         executeCmd(writeCmd);
 
         vector<string> readCmd = { "read", START_LBA };
+#ifdef _DEBUG
         executeCmd(readCmd);
-
-#ifndef _DEBUG
-        if (cmdObj->getReadResult().compare(valueForStartLba) != 0)
-        {
-            std::cout << "FAIL\n";
-            throw FailException();
-        }
+#else
+        executeCmd(readCmd, valueForStartLba);
 #endif
         readCmd = { "read", END_LBA };
+#ifdef _DEBUG
         executeCmd(readCmd);
-#ifndef _DEBUG
-        if (cmdObj->getReadResult().compare(valueForEndLba) != 0)
-        {
-            std::cout << "FAIL\n";
-            throw FailException();
-        }
+#else
+        executeCmd(readCmd, valueForEndLba);
 #endif
     }
 

@@ -18,13 +18,10 @@ void PartialLbaWriteTs::excuteTs(const vector<string>& tokens) {
 
         for (int addr = 0; addr < TEST_SCRIPT2_LBA_STEP; addr++) {
             vector<string> readCmd = { "read", std::to_string(addr) };
+#ifdef _DEBUG
             executeCmd(readCmd);
-#ifndef _DEBUG
-            if (cmdObj->getReadResult().compare(TEST_SCRIPT_VALUE) != 0)
-            {
-                std::cout << "FAIL\n";
-                throw FailException();
-            }
+#else
+            executeCmd(readCmd,TEST_SCRIPT_VALUE);
 #endif
         }
         iter++;

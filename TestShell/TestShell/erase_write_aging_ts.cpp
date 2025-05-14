@@ -39,13 +39,10 @@ int EraseAndWriteAgingTs::nextLbaAddr(int lba) const
 void EraseAndWriteAgingTs::readAndCompare(const string& addr) 
 {
     vector<string> readCmd = { "read", addr };
+#ifdef _DEBUG
     executeCmd(readCmd);
-#ifndef _DEBUG
-    if (cmdObj->getReadResult().compare(TEST_EXPECTED_VALUE) != 0)
-    {
-        std::cout << "FAIL\n";
-        throw FailException();
-    }
+#else
+    executeCmd(readCmd, TEST_EXPECTED_VALUE);
 #endif
 }
 

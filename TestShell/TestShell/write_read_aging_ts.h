@@ -16,4 +16,3 @@ private:
 	const string END_LBA = "99";
 	string generateRandomHexString();
 };
-#pragma once
