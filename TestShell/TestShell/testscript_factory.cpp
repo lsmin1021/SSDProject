@@ -5,12 +5,19 @@
 #include "write_read_aging_ts.h"
 #include "erase_write_aging_ts.h"
 #include "ssd_interface.h"
-
+#include "dll_main.h"
 static FullWriteAndReadCompareTs fullWriteAndReadCompareTs;
 static PartialLbaWriteTs partialLbaWriteTs;
 static WriteReadAging writeReadAging;
 static EraseAndWriteAgingTs eraseWriteAging;
 
+extern "C" LIB_API__ void registerTs(void)
+{
+	static FullWriteAndReadCompareTs fullWriteAndReadCompareTs;
+	static PartialLbaWriteTs partialLbaWriteTs;
+	static WriteReadAging writeReadAging;
+	static EraseAndWriteAgingTs eraseWriteAging;
+}
 TestScriptFactory& TestScriptFactory::getInstance()
 {
 	static TestScriptFactory instance;

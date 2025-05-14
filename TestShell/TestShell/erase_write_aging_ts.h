@@ -1,6 +1,6 @@
 #pragma once
 #include <iostream>
-#include "cmd_interface.h"
+#include "testscript_interface.h"
 
 class EraseAndWriteAgingTs : public TsInterface {
 public:

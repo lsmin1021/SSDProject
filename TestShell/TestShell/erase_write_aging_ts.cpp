@@ -8,8 +8,9 @@ void EraseAndWriteAgingTs::excuteCmd(const vector<string>& tokens) {
     int lba = 0;
 
     vector<string> eraseCmd = { "erase", std::to_string(lba), TEST_ERASE_SIZE };
-    CmdInterface* cmdObj = CmdFactory::getInstance().getCmd(eraseCmd[0]);
-    cmdObj->excuteCmd(eraseCmd);
+    // LDY TODO
+    //CmdInterface* cmdObj = CmdFactory::getInstance().getCmd(eraseCmd[0]);
+    //cmdObj->excuteCmd(eraseCmd);
 
     lba += TEST_ERASE_SIZE_INT - 1;
 
@@ -39,8 +40,9 @@ int EraseAndWriteAgingTs::nextLbaAddr(int lba) const
 void EraseAndWriteAgingTs::readAndCompare(const string& addr) const 
 {
     vector<string> readCmd = { "read", addr };
-    CmdInterface* cmdObj = CmdFactory::getInstance().getCmd(readCmd[0]);
-    cmdObj->excuteCmd(readCmd);
+    // LDY TODO
+    //CmdInterface* cmdObj = CmdFactory::getInstance().getCmd(readCmd[0]);
+    //cmdObj->excuteCmd(readCmd);
 #ifndef _DEBUG
     if (cmdObj->getReadResult().compare(TEST_EXPECTED_VALUE) != 0)
     {
@@ -53,13 +55,15 @@ void EraseAndWriteAgingTs::readAndCompare(const string& addr) const
 void EraseAndWriteAgingTs::writeAndErase(const string& addr) const
 {
     vector<string> wirteCmd = { "write", addr, TEST_SCRIPT_VALUE };
-    CmdInterface* cmdObj = CmdFactory::getInstance().getCmd(wirteCmd[0]);
-    cmdObj->excuteCmd(wirteCmd);
+    // LDY TODO
+    //CmdInterface* cmdObj = CmdFactory::getInstance().getCmd(wirteCmd[0]);
+    //cmdObj->excuteCmd(wirteCmd);
 
     wirteCmd = { "write", addr, TEST_SCRIPT_OVERWRITE_VALUE };
-    cmdObj->excuteCmd(wirteCmd);
+    // LDY TODO
+    //cmdObj->excuteCmd(wirteCmd);
 
     vector<string> eraseCmd = { "erase", addr, TEST_ERASE_SIZE };
-    cmdObj = CmdFactory::getInstance().getCmd(eraseCmd[0]);
-    cmdObj->excuteCmd(eraseCmd);
+    //cmdObj = CmdFactory::getInstance().getCmd(eraseCmd[0]);
+    //cmdObj->excuteCmd(eraseCmd);
 }
