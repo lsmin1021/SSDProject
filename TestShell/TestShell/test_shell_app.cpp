@@ -72,7 +72,6 @@ void TestShellApp::runRunnerMode(const string& scriptFileName) {
 
         try {
             cmdParserAndExecute(line);
-            std::cout << "PASS\n";
         }
         catch (const std::invalid_argument&) {
             std::cout << "FAIL!" << std::endl;
@@ -86,6 +85,8 @@ void TestShellApp::runRunnerMode(const string& scriptFileName) {
             std::cout << "EXIT" << std::endl;
             break;
         }
+
+        std::cout << "PASS\n";
     }
     file.close();
 }
@@ -97,9 +98,14 @@ bool TestShellApp::cmdParserAndExecute(const string& cmdString) {
         throw std::invalid_argument("Empty command");
     }
     
-    if (executeSsdComand(cmdTokens)) return true;
-        
-    if (executeTestScript(cmdTokens[0])) return true;;
+    if (CmdFactory::getInstance().isSsdCmd(cmdTokens[0])) {
+        if (executeSsdComand(cmdTokens)) {
+            return true;
+        }
+    }
+    else {
+        if (executeTestScript(cmdTokens[0])) return true;;
+    }
 
     return true;
 }
@@ -110,9 +116,6 @@ bool TestShellApp::executeTestScript(string& tsName) {
 }
 
 bool TestShellApp::executeSsdComand(vector<string> cmdTokens) {
-    CmdInterface* cmdObj = CmdFactory::getInstance().getCmd(cmdTokens[0]);
-    if (cmdObj == nullptr) return false;
-
     if (CmdExecuter::getInstance().executeCmd(cmdTokens)) {
         return true;
     }
