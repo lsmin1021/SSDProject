@@ -295,6 +295,24 @@ TEST_F(CommandBufferFixture, OutOfOrderEraseMerge) {
 		expected);
 }
 
+TEST_F(CommandBufferFixture, MergeAndSeperate) {
+	vector<string> expected = {
+		"0_W_35_0xCAFE0035",
+		"1_E_5_10",
+		"2_E_15_10",
+		"3_E_25_1",
+		"4_empty"
+	};
+
+	runTest({
+		{ ERASE_COMMAND, "5", "8" },
+		{ WRITE_COMMAND, "35", "0xCAFE0035" },
+		{ ERASE_COMMAND, "10", "9" },
+		{ ERASE_COMMAND, "16", "10" }
+		},
+		expected);
+}
+
 TEST_F(CommandBufferFixture, EraseIgnoreWriteMerge) {
 	vector<string> expected = {
 		"0_E_90_4",
