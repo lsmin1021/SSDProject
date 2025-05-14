@@ -12,7 +12,7 @@
     <ClCompile Include="main.cpp">
       <Filter>소스파일</Filter>
     </ClCompile>
-    <ClCompile Include="nand_handler.cpp">
+    <ClCompile Include="nand_storage.cpp">
       <Filter>소스파일</Filter>
     </ClCompile>
     <ClCompile Include="output_handler.cpp">
@@ -48,7 +48,7 @@
     <ClInclude Include="command_handler.h">
       <Filter>헤더파일</Filter>
     </ClInclude>
-    <ClInclude Include="nand_handler.h">
+    <ClInclude Include="nand_storage.h">
       <Filter>헤더파일</Filter>
     </ClInclude>
     <ClInclude Include="output_handler.h">

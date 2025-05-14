@@ -1,6 +1,6 @@
 #pragma once
 #include "command_buffer.h"
-#include "nand_handler.h"
+#include "nand_storage.h"
 
 class DeviceHandler {
 public:
@@ -16,7 +16,7 @@ private:
 	DeviceHandler() {};
 
 	CommandBuffer m_commandBuffer;
-	NandHandler m_nandHandler;
+	NandStorage m_nandHandler;
 
 	const int BUFFER_SIZE_MAX = 5;
 };
