@@ -1,6 +1,6 @@
 #include "command_read.h"
 #include "output_handler.h"
-#include "buffer_handler.h"
+#include "device_handler.h"
 
 ReadCommand::ReadCommand() {}
 
@@ -15,7 +15,7 @@ bool ReadCommand::isValid(const vector<string>& param) {
 void ReadCommand::execute(const vector<string>& param) {
 	int lba = std::stoi(param[LBA_INDEX]);
 
-	string ret = CommandBufferHandler::getInstance().readBuffer(lba);
+	string ret = DeviceHandler::getInstance().readBuffer(lba);
 	
 	if (true == ret.empty()) {
 		ret = readDataOnAddr(lba);
@@ -25,5 +25,5 @@ void ReadCommand::execute(const vector<string>& param) {
 }
 
 string ReadCommand::readDataOnAddr(int lba) {
-	return CommandBufferHandler::getInstance().readBuffer(lba);
+	return DeviceHandler::getInstance().readBuffer(lba);
 }

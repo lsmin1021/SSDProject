@@ -129,7 +129,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="buffer_handler.cpp" />
+    <ClCompile Include="device_handler.cpp" />
     <ClCompile Include="command_buffer.cpp" />
     <ClCompile Include="command_erase.cpp" />
     <ClCompile Include="command_flush.cpp" />
@@ -153,7 +153,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="buffer_handler.h" />
+    <ClInclude Include="device_handler.h" />
     <ClInclude Include="command_buffer.h" />
     <ClInclude Include="command_erase.h" />
     <ClInclude Include="command_flush.h" />

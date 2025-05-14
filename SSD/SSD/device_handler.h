@@ -2,9 +2,9 @@
 #include "command_buffer.h"
 #include "nand_handler.h"
 
-class CommandBufferHandler {
+class DeviceHandler {
 public:
-	static CommandBufferHandler& getInstance();
+	static DeviceHandler& getInstance();
 
 	string readBuffer(int lba);
 	bool isFull();
@@ -13,7 +13,7 @@ public:
 	void eraseBuffer(int lba, int size);
 
 private:
-	CommandBufferHandler() {};
+	DeviceHandler() {};
 
 	CommandBuffer m_commandBuffer;
 	NandHandler m_nandHandler;

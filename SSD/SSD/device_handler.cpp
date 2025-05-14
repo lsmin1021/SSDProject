@@ -1,12 +1,12 @@
-#include "buffer_handler.h"
+#include "device_handler.h"
 
-CommandBufferHandler& CommandBufferHandler::getInstance() {
-	static CommandBufferHandler instance;
+DeviceHandler& DeviceHandler::getInstance() {
+	static DeviceHandler instance;
 
 	return instance;
 }
 
-string CommandBufferHandler::readBuffer(int lba) {
+string DeviceHandler::readBuffer(int lba) {
 	string ret = m_commandBuffer.readDataOnBuffer(lba);
 
 	if (true == ret.empty()) {
@@ -16,7 +16,7 @@ string CommandBufferHandler::readBuffer(int lba) {
 	return ret;
 }
 
-bool CommandBufferHandler::isFull() {
+bool DeviceHandler::isFull() {
 	if (BUFFER_SIZE_MAX == m_commandBuffer.getUsableBufferSize()) {
 		return true;
 	}
@@ -24,7 +24,7 @@ bool CommandBufferHandler::isFull() {
 	return false;
 }
 
-void CommandBufferHandler::flush() {
+void DeviceHandler::flush() {
 	vector<Buffer> cmdList = m_commandBuffer.getBufferCommands();
 	m_commandBuffer.clear();
 
@@ -38,11 +38,11 @@ void CommandBufferHandler::flush() {
 	}
 }
 
-void CommandBufferHandler::writeBuffer(int lba, string value) {
+void DeviceHandler::writeBuffer(int lba, string value) {
 	m_commandBuffer.insertCmdWrite(lba, value);
 }
 
-void CommandBufferHandler::eraseBuffer(int lba, int size) {
+void DeviceHandler::eraseBuffer(int lba, int size) {
 	m_commandBuffer.insertCmdErase(lba, size);
 }
 
