@@ -31,11 +31,11 @@ int main(int argc, char* argv[]) {
 			try {
 				app.cmdParserAndExcute(line);
 			}
-			catch (const std::invalid_argument& e) {
+			catch (const std::invalid_argument&) {
 				std::cout << "FAIL" << std::endl;
 				break;
 			}
-			catch (const FailException& e) {
+			catch (const FailException&) {
 				break;
 			}
 		}
@@ -56,12 +56,12 @@ int main(int argc, char* argv[]) {
 			try {
 				app.cmdParserAndExcute(input);
 			}
-			catch (const std::invalid_argument& e) {
+			catch (const std::invalid_argument&) {
 				cout << "INVALID COMMAND\n";
 			}
-			catch (const FailException& e) {
+			catch (const FailException&) {
 			}
-			catch (const ExitException& e) {
+			catch (const ExitException&) {
 				break;
 			}
 

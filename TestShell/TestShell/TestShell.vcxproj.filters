@@ -22,6 +22,12 @@
     <Filter Include="헤더 파일\testScript">
       <UniqueIdentifier>{f3649c48-247d-4fb4-8e56-7ef3e51c5e92}</UniqueIdentifier>
     </Filter>
+    <Filter Include="헤더 파일\command">
+      <UniqueIdentifier>{ac01f35d-847b-484e-9dda-25a0fb2198cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\command">
+      <UniqueIdentifier>{7c5c9f65-bb8f-40d8-aea5-0339c78be3c1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -37,33 +43,6 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="cmd_interface.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="write_cmd.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="read_cmd.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="exit_cmd.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="full_read_cmd.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="full_write_cmd.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="erase_cmd.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="erase_range_cmd.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="help_cmd.h">
-      <Filter>헤더 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="help_cmd.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="erase_write_aging_ts.cpp">
@@ -87,6 +66,39 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)..\..\lib\native\src\gmock\gmock-all.cc">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="logger.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="testscript_factory.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="help_cmd.h">
+      <Filter>헤더 파일\command</Filter>
+    </ClCompile>
+    <ClCompile Include="erase_cmd.cpp">
+      <Filter>소스 파일\command</Filter>
+    </ClCompile>
+    <ClCompile Include="erase_range_cmd.cpp">
+      <Filter>소스 파일\command</Filter>
+    </ClCompile>
+    <ClCompile Include="full_read_cmd.cpp">
+      <Filter>소스 파일\command</Filter>
+    </ClCompile>
+    <ClCompile Include="exit_cmd.cpp">
+      <Filter>소스 파일\command</Filter>
+    </ClCompile>
+    <ClCompile Include="full_write_cmd.cpp">
+      <Filter>소스 파일\command</Filter>
+    </ClCompile>
+    <ClCompile Include="help_cmd.cpp">
+      <Filter>소스 파일\command</Filter>
+    </ClCompile>
+    <ClCompile Include="read_cmd.cpp">
+      <Filter>소스 파일\command</Filter>
+    </ClCompile>
+    <ClCompile Include="write_cmd.cpp">
+      <Filter>소스 파일\command</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -98,25 +110,7 @@
     <ClInclude Include="cmd_interface.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="erase_cmd.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="erase_range_cmd.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="exit_cmd.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="full_read_cmd.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="full_write_cmd.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="mock_ssd.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="read_cmd.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="ssd_driver.h">
@@ -126,9 +120,6 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="test_shell_app.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="write_cmd.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="erase_write_aging_ts.h">
@@ -145,6 +136,33 @@
     </ClInclude>
     <ClInclude Include="erase_write_aging_ts.h">
       <Filter>헤더 파일\testScript</Filter>
+    </ClInclude>
+    <ClInclude Include="logger.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="testscript_factory.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="erase_cmd.h">
+      <Filter>헤더 파일\command</Filter>
+    </ClInclude>
+    <ClInclude Include="erase_range_cmd.h">
+      <Filter>헤더 파일\command</Filter>
+    </ClInclude>
+    <ClInclude Include="exit_cmd.h">
+      <Filter>헤더 파일\command</Filter>
+    </ClInclude>
+    <ClInclude Include="full_read_cmd.h">
+      <Filter>헤더 파일\command</Filter>
+    </ClInclude>
+    <ClInclude Include="full_write_cmd.h">
+      <Filter>헤더 파일\command</Filter>
+    </ClInclude>
+    <ClInclude Include="read_cmd.h">
+      <Filter>헤더 파일\command</Filter>
+    </ClInclude>
+    <ClInclude Include="write_cmd.h">
+      <Filter>헤더 파일\command</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
