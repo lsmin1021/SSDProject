@@ -27,10 +27,16 @@ int Instruction::getSize() {
 }
 
 bool Instruction::isWriteCommand() {
-	return "W" == m_cmd;
+	if (WRITE_CMD == m_cmd) {
+		return true;
+	}
+	return false;
 }
 bool Instruction::isEraseCommand() {
-	return "E" == m_cmd;
+	if (ERASE_CMD == m_cmd) {
+		return true;
+	}
+	return false;
 }
 
 void Instruction::show() {

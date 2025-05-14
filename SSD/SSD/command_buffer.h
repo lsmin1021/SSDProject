@@ -1,5 +1,4 @@
 #pragma once
-#include <string>
 #include <vector>
 #include "instruction.h"
 
@@ -30,13 +29,12 @@ private:
 	string makeBufferCmd(int index, Instruction& bufferCmd);
 
 	vector<Instruction> m_buffer;
+
 	const string EMPTY_VALUE = "0x00000000";
 	const string DIR_NAME = "buffer";
 	const string DIR_SEARCH_PATTERN = "buffer\\*";
 	
 	const string EMPTY_CMD = "empty";
-	const string WRITE_CMD = "W";
-	const string ERASE_CMD = "E";
 
 	const int MAX_BUFFER_SIZE = 5;
 };

@@ -36,6 +36,6 @@ private:
 	int m_lba = -1;
 	int m_size = -1;
 
-	const string WRITE_CMD = "W";
-	const string ERASE_CMD = "E";
+	string WRITE_CMD = "W";
+	string ERASE_CMD = "E";
 };
