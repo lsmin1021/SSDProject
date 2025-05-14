@@ -14,10 +14,11 @@ void WriteCmd::excuteCmd(const vector<string>& tokens) {
     write(lba, value);
 }
 void WriteCmd::helpCmd() const {
-    LOG_PRINT("WriteCmd", "  write <LBA> <DATA>       Write 4-byte DATA to logical block address (LBA)\n");
+    cout << "  write <LBA> <DATA>       Write 4-byte DATA to logical block address (LBA)\n";
 
 }
 
 void WriteCmd::write(const string& lba, const string& value) {
     m_ssd->writeData(lba, value);
+    cout << "[Write] DONE\n";
 }

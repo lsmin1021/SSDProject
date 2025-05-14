@@ -12,9 +12,10 @@ void ReadCmd::excuteCmd(const vector<string>& tokens) {
 	read(lba);
 }
 void ReadCmd::helpCmd() const {
-	LOG_PRINT("ReadCmd", "  read <LBA>               Read data from the specified LBA\n");
+	cout << "  read <LBA>               Read data from the specified LBA\n";
 }
 
 void ReadCmd::read(const string& lbaString) {
 	m_ssd->readData(lbaString);
+	cout << "[Read] LBA " << lbaString << " : " << getReadResult() << std::endl;
 }

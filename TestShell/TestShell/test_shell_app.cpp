@@ -1,9 +1,11 @@
 #include "test_shell_app.h"
 #include "cmd_factory.h"
 #include "cmd_interface.h"
-#include <windows.h>
+#include "testscript_factory.h"
 
+#include <windows.h>
 typedef void (*RegisterTs)(void);
+
 
 TestShellApp::TestShellApp(SsdInterface* m_ssd): m_ssd(m_ssd) {
     CmdFactory::getInstance().setSdd(m_ssd);
@@ -17,8 +19,7 @@ TestShellApp::TestShellApp(SsdInterface* m_ssd): m_ssd(m_ssd) {
     if (registerTs == nullptr) {
         std::cerr << "registerTs symbol search fali!" << std::endl;
     }
-    else
-    {
+    else {
         registerTs();
     }
 
@@ -45,7 +46,9 @@ bool TestShellApp::cmdParserAndExcute(const string& cmdString)
         return true;
     }
     m_executeTs(cmdName.c_str());
+    return true;
 }
+
 vector<string>  TestShellApp::parseCmd(const string& cmd) {
     std::istringstream iss(cmd);
     vector<string> tokens;

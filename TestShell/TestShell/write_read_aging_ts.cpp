@@ -1,4 +1,5 @@
 #include "write_read_aging_ts.h"
+#include "cmd_factory.h"
 
 void WriteReadAging::checkInvalidCmd(const vector<string>& tokens) const {
 	checkNumToken(tokens);
@@ -24,10 +25,20 @@ void WriteReadAging::excuteCmd(const vector<string>& tokens) {
         valueForStartLba = generateRandomHexString();
         valueForEndLba = generateRandomHexString();
 
-        m_ssd->writeData(START_LBA, valueForStartLba);
-        m_ssd->writeData(END_LBA, valueForEndLba);
+        vector<string> writeCmd = { "write", START_LBA, valueForStartLba };
+        // LDY TODO
+        //CmdInterface* cmdObj = CmdFactory::getInstance().getCmd(writeCmd[0]);
+        //cmdObj->excuteCmd(writeCmd);
 
-        m_ssd->readData(START_LBA);
+        writeCmd = { "write", END_LBA, valueForEndLba };
+        // LDY TODO
+        //cmdObj->excuteCmd(writeCmd);
+
+        vector<string> readCmd = { "read", START_LBA };
+        // LDY TODO
+        //CmdInterface* cmdObj2 = CmdFactory::getInstance().getCmd(readCmd[0]);
+        //cmdObj2->excuteCmd(readCmd);
+
 #ifndef _DEBUG
         if (getReadResult().compare(valueForStartLba) != 0)
         {
@@ -35,12 +46,13 @@ void WriteReadAging::excuteCmd(const vector<string>& tokens) {
             throw FailException();
         }
 #endif
-
-        m_ssd->readData(END_LBA);
+        readCmd = { "read", END_LBA };
+        // LDY TODO
+        //cmdObj2->excuteCmd(readCmd);
 #ifndef _DEBUG
         if (getReadResult().compare(valueForEndLba) != 0)
         {
-            std::cout << "  FAIL\n";
+            std::cout << "FAIL\n";
             throw FailException();
         }
 #endif

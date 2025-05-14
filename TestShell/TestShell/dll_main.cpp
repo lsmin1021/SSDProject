@@ -1,18 +1,22 @@
 ﻿#include "dll_main.h"
-#include "cmd_interface.h"
-#include "cmd_factory.h"
+#include "testscript_factory.h"
 
 static void executeTs_(const char* tsName)
 {
     std::string name = tsName;
-    CmdInterface* cmdObj = CmdFactory::getInstance().getTs(name);
+    TsInterface* cmdObj = TestScriptFactory::getInstance().getCmd(name);
     vector<string> tokens;
     tokens.push_back(tsName);
-    cmdObj->excuteCmd(tokens);
+    // LDY TODO
+    //cmdObj->excuteCmd(tokens);
+}
+extern "C"{
+    LIB_API__ void executeTs(const char* tsName)
+    {
+        executeTs_(tsName);
+    }
+    AppCb appCb;
 }
 
-extern "C" LIB_API__ void executeTs(const char* tsName)
-{
-    executeTs_(tsName);
-}
+
 

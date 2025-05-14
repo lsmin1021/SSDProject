@@ -18,28 +18,10 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\..\..\TestShell\TestShell\dll_main.cpp" />
-    <ClCompile Include="..\..\..\TestShell\TestShell\erase_write_aging_ts.cpp" />
-    <ClCompile Include="..\..\..\TestShell\TestShell\full_write_read_compare_ts.cpp" />
-    <ClCompile Include="..\..\..\TestShell\TestShell\partial_lba_write_ts.cpp" />
-    <ClCompile Include="..\..\..\TestShell\TestShell\testscript_factory.cpp" />
-    <ClCompile Include="..\..\..\TestShell\TestShell\testscript_interface.cpp" />
-    <ClCompile Include="..\..\..\TestShell\TestShell\write_read_aging_ts.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\..\TestShell\TestShell\dll_main.h" />
-    <ClInclude Include="..\..\..\TestShell\TestShell\erase_write_aging_ts.h" />
-    <ClInclude Include="..\..\..\TestShell\TestShell\full_write_read_compare_ts.h" />
-    <ClInclude Include="..\..\..\TestShell\TestShell\partial_lba_write_ts.h" />
-    <ClInclude Include="..\..\..\TestShell\TestShell\testscript_factory.h" />
-    <ClInclude Include="..\..\..\TestShell\TestShell\testscript_interface.h" />
-    <ClInclude Include="..\..\..\TestShell\TestShell\write_read_aging_ts.h" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{790c7124-57ed-4c21-adf2-a877547f9d02}</ProjectGuid>
+    <ProjectGuid>{c1588d21-0ec1-47d2-9c4b-7f008ec6aade}</ProjectGuid>
     <RootNamespace>TestShellLib</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
@@ -156,7 +138,37 @@
       <EnableUAC>false</EnableUAC>
     </Link>
   </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\TestShell\TestShell\dll_main.cpp" />
+    <ClCompile Include="..\..\..\TestShell\TestShell\erase_write_aging_ts.cpp" />
+    <ClCompile Include="..\..\..\TestShell\TestShell\full_write_read_compare_ts.cpp" />
+    <ClCompile Include="..\..\..\TestShell\TestShell\partial_lba_write_ts.cpp" />
+    <ClCompile Include="..\..\..\TestShell\TestShell\testscript_factory.cpp" />
+    <ClCompile Include="..\..\..\TestShell\TestShell\testscript_interface.cpp" />
+    <ClCompile Include="..\..\..\TestShell\TestShell\write_read_aging_ts.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\TestShell\TestShell\dll_main.h" />
+    <ClInclude Include="..\..\..\TestShell\TestShell\erase_write_aging_ts.h" />
+    <ClInclude Include="..\..\..\TestShell\TestShell\full_write_read_compare_ts.h" />
+    <ClInclude Include="..\..\..\TestShell\TestShell\partial_lba_write_ts.h" />
+    <ClInclude Include="..\..\..\TestShell\TestShell\testscript_factory.h" />
+    <ClInclude Include="..\..\..\TestShell\TestShell\testscript_interface.h" />
+    <ClInclude Include="..\..\..\TestShell\TestShell\write_read_aging_ts.h" />
+    <ClInclude Include="dll_main.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\TestShell\TestShell\packages.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\packages\gmock.1.11.0\build\native\gmock.targets" Condition="Exists('..\packages\gmock.1.11.0\build\native\gmock.targets')" />
   </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>이 프로젝트는 이 컴퓨터에 없는 NuGet 패키지를 참조합니다. 해당 패키지를 다운로드하려면 NuGet 패키지 복원을 사용하십시오. 자세한 내용은 http://go.microsoft.com/fwlink/?LinkID=322105를 참조하십시오. 누락된 파일은 {0}입니다.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\gmock.1.11.0\build\native\gmock.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\gmock.1.11.0\build\native\gmock.targets'))" />
+  </Target>
 </Project>
