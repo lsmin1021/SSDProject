@@ -1,7 +1,6 @@
 #pragma once
 #include <iostream>
-#include "cmd_interface.h"
-#include "ssd_interface.h"
+#include "testscript_interface.h"
 
 class FailException : public std::exception {
 };
@@ -9,8 +8,8 @@ class FailException : public std::exception {
 class EraseAndWriteAgingTs : public TsInterface {
 public:
 	EraseAndWriteAgingTs() : TsInterface("4_EraseAndWriteAging", 1) {}
-	void checkInvalidCmd(const vector<string>& tokens) const override;
-	void excuteCmd(const vector<string>& tokens) override;
+	void checkInvalidTs(const vector<string>& tokens) const override;
+	void excuteTs(const vector<string>& tokens) override;
 private:
 	const int TEST_MAX_ITERATE = 30;
 	const int TEST_ERASE_SIZE_INT = 3;
@@ -18,8 +17,9 @@ private:
 	const string TEST_SCRIPT_VALUE = "0x5A5A5A5A";
 	const string TEST_SCRIPT_OVERWRITE_VALUE = "0xA5A5A5A5";
 	const string TEST_EXPECTED_VALUE = "0x00000000";
-	int eraseAndReadAssert(const string& addr, int lba) const;
+  
 	int nextLbaAddr(int lba) const;
-	void readAndCompare(const string& addr) const;
-	void writeAndErase(const string& addr) const;
+	void eraseAndReadAssert(const string& addr);
+	void readAndCompare(const string& addr);
+	void writeAndErase(const string& addr);
 };

@@ -1,8 +1,8 @@
 #include "erase_cmd.h"
 #include "ssd_interface.h"
 #include "iostream"
-
-using std::cout;
+#include "msg_handler.h"
+#include "logger.h"
 
 void EraseCmd::checkInvalidCmd(const vector<string>& tokens) const {
     checkNumToken(tokens);
@@ -20,39 +20,43 @@ void EraseCmd::excuteCmd(const vector<string>& tokens) {
     }
 }
 void EraseCmd::helpCmd() const {
-    cout << "  erase <LBA>  <SIZE>       Erase 4-byte DATAs of SIZE from logical block address (LBA)\n";
+    MSG_PRINT("  erase <LBA>  <SIZE>       Erase 4-byte DATAs of SIZE from logical block address (LBA)\n");
 }
 
 void EraseCmd::checkSizeArg(const string& sizeString) const {
     std::size_t errorPos = 0;
     int size = std::stoi(sizeString, &errorPos);
-    if (isValidSizeString(sizeString, errorPos))
-    {
-        if (size >= 0) {
-            return;
-        }
-        throw std::invalid_argument("Usage: size >= 0");
-    }
+    if (isValidSizeString(sizeString, errorPos)) return;
+    LOG_PRINT("EraseCmd", "Usage: decial size\n");
     throw std::invalid_argument("Usage: decial size");
 }
 
 vector<EraseArg> EraseCmd::makeFitSizeForSsd(const string& lbaString, const string& sizeSring) {
     vector<EraseArg> result;
     EraseArg eraseArg;
-    int resize = 0;
-    int lba = std::stoi(lbaString);
-    int size = std::stoi(sizeSring);
-    while(size > 0 && lba <= MAX_LBA){
+    int startLba = std::stoi(lbaString);
+    int eraseSize = std::stoi(sizeSring);
 
-        if (size > MAX_SIZE_FOR_SSD) resize = MAX_SIZE_FOR_SSD;
-        else resize = size;
+    if (eraseSize < 0) {
+        eraseSize *= -1;
+        startLba = startLba - eraseSize + 1;
+        if (startLba < MIN_LBA) {
+            eraseSize += startLba;
+            startLba = MIN_LBA;
+        }
+    }
 
-        eraseArg.lbaString = std::to_string(lba);
+    while(eraseSize > 0 && startLba <= MAX_LBA){
+        int resize = 0;
+        if (eraseSize > MAX_SIZE_FOR_SSD) resize = MAX_SIZE_FOR_SSD;
+        else resize = eraseSize;
+
+        eraseArg.lbaString = std::to_string(startLba);
         eraseArg.sizeString = std::to_string(resize);
         result.push_back(eraseArg);
 
-        lba += resize;
-        size -= resize;
+        startLba += resize;
+        eraseSize -= resize;
     }
     return result;
 }

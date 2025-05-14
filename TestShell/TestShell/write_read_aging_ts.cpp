@@ -1,6 +1,7 @@
 #include "write_read_aging_ts.h"
+#include "cmd_factory.h"
 
-void WriteReadAging::checkInvalidCmd(const vector<string>& tokens) const {
+void WriteReadAging::checkInvalidTs(const vector<string>& tokens) const {
 	checkNumToken(tokens);
 }
 
@@ -16,7 +17,7 @@ string WriteReadAging::generateRandomHexString() {
     return ss.str();
 }
 
-void WriteReadAging::excuteCmd(const vector<string>& tokens) {
+void WriteReadAging::excuteTs(const vector<string>& tokens) {
     string valueForStartLba = "";
     string valueForEndLba = "";
 
@@ -24,27 +25,25 @@ void WriteReadAging::excuteCmd(const vector<string>& tokens) {
         valueForStartLba = generateRandomHexString();
         valueForEndLba = generateRandomHexString();
 
-        m_ssd->writeData(START_LBA, valueForStartLba);
-        m_ssd->writeData(END_LBA, valueForEndLba);
+        vector<string> writeCmd = { "write", START_LBA, valueForStartLba };
+        executeCmd(writeCmd);
 
-        m_ssd->readData(START_LBA);
-#ifndef _DEBUG
-        if (getReadResult().compare(valueForStartLba) != 0)
-        {
-            std::cout << "FAIL\n";
-            return;
-        }
+        writeCmd = { "write", END_LBA, valueForEndLba };
+        executeCmd(writeCmd);
+
+        vector<string> readCmd = { "read", START_LBA };
+#ifdef _DEBUG
+        executeCmd(readCmd);
+#else
+        executeCmd(readCmd, valueForStartLba);
 #endif
-
-        m_ssd->readData(END_LBA);
-#ifndef _DEBUG
-        if (getReadResult().compare(valueForEndLba) != 0)
-        {
-            std::cout << "  FAIL\n";
-            return;
-        }
+        readCmd = { "read", END_LBA };
+#ifdef _DEBUG
+        executeCmd(readCmd);
+#else
+        executeCmd(readCmd, valueForEndLba);
 #endif
     }
 
-    std::cout << "PASS\n";
+    return;
 }

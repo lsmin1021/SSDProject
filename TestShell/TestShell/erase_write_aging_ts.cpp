@@ -1,29 +1,32 @@
 #include "erase_write_aging_ts.h"
+#include "cmd_factory.h"
 
-void EraseAndWriteAgingTs::checkInvalidCmd(const vector<string>& tokens) const {
+void EraseAndWriteAgingTs::checkInvalidTs(const vector<string>& tokens) const {
     checkNumToken(tokens);
 }
 
-void EraseAndWriteAgingTs::excuteCmd(const vector<string>& tokens) {
+void EraseAndWriteAgingTs::excuteTs(const vector<string>& tokens) {
     int lba = 0;
 
-    m_ssd->eraseData(std::to_string(lba), TEST_ERASE_SIZE);
+    vector<string> eraseCmd = { "erase", std::to_string(lba), TEST_ERASE_SIZE };
+    executeCmd(eraseCmd);
+ 
     lba += TEST_ERASE_SIZE_INT - 1;
+
     for (int iter = 0; iter < TEST_MAX_ITERATE; iter++) {
-        string addr = std::to_string(lba);
-        lba = eraseAndReadAssert(addr, lba);
-        lba = eraseAndReadAssert(addr, lba);
-        lba = eraseAndReadAssert(addr, lba);
-    }   
+        for(lba = 2; lba < MAX_LBA; lba+= TEST_ERASE_SIZE_INT) {
+            string addr = std::to_string(lba);
+            eraseAndReadAssert(addr);
+        }
+    }
     
-    std::cout << "PASS\n";
+    return;
 }
 
-int EraseAndWriteAgingTs::eraseAndReadAssert(const string& addr, int lba) const
+void EraseAndWriteAgingTs::eraseAndReadAssert(const string& addr)
 {
     writeAndErase(addr);
     readAndCompare(addr);
-    return nextLbaAddr(lba);
 }
 
 int EraseAndWriteAgingTs::nextLbaAddr(int lba) const
@@ -33,21 +36,24 @@ int EraseAndWriteAgingTs::nextLbaAddr(int lba) const
     return result;
 }
 
-void EraseAndWriteAgingTs::readAndCompare(const string& addr) const 
+void EraseAndWriteAgingTs::readAndCompare(const string& addr) 
 {
-    m_ssd->readData(addr);
-#ifndef _DEBUG
-    if (getReadResult().compare(TEST_EXPECTED_VALUE) != 0)
-    {
-        std::cout << "FAIL\n";
-        throw FailException();
-    }
+    vector<string> readCmd = { "read", addr };
+#ifdef _DEBUG
+    executeCmd(readCmd);
+#else
+    executeCmd(readCmd, TEST_EXPECTED_VALUE);
 #endif
 }
 
-void EraseAndWriteAgingTs::writeAndErase(const string& addr) const
+void EraseAndWriteAgingTs::writeAndErase(const string& addr)
 {
-    m_ssd->writeData(addr, TEST_SCRIPT_VALUE);
-    m_ssd->writeData(addr, TEST_SCRIPT_OVERWRITE_VALUE);
-    m_ssd->eraseData(addr, TEST_ERASE_SIZE);
+    vector<string> wirteCmd = { "write", addr, TEST_SCRIPT_VALUE };
+    executeCmd(wirteCmd);
+
+    wirteCmd = { "write", addr, TEST_SCRIPT_OVERWRITE_VALUE };
+    executeCmd(wirteCmd);
+
+    vector<string> eraseCmd = { "erase", addr, TEST_ERASE_SIZE };
+    executeCmd(eraseCmd);
 }

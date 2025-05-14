@@ -1,30 +1,31 @@
 #include "partial_lba_write_ts.h"
+#include "cmd_factory.h"
 
-void PartialLbaWriteTs::checkInvalidCmd(const vector<string>& tokens) const {
+void PartialLbaWriteTs::checkInvalidTs(const vector<string>& tokens) const {
 	checkNumToken(tokens);
 }
 
-void PartialLbaWriteTs::excuteCmd(const vector<string>& tokens) {
+void PartialLbaWriteTs::excuteTs(const vector<string>& tokens) {
     int iter = 0;
     vector<string> test_addr = { "4", "0", "3", "1", "2" };
 
     while (iter < TEST_SCRIPT2_REPEAT_NUM) {
-        for (auto addr : test_addr)
-            m_ssd->writeData(addr, TEST_SCRIPT_VALUE);
+        for (auto addr : test_addr) {
+            vector<string> wirteCmd = { "write", addr, TEST_SCRIPT_VALUE };
+            executeCmd(wirteCmd);
+        }
 
 
         for (int addr = 0; addr < TEST_SCRIPT2_LBA_STEP; addr++) {
-            m_ssd->readData(std::to_string(addr));
-#ifndef _DEBUG
-            if (getReadResult().compare(TEST_SCRIPT_VALUE) != 0)
-            {
-                std::cout << "FAIL\n";
-                return;
-            }
+            vector<string> readCmd = { "read", std::to_string(addr) };
+#ifdef _DEBUG
+            executeCmd(readCmd);
+#else
+            executeCmd(readCmd,TEST_SCRIPT_VALUE);
 #endif
         }
         iter++;
     }
 
-    std::cout << "PASS\n";
+    return;
 }

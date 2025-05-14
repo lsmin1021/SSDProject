@@ -1,6 +1,7 @@
 #pragma once
 
 #include "cmd_interface.h"
+
 class HelpCmd : public CmdInterface {
 public:
 	HelpCmd() : CmdInterface("help", 1) {}

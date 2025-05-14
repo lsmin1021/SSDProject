@@ -104,10 +104,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\dy\project\SSDProject\TestShell\x64\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -118,6 +121,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -127,25 +131,27 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="cmd_executer.cpp" />
+    <ClCompile Include="cmd_executer.h" />
     <ClCompile Include="cmd_factory.cpp" />
     <ClCompile Include="cmd_interface.cpp" />
+    <ClCompile Include="dll_driver.cpp" />
     <ClCompile Include="erase_cmd.cpp" />
     <ClCompile Include="erase_range_cmd.cpp" />
-    <ClCompile Include="erase_write_aging_ts.cpp" />
     <ClCompile Include="exit_cmd.cpp" />
+    <ClCompile Include="flush_cmd.cpp" />
     <ClCompile Include="full_read_cmd.cpp" />
     <ClCompile Include="full_write_cmd.cpp" />
-    <ClCompile Include="full_write_read_compare_ts.cpp" />
-    <ClCompile Include="help.cpp" />
+    <ClCompile Include="help_cmd.cpp" />
     <ClCompile Include="help_cmd.h" />
+    <ClCompile Include="logger.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="partial_lba_write_ts.cpp" />
+    <ClCompile Include="msg_handler.cpp" />
     <ClCompile Include="read_cmd.cpp" />
     <ClCompile Include="ssd_driver.cpp" />
     <ClCompile Include="test_case.cpp" />
     <ClCompile Include="test_shell_app.cpp" />
     <ClCompile Include="write_cmd.cpp" />
-    <ClCompile Include="write_read_aging_ts.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -153,21 +159,26 @@
   <ItemGroup>
     <ClInclude Include="cmd_factory.h" />
     <ClInclude Include="cmd_interface.h" />
+    <ClInclude Include="console_handler.h" />
+    <ClInclude Include="dll_driver.h" />
+    <ClInclude Include="dll_main.h" />
     <ClInclude Include="erase_cmd.h" />
     <ClInclude Include="erase_range_cmd.h" />
-    <ClInclude Include="erase_write_aging_ts.h" />
     <ClInclude Include="exit_cmd.h" />
+    <ClInclude Include="file_output_handler.h" />
+    <ClInclude Include="flush_cmd.h" />
     <ClInclude Include="full_read_cmd.h" />
     <ClInclude Include="full_write_cmd.h" />
-    <ClInclude Include="full_write_read_compare_ts.h" />
+    <ClInclude Include="logger.h" />
     <ClInclude Include="mock_ssd.h" />
-    <ClInclude Include="partial_lba_write_ts.h" />
+    <ClInclude Include="msg_handler.h" />
+    <ClInclude Include="output_handler_interface.h" />
+    <ClInclude Include="null_ouput_handler.h" />
     <ClInclude Include="read_cmd.h" />
     <ClInclude Include="ssd_driver.h" />
     <ClInclude Include="ssd_interface.h" />
     <ClInclude Include="test_shell_app.h" />
     <ClInclude Include="write_cmd.h" />
-    <ClInclude Include="write_read_aging_ts.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
