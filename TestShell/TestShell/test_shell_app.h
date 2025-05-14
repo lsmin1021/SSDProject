@@ -28,7 +28,7 @@ public:
 
 private:
 	void runBasicMode(void);
-	void runRunnerMode(string scriptFileName);
+	void runRunnerMode(const string& scriptFileName);
 	void printInvalidArgsMessage(const string& programName);
 
 	SsdInterface* m_ssd;

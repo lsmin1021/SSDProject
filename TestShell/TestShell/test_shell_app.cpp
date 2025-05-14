@@ -30,8 +30,8 @@ void TestShellApp::run(int argc, char* argv[]) {
 void TestShellApp::runBasicMode(void) {
     ConsoleOutputHandler outputHandler;
     MsgHandler::getInstance().setMsgHandler(&outputHandler);
+    
     string input;
-
     while (true) {
         std::cout << "Shell> ";
         std::getline(std::cin, input);
@@ -57,7 +57,7 @@ void TestShellApp::runBasicMode(void) {
     }
 }
 
-void TestShellApp::runRunnerMode(string scriptFileName) {
+void TestShellApp::runRunnerMode(const string& scriptFileName) {
     FileOutputHandler outputHandler;
     MsgHandler::getInstance().setMsgHandler(&outputHandler);
 
@@ -67,7 +67,7 @@ void TestShellApp::runRunnerMode(string scriptFileName) {
         return;
     }
 
-    std::string line;
+    string line;
     while (std::getline(file, line)) {
         std::cout << line << "  ---  Run...";
 
@@ -81,18 +81,23 @@ void TestShellApp::runRunnerMode(string scriptFileName) {
         catch (const FailException&) {
             break;
         }
+        catch (const ExitException&) {
+            std::cout << "EXIT" << std::endl;
+            break;
+        }
     }
     file.close();
 }
 
-bool TestShellApp::cmdParserAndExecute(const string& cmdString)
-{
+bool TestShellApp::cmdParserAndExecute(const string& cmdString) {
     vector<string> cmdTokens = parseCmd(cmdString);
     if (cmdTokens.empty()) {
         throw std::invalid_argument("Empty command");
     }
     
-    if (CmdExecuter::getInstance().executeCmd(cmdTokens)) return true;
+    if (CmdExecuter::getInstance().executeCmd(cmdTokens)) {
+        return true;
+    }
     
     string cmdName = cmdTokens[0];
     DllDriver::getInstance().getDllApi().executeTs(cmdName.c_str());
@@ -100,7 +105,7 @@ bool TestShellApp::cmdParserAndExecute(const string& cmdString)
     return true;
 }
 
-vector<string>  TestShellApp::parseCmd(const string& cmdString) {
+vector<string> TestShellApp::parseCmd(const string& cmdString) {
     std::istringstream iss(cmdString);
     vector<string> cmdTokens;
     string token;
