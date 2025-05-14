@@ -37,6 +37,7 @@ void CommandBuffer::insertCmdWrite(int lba, string value) {
 void CommandBuffer::insertCmdErase(int lba, int size) {
 	Buffer cmd(ERASE_CMD, "", lba, size);
 
+	ignoreCommand(cmd);
 	m_buffer.push_back(cmd);
 
 	storeDataToBuffer();
@@ -46,50 +47,40 @@ void CommandBuffer::ignoreCommand(Buffer& cmd) {
 	if (true == m_buffer.empty()) return;
 
 	if (WRITE_CMD == cmd.getCmd()) {
-		do {
-			Buffer& preCmd = m_buffer.back();
+		for (int i = m_buffer.size() - 1; i >= 0; i--) {
+			Buffer& preCmd = m_buffer[i];
 
 			if (WRITE_CMD == preCmd.getCmd()) {
 				if (preCmd.getLba() == cmd.getLba()) {
-					m_buffer.pop_back();
-					continue;
+					m_buffer.erase(m_buffer.begin() + i);
 				}
-				break;
 			}
 			else if (ERASE_CMD == preCmd.getCmd()) {
 				if (preCmd.getLba() == cmd.getLba() && preCmd.getSize() == 1) {
-					m_buffer.pop_back();
-					continue;
+					m_buffer.erase(m_buffer.begin() + i);
 				}
-
-				break;
 			}
-		} while (false == m_buffer.empty());
+		}
 	}
 	else if (ERASE_CMD == cmd.getCmd()) {
-		do {
-			Buffer& preCmd = m_buffer.back();
+		for (int i = m_buffer.size() - 1; i >= 0; i--) {
+			Buffer& preCmd = m_buffer[i];
 
 			if (WRITE_CMD == preCmd.getCmd()) {
 				if (cmd.getSize() != 0 &&
 					cmd.getLba() <= preCmd.getLba() &&
-					cmd.getSize() + cmd.getLba() > preCmd.getLba()) {
-					m_buffer.pop_back();
-					continue;
+					cmd.getLba() + cmd.getSize() > preCmd.getLba()) {
+					m_buffer.erase(m_buffer.begin() + i);
 				}
-				break;
 			}
 			else if (ERASE_CMD == preCmd.getCmd()) {
 				if (cmd.getSize() != 0 &&
 					cmd.getLba() <= preCmd.getLba() &&
 					cmd.getSize() + cmd.getLba() >= preCmd.getLba() + preCmd.getSize()) {
-					m_buffer.pop_back();
-					continue;
+					m_buffer.erase(m_buffer.begin() + i);
 				}
-
-				break;
 			}
-		} while (false == m_buffer.empty());
+		}
 	}
 }
 
@@ -180,7 +171,7 @@ Buffer CommandBuffer::parseBufferCmd(string bufferCmd) {
 	string::size_type posLba = bufferCmd.find('_', 2);
 	string lba = bufferCmd.substr(2, posLba - 2);
 
-	string::size_type posParam = posLba + lba.length();
+	string::size_type posParam = posLba + 1;
 	string param = bufferCmd.substr(posParam);
 
 	Buffer cb;
