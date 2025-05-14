@@ -34,20 +34,28 @@ void CommandBuffer::mergeCommand() {
 	Instruction latestInst = m_buffer.back();
 	m_buffer.pop_back();
 
+	vector<int> writeLbaList;
 	for (int i = m_buffer.size() - 1; i >= 0; i--) {
 		Instruction& targetInst = m_buffer[i];
 
 		if (true == targetInst.isWriteCommand()) {
-			break;
+			writeLbaList.push_back(targetInst.getLba());
+			continue;
 		}
+
+		bool inRange = false;
+		for (int j = 0; j < writeLbaList.size(); j++) {
+			if (targetInst.getLba() <= writeLbaList[j] && targetInst.getLba() + targetInst.getSize() > writeLbaList[j]) {
+				inRange = true;
+			}
+		}
+		if (true == inRange) continue;
 
 		if (true == isMergeable(latestInst, targetInst)) {
 			latestInst = merge(latestInst, targetInst);
 
 			m_buffer.erase(m_buffer.begin() + i);
 		}
-
-		latestInst.show();
 	}
 
 	while (MAX_ERASE_SIZE < latestInst.getSize()) {

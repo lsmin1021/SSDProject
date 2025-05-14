@@ -5,7 +5,7 @@
 #include "command_handler.h"
 
 int main(int argc, char* argv[]) {
-#ifdef _DEBUG
+#ifndef _DEBUG
 	::testing::InitGoogleMock(&argc, argv);
 	return RUN_ALL_TESTS();
 #else
