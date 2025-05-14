@@ -19,6 +19,7 @@ public:
 	string getCmd();
 	string getValue();
 	int getLba();
+	int getLbaTo();
 	int getSize();
 
 	Instruction& setInstString(const string& instStr);

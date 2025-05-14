@@ -59,7 +59,7 @@ void CommandBuffer::mergeCommand() {
 bool CommandBuffer::isConflicted(Instruction& targetInst, vector<int>& writeLbaList) {
 	bool ret = false;
 	for (int lba : writeLbaList) {
-		if (targetInst.getLba() <= lba && targetInst.getLba() + targetInst.getSize() > lba) {
+		if (targetInst.getLba() <= lba && targetInst.getLbaTo() >= lba) {
 			ret = true;
 		}
 	}
@@ -132,16 +132,12 @@ void CommandBuffer::ignoreCommand(Instruction& cmd) {
 			Instruction& preCmd = m_buffer[i];
 
 			if (true == preCmd.isWriteCommand()) {
-				if (cmd.getSize() != 0 &&
-					cmd.getLba() <= preCmd.getLba() &&
-					cmd.getLba() + cmd.getSize() > preCmd.getLba()) {
+				if (cmd.getLba() <= preCmd.getLba() && cmd.getLbaTo() >= preCmd.getLba()) {
 					m_buffer.erase(m_buffer.begin() + i);
 				}
 			}
 			else if (true == cmd.isEraseCommand()) {
-				if (cmd.getSize() != 0 &&
-					cmd.getLba() <= preCmd.getLba() &&
-					cmd.getSize() + cmd.getLba() >= preCmd.getLba() + preCmd.getSize()) {
+				if (cmd.getLba() <= preCmd.getLba() && cmd.getLbaTo() >= preCmd.getLbaTo()) {
 					m_buffer.erase(m_buffer.begin() + i);
 				}
 			}
@@ -159,9 +155,7 @@ string CommandBuffer::getValueOnBuffer(int lba) {
 			}
 		}
 		else if (true == cmd.isEraseCommand()) {
-			if (0 < cmd.getSize() &&
-				cmd.getLba() <= lba &&
-				cmd.getLba() + cmd.getSize() > lba) {
+			if (cmd.getLba() <= lba && cmd.getLbaTo() >= lba) {
 				value = EMPTY_VALUE;
 			}
 		}

@@ -34,6 +34,9 @@ string Instruction::getValue() {
 int Instruction::getLba() { 
 	return m_lba;
 }
+int Instruction::getLbaTo() {
+	return m_lba + m_size - 1;
+}
 int Instruction::getSize() { 
 	return m_size; 
 }
@@ -80,9 +83,9 @@ bool Instruction::isEraseCommand() {
 
 bool Instruction::isMergeable(Instruction& inst1, Instruction& inst2) {
 	int lbaFrom1 = inst1.getLba();
-	int lbaTo1 = lbaFrom1 + inst1.getSize() - 1;
+	int lbaTo1 = inst1.getLbaTo();
 	int lbaFrom2 = inst2.getLba();
-	int lbaTo2 = lbaFrom2 + inst2.getSize() - 1;
+	int lbaTo2 = inst2.getLbaTo();
 
 	if (lbaFrom1 <= lbaTo2 && lbaFrom2 <= lbaTo1) {
 		return true;
@@ -97,10 +100,7 @@ bool Instruction::isMergeable(Instruction& inst1, Instruction& inst2) {
 
 Instruction Instruction::mergeInst(Instruction& inst1, Instruction& inst2) {
 	int lbaFrom = inst1.getLba() < inst2.getLba() ? inst1.getLba() : inst2.getLba();
-
-	int lbaTo1 = inst1.getLba() + inst1.getSize() - 1;
-	int lbaTo2 = inst2.getLba() + inst2.getSize() - 1;
-	int lbaTo = lbaTo1 > lbaTo2 ? lbaTo1 : lbaTo2;
+	int lbaTo = inst1.getLbaTo() > inst2.getLbaTo() ? inst1.getLbaTo() : inst2.getLbaTo();
 
 	int size = lbaTo - lbaFrom + 1;
 
