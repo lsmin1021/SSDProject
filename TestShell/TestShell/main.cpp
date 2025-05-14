@@ -1,4 +1,3 @@
-#include <iostream>
 #ifdef _DEBUG
 #include <gmock/gmock.h>
 #endif

@@ -2,13 +2,11 @@
 #include "cmd_factory.h"
 #include "cmd_interface.h"
 #include "cmd_executer.h"
-#include "dll_driver.h"
-#include <windows.h>
-
-#include "exit_cmd.h"
+#include "msg_handler.h"
 #include "console_handler.h"
 #include "file_output_handler.h"
-#include "msg_handler.h"
+#include "dll_driver.h"
+#include <windows.h>
 
 TestShellApp::TestShellApp(SsdInterface* m_ssd): m_ssd(m_ssd) {
     CmdFactory::getInstance().setSdd(m_ssd);

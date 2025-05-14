@@ -23,7 +23,6 @@ public:
 	TestShellApp(SsdInterface* m_ssd);
 	~TestShellApp() = default;
 	void run(int argc, char* argv[]);
-	void printInvalidArgsMessage(char* argv[]);
 	bool cmdParserAndExecute(const string& cmdcmdString);
 
 private:
