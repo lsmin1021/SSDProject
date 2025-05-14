@@ -23,6 +23,8 @@ public:
 	TestShellApp(SsdInterface* m_ssd);
 	~TestShellApp() = default;
 	bool cmdParserAndExcute(const string& cmdcmdString);
+	void runBasic(void);
+	void runRunner(string scriptFileName);
 
 private:
 	SsdInterface* m_ssd;
