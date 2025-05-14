@@ -1,24 +1,23 @@
 #pragma once
 #include <iostream>
+#include <string>
 #include <vector>
-#include "output_handler.cpp"
-#include "nand_handler.cpp"
 
+using std::string;
 using std::vector;
 
 class ICommand {
 public:
-	ICommand(NandHandler* nandHandler) : m_nandHandler(nandHandler) { }
-
+	ICommand() = default;
 	virtual bool isValid(const vector<string>& param) = 0;
 	virtual void execute(const vector<string>& param) = 0;
 
-	bool isValidLBA(const string& lbaStr) {
+protected:
+	bool toInt(const string& str, int& result) {
 		try {
 			size_t pos = 0;
-			int lba = std::stoi(lbaStr, &pos);
-			if (pos != lbaStr.length())	return false;
-			if (lba < MIN_LBA || lba > MAX_LBA) return false;
+			result = std::stoi(str, &pos);
+			if (pos != str.length()) return false;
 		}
 		catch (std::invalid_argument&) {
 			return false;
@@ -29,26 +28,14 @@ public:
 		return true;
 	}
 
-	bool isValidValue(const string& valueStr) {
-		if (valueStr.length() != DATA_VALUE_LENGTH)
-			return false;
-		if (valueStr.find("0x") != 0)
-			return false;
-
-		for (char ch : valueStr.substr(2)) {
-			if (!isxdigit(static_cast<unsigned char>(ch)))
-				return false;
-		}
-
-		return true;
+	bool isValidLBA(const string& lbaStr) {
+		int lba;
+		if (toInt(lbaStr, lba)) return (lba >= MIN_LBA && lba <= MAX_LBA);
+		return false;
 	}
-
-	NandHandler* m_nandHandler;
 
 	const int MAX_LBA = 99;
 	const int MIN_LBA = 0;
-	const int DATA_VALUE_LENGTH = 10;
 
 	const int LBA_INDEX = 1;
-	const int VALUE_INDEX = 2;
 };
