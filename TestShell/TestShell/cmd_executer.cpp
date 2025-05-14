@@ -21,3 +21,7 @@ vector<string> CmdExecuter::converTokenCtoCpp(int numToken, char* tokens[]) {
     }
     return result;
 }
+
+extern "C" bool executeCmd(int numToken, char* tokens[]) {
+    return CmdExecuter::getInstance().executeCmd(CmdExecuter::converTokenCtoCpp(numToken, tokens));
+}

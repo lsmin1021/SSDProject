@@ -13,13 +13,13 @@ public:
 	~TestScriptFactory() = default;
 
 	static TestScriptFactory& getInstance();
-	static void registerTs();
+	static void generateTs();
 
-	void registerCmd(TsInterface* cmd) {
-		m_supportedTs.push_back(cmd);
+	void registerTs(TsInterface* ts) {
+		m_supportedTs.push_back(ts);
 	}
 
-	TsInterface* getCmd(const string& name) const;
+	TsInterface* getTs(const string& name) const;
 	const vector<TsInterface*>& getSsupportedCmds() const {
 		return m_supportedTs;
 	}

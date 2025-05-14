@@ -21,8 +21,8 @@ public:
 		return m_names;
 	}
 
-	virtual void checkInvalidCmd(const vector<string>& tokens) const = 0;
-	virtual void excuteCmd(const vector<string>& tokens) = 0;
+	virtual void checkInvalidTs(const vector<string>& tokens) const = 0;
+	virtual void excuteTs(const vector<string>& tokens) = 0;
 
 	void checkNumToken(const vector<string>& tokens) const {
 		if (isValidNumToken(tokens)) return;
@@ -30,6 +30,12 @@ public:
 	}
 	string getReadResult() const;
 
+	bool executeCmd(const vector<string>& cppTokens) {
+		char* tokens[10];
+		int numToken = converTokenCpptoC(cppTokens, tokens);
+		return appCb.excueteCmd(numToken, tokens);
+	}
+	int converTokenCpptoC(const vector<string>& cppTokens, char* cTokens[]);
 private:
 	bool isValidNumToken(const vector<string>& tokens) const {
 		return (tokens.size() == m_numToken);

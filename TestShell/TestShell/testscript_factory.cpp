@@ -11,20 +11,21 @@ static PartialLbaWriteTs partialLbaWriteTs;
 static WriteReadAging writeReadAging;
 static EraseAndWriteAgingTs eraseWriteAging;
 
-void TestScriptFactory::registerTs(void)
+void TestScriptFactory::generateTs(void)
 {
 	static FullWriteAndReadCompareTs fullWriteAndReadCompareTs;
 	static PartialLbaWriteTs partialLbaWriteTs;
 	static WriteReadAging writeReadAging;
 	static EraseAndWriteAgingTs eraseWriteAging;
 }
+
 TestScriptFactory& TestScriptFactory::getInstance()
 {
 	static TestScriptFactory instance;
 	return instance;
 }
 
-TsInterface* TestScriptFactory::getCmd(const string& name) const {
+TsInterface* TestScriptFactory::getTs(const string& name) const {
 	for (auto& cmd : m_supportedTs) {
 		vector<string> names = cmd->getName();
 		for (auto myName : names)
