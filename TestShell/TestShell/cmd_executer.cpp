@@ -1,6 +1,7 @@
 #include "cmd_executer.h"
 #include "cmd_interface.h"
 #include "cmd_factory.h"
+#include <iostream>
 CmdExecuter& CmdExecuter::getInstance() {
 	static CmdExecuter instance;
 	return instance;
@@ -23,5 +24,6 @@ vector<string> CmdExecuter::converTokenCtoCpp(int numToken, char* tokens[]) {
 }
 
 extern "C" bool executeCmd(int numToken, char* tokens[]) {
+    std::cout << "executeCmd\n";
     return CmdExecuter::getInstance().executeCmd(CmdExecuter::converTokenCtoCpp(numToken, tokens));
 }

@@ -196,7 +196,7 @@ TEST_F(MockSddFixture, CmdFactoryTc) {
 	excuteFactoryTc("exit");
 	excuteFactoryTc("help");
 }
-#if 0 //LDY TODO
+
 TEST_F(MockSddFixture, TescScript1) {
 	// Arrange
 	EXPECT_CALL(m_mockSsd, writeData(_, _)).Times(TEST_SCRIPT1_ITERATION);
@@ -205,6 +205,7 @@ TEST_F(MockSddFixture, TescScript1) {
 	EXPECT_NO_THROW(m_tespApp->cmdParserAndExcute(TEST_SCRIPT1));
 }
 
+#if 0
 TEST_F(MockSddFixture, TescScript1ShortCut) {
 	// Arrange
 	EXPECT_CALL(m_mockSsd, writeData(_, _)).Times(TEST_SCRIPT1_ITERATION);

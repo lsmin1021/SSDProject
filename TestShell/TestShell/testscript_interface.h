@@ -7,7 +7,7 @@
 using std::string;
 using std::vector;
 
-extern AppCb appCb;
+extern AppCb cb;
 
 class FailException : public std::exception {
 };
@@ -31,12 +31,13 @@ public:
 	string getReadResult() const;
 
 	bool executeCmd(const vector<string>& cppTokens) {
-		char* tokens[10];
-		int numToken = converTokenCpptoC(cppTokens, tokens);
-		return appCb.excueteCmd(numToken, tokens);
+		m_cbNumToken = converTokenCpptoC(cppTokens, m_cbTokens);
+		return cb.excueteCmd(m_cbNumToken, m_cbTokens);
 	}
 	int converTokenCpptoC(const vector<string>& cppTokens, char* cTokens[]);
 private:
+	char* m_cbTokens[10];
+	int m_cbNumToken;
 	bool isValidNumToken(const vector<string>& tokens) const {
 		return (tokens.size() == m_numToken);
 	}
