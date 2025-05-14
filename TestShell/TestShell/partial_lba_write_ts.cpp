@@ -27,5 +27,5 @@ void PartialLbaWriteTs::excuteTs(const vector<string>& tokens) {
         iter++;
     }
 
-    std::cout << "PASS\n";
+    return;
 }

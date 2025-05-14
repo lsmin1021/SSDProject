@@ -45,5 +45,5 @@ void WriteReadAging::excuteTs(const vector<string>& tokens) {
 #endif
     }
 
-    std::cout << "PASS\n";
+    return;
 }

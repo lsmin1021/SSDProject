@@ -46,6 +46,7 @@ void TestShellApp::runBasicMode(void) {
             MSG_PRINT("INVALID COMMAND\n");
         }
         catch (const FailException&) {
+            std::cout << "FAIL" << std::endl;
         }
         catch (const ExitException&) {
             break;
@@ -73,10 +74,11 @@ void TestShellApp::runRunnerMode(const string& scriptFileName) {
             cmdParserAndExecute(line);
         }
         catch (const std::invalid_argument&) {
-            std::cout << "FAIL" << std::endl;
+            std::cout << "FAIL!" << std::endl;
             break;
         }
         catch (const FailException&) {
+            std::cout << "FAIL!" << std::endl;
             break;
         }
         catch (const ExitException&) {
@@ -99,7 +101,9 @@ bool TestShellApp::cmdParserAndExecute(const string& cmdString) {
     }
     
     string cmdName = cmdTokens[0];
+    
     DllDriver::getInstance().getDllApi().executeTs(cmdName.c_str());
+    std::cout << "PASS\n";
 
     return true;
 }

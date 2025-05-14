@@ -20,7 +20,7 @@ void EraseAndWriteAgingTs::excuteTs(const vector<string>& tokens) {
         }
     }
     
-    std::cout << "PASS\n";
+    return;
 }
 
 void EraseAndWriteAgingTs::eraseAndReadAssert(const string& addr)

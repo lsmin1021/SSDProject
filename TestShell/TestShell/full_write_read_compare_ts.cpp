@@ -23,5 +23,5 @@ void FullWriteAndReadCompareTs::excuteTs(const vector<string>& tokens) {
         }
         lba += TEST_LBA_STEP;
     }
-    std::cout << "PASS\n";
+    return;
 }
