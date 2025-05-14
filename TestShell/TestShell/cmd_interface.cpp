@@ -1,4 +1,5 @@
 #include "cmd_interface.h"
+#include "ssd_interface.h"
 #include "cmd_factory.h"
 #include "testscript_factory.h"
 #include <fstream>
@@ -40,17 +41,10 @@ void CmdInterface::checkDataArg(const string& dataString) const {
 }
 
 string CmdInterface::getReadResult() const {
-    std::ifstream file("ssd_output.txt");
-
-    if (!file.is_open()) {
+    if (m_ssd)
+        return m_ssd->getReadResult();
+    else
         return "";
-    }
-
-    string result;
-    getline(file, result);
-    file.close();
-
-    return result;
 }
 
 TsInterface::TsInterface(const string& name, int numToken) : m_numToken(numToken) {
