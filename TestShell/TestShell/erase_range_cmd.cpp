@@ -19,7 +19,7 @@ void EraseRangeCmd::excuteCmd(const vector<string>& tokens) {
 
    string sizeString = std::to_string(endLba - startLba + 1);  
    vector<string> newTokens;
-   newTokens.push_back(getName()[0]);
+   newTokens.push_back(getName());
    newTokens.push_back(startLbaString);  
    newTokens.push_back(sizeString);  
 

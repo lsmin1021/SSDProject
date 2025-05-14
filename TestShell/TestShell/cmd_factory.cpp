@@ -34,11 +34,18 @@ void CmdFactory::setSdd(SsdInterface* sdd) {
 }
 CmdInterface* CmdFactory::getCmd(const string& name) const {
 	for (auto& cmd : m_supportedCmds) {
-		vector<string> names = cmd->getName();
-		for(auto myName : names)
-		if (name == myName) {
+		if (name == cmd->getName()) {
 			return cmd;
 		}
 	}
 	return nullptr;
+}
+
+bool CmdFactory::isSsdCmd(const string& name) {
+	for (auto& cmd : m_supportedCmds) {
+		if (name == cmd->getName()) {
+			return true;
+		}
+	}
+	return false;
 }

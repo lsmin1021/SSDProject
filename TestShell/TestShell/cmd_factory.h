@@ -23,6 +23,8 @@ public:
 
 	CmdInterface* getCmd(const string& name) const;
 
+	bool isSsdCmd(const string& name);
+
 	const vector<CmdInterface*>& getSsupportedCmds() const{
 		return m_supportedCmds;
 	}

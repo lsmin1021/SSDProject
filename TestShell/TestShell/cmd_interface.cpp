@@ -5,8 +5,7 @@
 #include <fstream>
 #include <stdexcept>
 
-CmdInterface::CmdInterface(const string& name, int numToken) : m_numToken(numToken) {
-    m_names.push_back(name);
+CmdInterface::CmdInterface(const string& name, int numToken) : m_name(name), m_numToken(numToken) {
     CmdFactory::getInstance().registerCmd(this);
 }
 

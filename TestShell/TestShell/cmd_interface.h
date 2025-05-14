@@ -24,8 +24,8 @@ public:
 	virtual void helpCmd() const = 0;
 	string getReadResult() const;
 
-	vector<string>  getName() const {
-		return m_names;
+	string  getName() const {
+		return m_name;
 	}
 
 	void setSdd(SsdInterface* sdd) {
@@ -40,7 +40,7 @@ protected:
 	void checkNumToken(const vector<string>& tokens) const;
 	void checkLbaArg(const string& lbaString) const;
 	void checkDataArg(const string& dataString) const;
-	vector<string> m_names;
+	string m_name;
 	bool isValidIntString(const string& string, size_t errorPos) const {
 		return (errorPos == string.size());
 	}
