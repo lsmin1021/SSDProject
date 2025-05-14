@@ -19,6 +19,7 @@ public:
 	virtual void checkInvalidCmd(const vector<string>& tokens) const = 0;
 	virtual void excuteCmd(const vector<string>& tokens) = 0;
 	virtual void helpCmd() const = 0;
+	string getReadResult() const;
 
 	vector<string>  getName() const {
 		return m_names;
@@ -58,7 +59,6 @@ protected:
 	bool isValidDataRange(unsigned int data) const {
 		return (data <= MAX_DATA_VALUE && data >= MIN_DATA_VALUE);
 	}
-	string getReadResult() const;
 	const int m_numToken;
 	SsdInterface* m_ssd = nullptr;
 };
