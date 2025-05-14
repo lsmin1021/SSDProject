@@ -13,6 +13,7 @@ public:
 	~TestScriptFactory() = default;
 
 	static TestScriptFactory& getInstance();
+	static void registerTs();
 
 	void registerCmd(TsInterface* cmd) {
 		m_supportedTs.push_back(cmd);
