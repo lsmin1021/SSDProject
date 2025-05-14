@@ -2,9 +2,6 @@
 #include <iostream>
 #include "testscript_interface.h"
 
-class FailException : public std::exception {
-};
-
 class EraseAndWriteAgingTs : public TsInterface {
 public:
 	EraseAndWriteAgingTs() : TsInterface("4_EraseAndWriteAging", 1) {}
