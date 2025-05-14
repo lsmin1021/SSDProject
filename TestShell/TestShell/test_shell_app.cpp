@@ -1,36 +1,15 @@
 #include "test_shell_app.h"
 #include "cmd_factory.h"
 #include "cmd_interface.h"
-#include "testscript_factory.h"
-
+#include "dll_driver.h"
 #include <windows.h>
-typedef void (*RegisterTs)(void);
-
 
 TestShellApp::TestShellApp(SsdInterface* m_ssd): m_ssd(m_ssd) {
     CmdFactory::getInstance().setSdd(m_ssd);
+    DllDriver::getInstance().openDll();
 
-    HMODULE hDll = LoadLibraryA("TestShellLib.dll");
-    if (hDll == nullptr) {
-        std::cerr << "DLL load fail!" << std::endl;
-        return;
-    }
-    RegisterTs registerTs = (RegisterTs)GetProcAddress(hDll, "registerTs");
-    if (registerTs == nullptr) {
-        std::cerr << "registerTs symbol search fali!" << std::endl;
-    }
-    else {
-        registerTs();
-    }
+}
 
-    m_executeTs = (ExecuteTs)GetProcAddress(hDll, "executeTs");
-    if (m_executeTs == nullptr) {
-        std::cerr << "setSdd symbol search fali!" << std::endl;
-    }
-}
-TestShellApp::~TestShellApp(){
-    //FreeLibrary(hDll);
-}
 bool TestShellApp::cmdParserAndExcute(const string& cmdString)
 {
     vector<string> tokens = parseCmd(cmdString);
@@ -45,7 +24,8 @@ bool TestShellApp::cmdParserAndExcute(const string& cmdString)
         cmdObj->excuteCmd(tokens);
         return true;
     }
-    m_executeTs(cmdName.c_str());
+    DllDriver::getInstance().getDllApi().executeTs(cmdName.c_str());
+
     return true;
 }
 

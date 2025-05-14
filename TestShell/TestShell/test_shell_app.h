@@ -21,7 +21,7 @@ class SsdInterface;
 class TestShellApp {
 public:
 	TestShellApp(SsdInterface* m_ssd);
-	~TestShellApp();
+	~TestShellApp() = default;
 	bool cmdParserAndExcute(const string& cmdcmdString);
 
 private:

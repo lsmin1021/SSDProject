@@ -11,11 +11,15 @@ static void executeTs_(const char* tsName)
     //cmdObj->excuteCmd(tokens);
 }
 extern "C"{
-    LIB_API__ void executeTs(const char* tsName)
-    {
+    AppCb appCb;
+
+    LIB_API__ void executeTs(const char* tsName) {
         executeTs_(tsName);
     }
-    AppCb appCb;
+    
+    LIB_API__ void openDll(void) {
+        TestScriptFactory::registerTs();
+    }
 }
 
 

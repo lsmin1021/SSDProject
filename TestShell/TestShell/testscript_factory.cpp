@@ -11,7 +11,7 @@ static PartialLbaWriteTs partialLbaWriteTs;
 static WriteReadAging writeReadAging;
 static EraseAndWriteAgingTs eraseWriteAging;
 
-extern "C" LIB_API__ void registerTs(void)
+void TestScriptFactory::registerTs(void)
 {
 	static FullWriteAndReadCompareTs fullWriteAndReadCompareTs;
 	static PartialLbaWriteTs partialLbaWriteTs;
