@@ -18,9 +18,9 @@ public:
 
 private:
 	bool isEmptyLBA(int lba);
-	map<int, string> getSSDData(string ssdDataStr);
-	string readNand();
-	void storeDataToSSD();
+
+	void loadData();
+	void storeData();
 
 	map<int, string> m_storage;
 	const string FILE_NAME = "ssd_nand.txt";
