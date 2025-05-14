@@ -79,7 +79,6 @@ public:
 		if (isValidNumToken(tokens)) return;
 		throw std::invalid_argument("Invalid number of tokens");
 	}
-	string getReadResult() const;
 	void addCmd(CmdInterface* cmd) {
 		m_cmds.push_back(cmd);
 	}
