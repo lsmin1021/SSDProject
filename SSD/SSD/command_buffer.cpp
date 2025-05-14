@@ -15,37 +15,49 @@ string CommandBuffer::readData(int lba) {
 
 void CommandBuffer::insertCmd(Instruction cmd) {
 	ignoreCommand(cmd);
-	mergeCmd(cmd);
 	m_buffer.push_back(cmd);
+
+	mergeCommand();
 
 	storeDataToBuffer();
 }
 
-void CommandBuffer::mergeCmd(Instruction& cmd) {
-	if (true == cmd.isWriteCommand() || true == m_buffer.empty()) {
+void CommandBuffer::mergeCommand() {
+	if (true == m_buffer.empty()) {
 		return;
 	}
 
-	Instruction& latestInst = m_buffer.back();
-
-	if (true == cmd.isWriteCommand()) {
+	if (true == m_buffer.back().isWriteCommand()) {
 		return;
 	}
 
-	if (true == isMergeable(latestInst, cmd)) {
-		Instruction mergedInst = merge(latestInst, cmd);
+	Instruction latestInst = m_buffer.back();
+	m_buffer.pop_back();
 
-		m_buffer.pop_back();
+	for (int i = m_buffer.size() - 1; i >= 0; i--) {
+		Instruction& targetInst = m_buffer[i];
 
-		if (MAX_ERASE_SIZE < mergedInst.getSize()) {
-			m_buffer.push_back(Instruction().setCmdErase().setLba(mergedInst.getLba()).setSize(MAX_ERASE_SIZE));
-			cmd.setLba(mergedInst.getLba() + MAX_ERASE_SIZE);
-			cmd.setSize(mergedInst.getSize() - MAX_ERASE_SIZE);
+		if (true == targetInst.isWriteCommand()) {
+			break;
 		}
-		else {
-			cmd = mergedInst;
+
+		if (true == isMergeable(latestInst, targetInst)) {
+			latestInst = merge(latestInst, targetInst);
+
+			m_buffer.erase(m_buffer.begin() + i);
 		}
+
+		latestInst.show();
 	}
+
+	while (MAX_ERASE_SIZE < latestInst.getSize()) {
+		m_buffer.push_back(Instruction().setCmdErase().setLba(latestInst.getLba()).setSize(MAX_ERASE_SIZE));
+
+		latestInst.setLba(latestInst.getLba() + MAX_ERASE_SIZE);
+		latestInst.setSize(latestInst.getSize() - MAX_ERASE_SIZE);
+	}
+
+	m_buffer.push_back(latestInst);
 }
 
 Instruction CommandBuffer::merge(Instruction& inst1, Instruction& inst2) {

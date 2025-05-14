@@ -28,7 +28,7 @@ private:
 	// Develope command buffer algorithm
 	string getValueOnBuffer(int lba);
 	void ignoreCommand(Instruction& cmd);
-	void mergeCmd(Instruction& cmd);
+	void mergeCommand();
 
 	void setBufferDir();
 	void loadBufferCmd(string cmd);
