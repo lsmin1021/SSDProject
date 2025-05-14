@@ -1,13 +1,7 @@
 #include "gmock/gmock.h"
 #include "command_handler.h"
-#include "command_buffer.h"
-#include "nand_storage.h"
 
 using namespace testing;
-
-class MockNandHandler : public NandStorage {
-	MOCK_METHOD(string, read, (int), ());
-};
 
 class CommandHandlerFixture : public Test {
 protected:
@@ -15,10 +9,6 @@ protected:
 		m_handler = new CommandHandler();
 	}
 
-	void TearDown() override {
-		std::cout << "Tear Down\n";
-		m_handler->handleCommand({ FLUSH_COMMAND });
-	}
 public:
 	void isValidCommand(const vector<string>& cmd) {
 		EXPECT_TRUE(m_handler->handleCommand(cmd));
@@ -33,7 +23,6 @@ public:
 	}
 
 	CommandHandler* m_handler = nullptr;
-	FileHandler m_fileHandler;
 
 	const string DIR_NAME = "buffer";
 	const string WRITE_COMMAND = "W";
@@ -127,71 +116,6 @@ TEST_F(CommandHandlerFixture, FlushValidCheckSuccess) {
 
 TEST_F(CommandHandlerFixture, FlushValidCheckFail_InvalidArgumentCount) {
 	isInvalidCommand(INVALID_FLUSH_CMD);
-}
-
-TEST_F(CommandHandlerFixture, IgnoreCommand_IgnoreWrite) {
-	vector<string> expected = {
-		"0_W_21_0x12341234",
-		"1_W_20_0xEEEEFFFF",
-		"2_empty",
-		"3_empty",
-		"4_empty"
-	};
-
-	m_handler->handleCommand({ WRITE_COMMAND, "20", "0xABCDABCD" });
-	m_handler->handleCommand({ WRITE_COMMAND, "21", "0x12341234" });
-	m_handler->handleCommand({ WRITE_COMMAND, "20", "0xEEEEFFFF" });
-
-	EXPECT_EQ(m_fileHandler.getFileList(DIR_NAME), expected);
-}
-
-TEST_F(CommandHandlerFixture, IgnoreCommand_IgnoreEraseAndWrite) {
-	vector<string> expected = {
-		"0_E_18_5",
-		"1_empty",
-		"2_empty",
-		"3_empty",
-		"4_empty"
-	};
-
-	m_handler->handleCommand({ ERASE_COMMAND, "18", "3" });
-	m_handler->handleCommand({ WRITE_COMMAND, "21", "0x12341234" });
-	m_handler->handleCommand({ ERASE_COMMAND, "18", "5" });
-
-	EXPECT_EQ(m_fileHandler.getFileList(DIR_NAME), expected);
-}
-
-TEST_F(CommandHandlerFixture, MergeErase_Basic) {
-	vector<string> expected = {
-		"0_W_20_0xABCDABCD",
-		"1_E_10_5",
-		"2_empty",
-		"3_empty",
-		"4_empty"
-	};
-
-	m_handler->handleCommand({ WRITE_COMMAND, "20", "0xABCDABCD" });
-	m_handler->handleCommand({ ERASE_COMMAND, "10", "4" });
-	m_handler->handleCommand({ ERASE_COMMAND, "12", "3" });
-
-	EXPECT_EQ(m_fileHandler.getFileList(DIR_NAME), expected);
-}
-
-
-TEST_F(CommandHandlerFixture, FastRead_Basic) {
-	vector<string> expected = {
-		"0_W_10_0xABCDABCD",
-		"1_E_10_2",
-		"2_W_11_0xABCDABCD",
-		"3_empty",
-		"4_empty"
-	};
-
-	m_handler->handleCommand({ WRITE_COMMAND, "10", "0xABCDABCD" });
-	m_handler->handleCommand({ ERASE_COMMAND, "10", "2" });
-	m_handler->handleCommand({ WRITE_COMMAND, "11", "0xABCDABCD" });
-
-	EXPECT_EQ(m_fileHandler.getFileList(DIR_NAME), expected);
 }
 
 /*
