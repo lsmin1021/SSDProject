@@ -15,12 +15,9 @@ int main(int argc, char* argv[]) {
 #else
 	SsdDriver ssd;
 	TestShellApp app{ &ssd };
-	if (argc > 1) {
-		app.runRunner(argv[1]);
-	}
-	else {
-		app.runBasic();
-	}
+	
+	app.run(argc, argv);
+	
 	return 0;
 #endif
 }

@@ -42,6 +42,20 @@ vector<string>  TestShellApp::parseCmd(const string& cmd) {
     return tokens;
 }
 
+void TestShellApp::run(int argc, char* argv[]) {
+    if (argc == 1) {
+        runBasic();
+    }
+    else {
+        if (argc > 2) {
+            std::cerr << "Error: Invalid arguments for Runner Mode.\n";
+            std::cerr << "Usage: " << argv[0] << " <scripts_file>\n";
+            return;
+        }
+        runRunner(argv[1]);
+    }
+}
+
 void TestShellApp::runBasic(void) {
     ConsoleOutputHandler outputHandler;
     MsgHandler::getInstance().setMsgHandler(&outputHandler);
