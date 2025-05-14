@@ -29,6 +29,8 @@ private:
 	string getValueOnBuffer(int lba);
 	void ignoreCommand(Instruction& cmd);
 	void mergeCommand();
+	void insertMergedInst(Instruction& mergedInst);
+	bool isConflicted(Instruction& targetInst, vector<int>& writeLbaList);
 
 	void setBufferDir();
 	void loadBufferCmd(string cmd);
