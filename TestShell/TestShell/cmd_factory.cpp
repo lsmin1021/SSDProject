@@ -9,6 +9,7 @@
 #include "erase_cmd.h"
 #include "erase_range_cmd.h"
 #include "ssd_interface.h"
+#include "flush_cmd.h"
 
 static WriteCmd writeCmd;
 static ReadCmd readCmd;
@@ -18,6 +19,7 @@ static ExitCmd exitCmd;
 static HelpCmd  helpCmd;
 static EraseCmd eraseCmd;
 static EraseRangeCmd eraseRangeCmd;
+static FlushCmd flushCmd;
 
 CmdFactory& CmdFactory::getInstance()
 {

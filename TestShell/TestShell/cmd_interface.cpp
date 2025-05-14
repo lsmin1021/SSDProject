@@ -1,4 +1,5 @@
 #include "cmd_interface.h"
+#include "ssd_interface.h"
 #include "cmd_factory.h"
 #include <fstream>
 #include <stdexcept>
@@ -38,3 +39,9 @@ void CmdInterface::checkDataArg(const string& dataString) const {
     throw std::invalid_argument("Usage: 10 length data");
 }
 
+string CmdInterface::getReadResult() const {
+    if (m_ssd)
+        return m_ssd->getReadResult();
+    else
+        return "";
+}

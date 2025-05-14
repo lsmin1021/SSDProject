@@ -40,7 +40,7 @@ void WriteReadAging::excuteCmd(const vector<string>& tokens) {
         //cmdObj2->excuteCmd(readCmd);
 
 #ifndef _DEBUG
-        if (getReadResult().compare(valueForStartLba) != 0)
+        if (cmdObj->getReadResult().compare(valueForStartLba) != 0)
         {
             std::cout << "FAIL\n";
             throw FailException();
@@ -50,7 +50,7 @@ void WriteReadAging::excuteCmd(const vector<string>& tokens) {
         // LDY TODO
         //cmdObj2->excuteCmd(readCmd);
 #ifndef _DEBUG
-        if (getReadResult().compare(valueForEndLba) != 0)
+        if (cmdObj->getReadResult().compare(valueForEndLba) != 0)
         {
             std::cout << "FAIL\n";
             throw FailException();

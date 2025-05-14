@@ -16,12 +16,6 @@
     <Filter Include="테스트 파일">
       <UniqueIdentifier>{d20c4e5c-85af-4bdd-a16d-21736f553d47}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\testScript">
-      <UniqueIdentifier>{477cb5d9-2c0e-41bc-b56d-9965cfb95264}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="헤더 파일\testScript">
-      <UniqueIdentifier>{f3649c48-247d-4fb4-8e56-7ef3e51c5e92}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -39,45 +33,6 @@
     <ClCompile Include="cmd_interface.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="write_cmd.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="read_cmd.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="exit_cmd.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="full_read_cmd.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="full_write_cmd.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="erase_cmd.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="erase_range_cmd.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="help_cmd.h">
-      <Filter>헤더 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="help_cmd.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="erase_write_aging_ts.cpp">
-      <Filter>소스 파일\testScript</Filter>
-    </ClCompile>
-    <ClCompile Include="full_write_read_compare_ts.cpp">
-      <Filter>소스 파일\testScript</Filter>
-    </ClCompile>
-    <ClCompile Include="partial_lba_write_ts.cpp">
-      <Filter>소스 파일\testScript</Filter>
-    </ClCompile>
-    <ClCompile Include="write_read_aging_ts.cpp">
-      <Filter>소스 파일\testScript</Filter>
-    </ClCompile>
     <ClCompile Include="test_case.cpp">
       <Filter>테스트 파일</Filter>
     </ClCompile>
@@ -90,6 +45,39 @@
     <ClCompile Include="logger.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="dll_driver.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="erase_cmd.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="erase_range_cmd.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="exit_cmd.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="full_read_cmd.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="full_write_cmd.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="help_cmd.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="help_cmd.h">
+      <Filter>헤더 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="read_cmd.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="write_cmd.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="flush_cmd.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -99,6 +87,30 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="cmd_interface.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="mock_ssd.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="ssd_driver.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="ssd_interface.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="test_shell_app.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="erase_write_aging_ts.h">
+      <Filter>헤더 파일\testScript</Filter>
+    </ClInclude>
+    <ClInclude Include="logger.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="dll_main.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="dll_driver.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="erase_cmd.h">
@@ -116,43 +128,13 @@
     <ClInclude Include="full_write_cmd.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="mock_ssd.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="read_cmd.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="ssd_driver.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="ssd_interface.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="test_shell_app.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="write_cmd.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="erase_write_aging_ts.h">
-      <Filter>헤더 파일\testScript</Filter>
-    </ClInclude>
-    <ClInclude Include="full_write_read_compare_ts.h">
-      <Filter>헤더 파일\testScript</Filter>
-    </ClInclude>
-    <ClInclude Include="partial_lba_write_ts.h">
-      <Filter>헤더 파일\testScript</Filter>
-    </ClInclude>
-    <ClInclude Include="write_read_aging_ts.h">
-      <Filter>헤더 파일\testScript</Filter>
-    </ClInclude>
-    <ClInclude Include="erase_write_aging_ts.h">
-      <Filter>헤더 파일\testScript</Filter>
-    </ClInclude>
-    <ClInclude Include="logger.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="dll_main.h">
+    <ClInclude Include="flush_cmd.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
