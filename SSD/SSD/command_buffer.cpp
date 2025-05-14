@@ -169,8 +169,7 @@ Instruction CommandBuffer::parseBufferCmd(string bufferCmd) {
 	string param = bufferCmd.substr(posParam);
 
 	Instruction cb;
-	cb.setCmd(cmd);
-	cb.setLba(std::stoi(lba));
+	cb.setCmd(cmd).setLba(std::stoi(lba));
 	
 	if (true == cb.isWriteCommand()) {cb.setValue(param);}
 	else if (cb.isEraseCommand()) { cb.setSize(std::stoi(param)); }

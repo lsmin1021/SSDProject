@@ -8,17 +8,13 @@ using std::string;
 class Instruction {
 public:
 	Instruction() {};
-	Instruction(string cmd, int lba, int size) :
-		m_cmd(cmd), m_value(""), m_lba(lba), m_size(size) {
-	}
-	Instruction(string cmd, int lba, string value) :
-		m_cmd(cmd), m_value(value), m_lba(lba), m_size(-1) {
-	}
 
-	void setCmd(string cmd);
-	void setValue(string value);
-	void setLba(int lba);
-	void setSize(int size);
+	Instruction& setCmd(string cmd);
+	Instruction& setCmdWrite();
+	Instruction& setCmdErase();
+	Instruction& setValue(string value);
+	Instruction& setLba(int lba);
+	Instruction& setSize(int size);
 
 	string getCmd();
 	string getValue();

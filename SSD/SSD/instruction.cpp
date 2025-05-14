@@ -1,16 +1,28 @@
 #include "instruction.h"
 
-void Instruction::setCmd(string cmd) {
+Instruction& Instruction::setCmd(string cmd) {
 	m_cmd = cmd;
+	return *this;
 }
-void Instruction::setValue(string value) { 
-	m_value = value; 
+Instruction& Instruction::setCmdWrite() {
+	m_cmd = WRITE_CMD;
+	return *this;
 }
-void Instruction::setLba(int lba) { 
-	m_lba = lba; 
+Instruction& Instruction::setCmdErase() {
+	m_cmd = ERASE_CMD;
+	return *this;
 }
-void Instruction::setSize(int size) { 
-	m_size = size; 
+Instruction& Instruction::setValue(string value) {
+	m_value = value;
+	return *this;
+}
+Instruction& Instruction::setLba(int lba) {
+	m_lba = lba;
+	return *this;
+}
+Instruction& Instruction::setSize(int size) {
+	m_size = size;
+	return *this;
 }
 
 string Instruction::getCmd() { 
