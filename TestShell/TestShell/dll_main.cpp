@@ -10,12 +10,10 @@ extern "C"{
         TestScriptFactory::generateTs();
     }
 
-    LIB_API__ void executeTs(const char* tsName) {
-        std::string name = tsName;
+    LIB_API__ void executeTs(const vector<string>& cmdTokens) {
+        std::string name = cmdTokens[0];
         TsInterface* tsObj = TestScriptFactory::getInstance().getTs(name);
-        vector<string> tokens;
-        tokens.push_back(name);
-        tsObj->excuteTs(tokens);
+        tsObj->excuteTs(cmdTokens);
     }
 }
 

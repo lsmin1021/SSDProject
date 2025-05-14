@@ -20,14 +20,9 @@ TestScriptFactory& TestScriptFactory::getInstance()
 	return instance;
 }
 
-TsInterface* TestScriptFactory::getTs(const string& name) const {
-	for (auto& cmd : m_supportedTs) {
-		vector<string> names = cmd->getName();
-		for (auto myName : names) {
-			if (name == myName) {
-				return cmd;
-			}
-		}
+TsInterface* TestScriptFactory::getTs(const string& tsName) const {
+	for (auto ts : m_supportedTs) {
+		if (tsName == ts->getName() || tsName == ts->getShortCutName()) return ts;
 	}
-	throw std::invalid_argument("Invalid command: " + name);
+	throw std::invalid_argument("Invalid command: " + tsName);
 }

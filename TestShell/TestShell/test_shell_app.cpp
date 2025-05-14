@@ -104,13 +104,15 @@ bool TestShellApp::cmdParserAndExecute(const string& cmdString) {
         }
         return true;
     }
-    executeTestScript(cmdTokens[0]);
+    executeTestScript(cmdTokens);
 
     return true;
 }
 
-void TestShellApp::executeTestScript(string& tsName) {
-    DllDriver::getInstance().getDllApi().executeTs(tsName.c_str());
+static vector<string> tsTokensToDll;
+void TestShellApp::executeTestScript(const vector<string>& tsTokens) {
+    tsTokensToDll = tsTokens;
+    DllDriver::getInstance().getDllApi().executeTs(tsTokensToDll);
     if (getShellMode() != MODE_NULL) {
         std::cout << "PASS\n";
     }

@@ -6,16 +6,22 @@
 #define LIB_API__ __declspec(dllimport)
 #endif
 
+#include <vector>
+#include <string>
+
+using std::vector;
+using std::string;
+
 extern "C" {
-	typedef bool (*ExcueteCmd) (int numToken, char tokens[10][100], const char checkString[100]);
+	typedef bool (*ExcueteCmd) (const vector<string>& cmdTokens, const string& checkString);
 
 	struct AppCb {
 		ExcueteCmd excueteCmd;
 	};
 	typedef void (*OpenDll)(AppCb*);
-	typedef void (*ExecuteTs)(const char*);
+	typedef void (*ExecuteTs)(const vector<string>& tsTokens);
 
-	LIB_API__ void executeTs(const char* tsName);
+	LIB_API__ void executeTs(const vector<string>& tsTokens);
 	LIB_API__ void openDll(AppCb* appCb);
 }
 

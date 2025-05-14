@@ -3,34 +3,23 @@
 #include <fstream>
 #include <stdexcept>
 #include <iostream>
-#include <cstring>
 
 const string TsInterface::NOT_CHECK_RESULT = "NOT_CHECK_RESULT";
 
-char TsInterface::m_cbTokens[10][100] = {0,};
-char TsInterface::m_checkString[100];
-int TsInterface::m_numCbToken = 0;
+vector<string> TsInterface::m_cbTokens;
+string TsInterface::m_checkString;
 
-TsInterface::TsInterface(const string& name, int numToken) : m_numToken(numToken) {
-    m_names.push_back(name.substr(0, 2));
-    m_names.push_back(name);
+TsInterface::TsInterface(const string& name, int numToken) : m_name(name), m_numToken(numToken) {
+    UpdateShortCutName();
     TestScriptFactory::getInstance().registerTs(this);
 }
+
 bool TsInterface::executeCmd(const vector<string>& cppTokens, const string& checkString) {
-    m_numCbToken = converTokenCpptoC(cppTokens);
-    //std::cout << "TsInterface" << checkString << "\n";
-    strcpy_s(m_checkString, checkString.size()+ 1, checkString.c_str());
-    return cb.excueteCmd(m_numCbToken, m_cbTokens, m_checkString);
-    return true;
+    m_cbTokens = cppTokens;
+    m_checkString = checkString;
+    return cb.excueteCmd(m_cbTokens, m_checkString);
 }
-int TsInterface::converTokenCpptoC(const vector<string>& cppTokens) {
-    int index = 0;
-    for (auto cppToken : cppTokens){
-        strcpy_s(m_cbTokens[index], cppToken.size() + 1, cppToken.c_str());
-        ++index;
-    }
-    return cppTokens.size();
-}
+
 
 string TsInterface::getReadResult() const {
     std::ifstream file("ssd_output.txt");

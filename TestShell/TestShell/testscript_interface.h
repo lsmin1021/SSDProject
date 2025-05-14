@@ -10,16 +10,16 @@ using std::vector;
 
 extern AppCb cb;
 
-class FailException : public std::exception {
-};
-
 class TsInterface {
 public:
 	TsInterface(const string& name, int numToken);
 	virtual ~TsInterface() = default;
 
-	vector<string>  getName() const {
-		return m_names;
+	const string&  getName() const {
+		return m_name;
+	}
+	const string& getShortCutName() const {
+		return m_shortCutName;
 	}
 
 	virtual void checkInvalidTs(const vector<string>& tokens) const = 0;
@@ -32,18 +32,25 @@ public:
 	string getReadResult() const;
 
 	bool executeCmd(const vector<string>& cppTokens, const string& checkString = NOT_CHECK_RESULT);
-	int converTokenCpptoC(const vector<string>& cppTokens);
+
 private:
-	static char m_cbTokens[10][100];
-	static char m_checkString[100];
-	static int m_numCbToken;
 	bool isValidNumToken(const vector<string>& tokens) const {
 		return (tokens.size() == m_numToken);
 	}
-	vector<string> m_names;
+
+	void UpdateShortCutName(){
+		size_t pos = m_name.find('_');
+		if (pos == std::string::npos) return;
+		m_shortCutName = m_name.substr(0, pos + 1);
+	}
+
+	static vector<string> m_cbTokens;
+	static string m_checkString;
+	string m_name;
+	string m_shortCutName;
 protected:
 	static const string NOT_CHECK_RESULT;
 	static const int MAX_LBA = 99;
 	static const int MIN_LBA = 0;
-	const int m_numToken;
+	int m_numToken;
 };
