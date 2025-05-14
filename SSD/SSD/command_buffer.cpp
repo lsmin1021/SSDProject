@@ -6,11 +6,22 @@
 namespace fs = std::filesystem;
 
 CommandBuffer::CommandBuffer() {
-	if (false == isDirectoryExist()) {
-		setBufferDir();
-	}
-
 	loadBuffer();
+}
+
+string CommandBuffer::readData(int lba) {
+	return getValueOnBuffer(lba);
+}
+
+void CommandBuffer::insertCmd(Instruction cmd) {
+	ignoreCommand(cmd);
+	m_buffer.push_back(cmd);
+
+	storeDataToBuffer();
+}
+
+vector<Instruction> CommandBuffer::getBufferCommands() {
+	return m_buffer;
 }
 
 bool CommandBuffer::isFull() {
@@ -21,27 +32,31 @@ bool CommandBuffer::isFull() {
 	return false;
 }
 
-string CommandBuffer::readData(int lba) {
-	return getValueOnBuffer(lba);
-}
-
-vector<Buffer> CommandBuffer::getBufferCommands() {
-	return m_buffer;
-}
-
-void CommandBuffer::insertCmd(Buffer cmd) {
-	ignoreCommand(cmd);
-	m_buffer.push_back(cmd);
+void CommandBuffer::clear() {
+	m_buffer.clear();
 
 	storeDataToBuffer();
 }
 
-void CommandBuffer::ignoreCommand(Buffer& cmd) {
+void CommandBuffer::loadBuffer() {
+	if (false == isDirectoryExist()) {
+		setBufferDir();
+		return;
+	}
+
+	for (const auto& entry : fs::directory_iterator(DIR_NAME)) {
+		if (fs::is_regular_file(entry)) {
+			loadBufferCmd(entry.path().filename().string());
+		}
+	}
+}
+
+void CommandBuffer::ignoreCommand(Instruction& cmd) {
 	if (true == m_buffer.empty()) return;
 
 	if (WRITE_CMD == cmd.getCmd()) {
 		for (int i = m_buffer.size() - 1; i >= 0; i--) {
-			Buffer& preCmd = m_buffer[i];
+			Instruction& preCmd = m_buffer[i];
 
 			if (WRITE_CMD == preCmd.getCmd()) {
 				if (preCmd.getLba() == cmd.getLba()) {
@@ -57,7 +72,7 @@ void CommandBuffer::ignoreCommand(Buffer& cmd) {
 	}
 	else if (ERASE_CMD == cmd.getCmd()) {
 		for (int i = m_buffer.size() - 1; i >= 0; i--) {
-			Buffer& preCmd = m_buffer[i];
+			Instruction& preCmd = m_buffer[i];
 
 			if (WRITE_CMD == preCmd.getCmd()) {
 				if (cmd.getSize() != 0 &&
@@ -77,16 +92,10 @@ void CommandBuffer::ignoreCommand(Buffer& cmd) {
 	}
 }
 
-void CommandBuffer::clear() {
-	m_buffer.clear();
-
-	storeDataToBuffer();
-}
-
 string CommandBuffer::getValueOnBuffer(int lba) {
 	string value = "";
 
-	for (Buffer cmd : m_buffer) {
+	for (Instruction cmd : m_buffer) {
 		if (WRITE_CMD == cmd.getCmd()) {
 			if (cmd.getLba() == lba) {
 				value = cmd.getValue();
@@ -139,14 +148,6 @@ void CommandBuffer::setBufferDir() {
 	}
 }
 
-void CommandBuffer::loadBuffer() {
-	for (const auto& entry : fs::directory_iterator(DIR_NAME)) {
-		if (fs::is_regular_file(entry)) {
-			loadBufferCmd(entry.path().filename().string());
-		}
-	}
-}
-
 void CommandBuffer::loadBufferCmd(string cmd) {
 	string::size_type posCmdStart = cmd.find("_") + 1;
 	string cmd_content = cmd.substr(posCmdStart);
@@ -158,7 +159,7 @@ void CommandBuffer::loadBufferCmd(string cmd) {
 	m_buffer.push_back(parseBufferCmd(cmd_content));
 }
 
-Buffer CommandBuffer::parseBufferCmd(string bufferCmd) {
+Instruction CommandBuffer::parseBufferCmd(string bufferCmd) {
 	std::string cmd = bufferCmd.substr(0, 1);
 
 	string::size_type posLba = bufferCmd.find('_', 2);
@@ -167,7 +168,7 @@ Buffer CommandBuffer::parseBufferCmd(string bufferCmd) {
 	string::size_type posParam = posLba + 1;
 	string param = bufferCmd.substr(posParam);
 
-	Buffer cb;
+	Instruction cb;
 	cb.setCmd(cmd);
 	cb.setLba(std::stoi(lba));
 	
@@ -177,7 +178,7 @@ Buffer CommandBuffer::parseBufferCmd(string bufferCmd) {
 	return cb;
 }
 
-string CommandBuffer::makeBufferCmd(int index, Buffer& bufferCmd) {
+string CommandBuffer::makeBufferCmd(int index, Instruction& bufferCmd) {
 	string ret = "";
 
 	ret.append(std::to_string(index)).append("_");

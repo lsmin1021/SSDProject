@@ -21,7 +21,7 @@ void DeviceHandler::write(int lba, string value) {
 		flush();
 	}
 
-	m_commandBuffer.insertCmd(Buffer("W", lba, value));
+	m_commandBuffer.insertCmd(Instruction("W", lba, value));
 }
 
 void DeviceHandler::erase(int lba, int size) {
@@ -29,14 +29,14 @@ void DeviceHandler::erase(int lba, int size) {
 		flush();
 	}
 
-	m_commandBuffer.insertCmd(Buffer("E", lba, size));
+	m_commandBuffer.insertCmd(Instruction("E", lba, size));
 }
 
 void DeviceHandler::flush() {
-	vector<Buffer> cmdList = m_commandBuffer.getBufferCommands();
+	vector<Instruction> cmdList = m_commandBuffer.getBufferCommands();
 	m_commandBuffer.clear();
 
-	for (Buffer cmd : cmdList) {
+	for (Instruction cmd : cmdList) {
 		if ("W" == cmd.getCmd()) {
 			m_nandHandler.write(cmd.getLba(), cmd.getValue());
 		}

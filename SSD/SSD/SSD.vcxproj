@@ -141,6 +141,7 @@
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'"> %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <ClCompile Include="command_handler_testcase.cpp" />
+    <ClCompile Include="instruction.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="nand_storage.cpp">
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'"> %(AdditionalOptions)</AdditionalOptions>
@@ -161,6 +162,7 @@
     <ClInclude Include="command_handler.h" />
     <ClInclude Include="command_read.h" />
     <ClInclude Include="command_write.h" />
+    <ClInclude Include="instruction.h" />
     <ClInclude Include="nand_storage.h" />
     <ClInclude Include="output_handler.h" />
   </ItemGroup>
