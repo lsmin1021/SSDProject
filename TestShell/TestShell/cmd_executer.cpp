@@ -32,7 +32,6 @@ extern "C" bool executeCmd(int numToken, char tokens[10][100], const char checkS
     if (result) {
         string mustString = checkString;
         if (cmdObj->getReadResult() != mustString) {
-            std::cout << "FAIL\n";
             throw FailException();
         }
     }
