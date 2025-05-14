@@ -15,17 +15,16 @@ TestShellApp::TestShellApp(SsdInterface* m_ssd): m_ssd(m_ssd) {
     DllDriver::getInstance().openDll();
 }
 
-bool TestShellApp::cmdParserAndExcute(const string& cmdString)
+bool TestShellApp::cmdParserAndExecute(const string& cmdString)
 {
-    vector<string> tokens = parseCmd(cmdString);
-    if (tokens.empty()) {
+    vector<string> cmdTokens = parseCmd(cmdString);
+    if (cmdTokens.empty()) {
         throw std::invalid_argument("Empty command");
     }
     
-    bool result = CmdExecuter::getInstance().executeCmd(tokens);
-    if (result) return true;
+    if (CmdExecuter::getInstance().executeCmd(cmdTokens)) return true;
     
-    string cmdName = tokens[0];
+    string cmdName = cmdTokens[0];
     DllDriver::getInstance().getDllApi().executeTs(cmdName.c_str());
 
     return true;
@@ -71,7 +70,7 @@ void TestShellApp::runBasic(void) {
         }
 
         try {
-            cmdParserAndExcute(input);
+            cmdParserAndExecute(input);
         }
         catch (const std::invalid_argument&) {
             cout << "INVALID COMMAND\n";
@@ -101,7 +100,7 @@ void TestShellApp::runRunner(string scriptFileName) {
         std::cout << line << "  ---  Run...";
 
         try {
-            cmdParserAndExcute(line);
+            cmdParserAndExecute(line);
         }
         catch (const std::invalid_argument&) {
             std::cout << "FAIL" << std::endl;
