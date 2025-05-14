@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <iomanip>
+#include <iostream>
 #include "dll_main.h"
 using std::string;
 using std::vector;
@@ -31,13 +32,14 @@ public:
 	string getReadResult() const;
 
 	bool executeCmd(const vector<string>& cppTokens) {
-		m_cbNumToken = converTokenCpptoC(cppTokens, m_cbTokens);
-		return cb.excueteCmd(m_cbNumToken, m_cbTokens);
+		m_numCbToken = converTokenCpptoC(cppTokens);
+		return cb.excueteCmd(m_numCbToken, m_cbTokens);
+		return true;
 	}
-	int converTokenCpptoC(const vector<string>& cppTokens, char* cTokens[]);
+	int converTokenCpptoC(const vector<string>& cppTokens);
 private:
-	char* m_cbTokens[10];
-	int m_cbNumToken;
+	static char m_cbTokens[10][100];
+	static int m_numCbToken;
 	bool isValidNumToken(const vector<string>& tokens) const {
 		return (tokens.size() == m_numToken);
 	}

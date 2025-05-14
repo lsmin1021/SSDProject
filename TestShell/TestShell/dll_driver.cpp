@@ -1,6 +1,6 @@
 #include "dll_driver.h"
 #include "dll_main.h"
-extern "C" bool executeCmd(int numToken, char* tokens[]);
+extern "C" bool executeCmd(int numToken, char tokens[10][100]);
 static AppCb appCb = { executeCmd ,};
 
 DllDriver& DllDriver::getInstance()

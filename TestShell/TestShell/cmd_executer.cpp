@@ -14,7 +14,7 @@ bool CmdExecuter::executeCmd(const vector<string>& tokens) {
     cmdObj->excuteCmd(tokens);
     return true;
 }
-vector<string> CmdExecuter::converTokenCtoCpp(int numToken, char* tokens[]) {
+vector<string> CmdExecuter::converTokenCtoCpp(int numToken, char tokens[10][100]) {
     vector<string> result;
     for (int index = 0; index < numToken; ++index){
         std::string cppStr = tokens[index];
@@ -23,7 +23,6 @@ vector<string> CmdExecuter::converTokenCtoCpp(int numToken, char* tokens[]) {
     return result;
 }
 
-extern "C" bool executeCmd(int numToken, char* tokens[]) {
-    std::cout << "executeCmd\n";
+extern "C" bool executeCmd(int numToken, char tokens[10][100]) {
     return CmdExecuter::getInstance().executeCmd(CmdExecuter::converTokenCtoCpp(numToken, tokens));
 }

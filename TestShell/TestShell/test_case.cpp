@@ -205,7 +205,6 @@ TEST_F(MockSddFixture, TescScript1) {
 	EXPECT_NO_THROW(m_tespApp->cmdParserAndExcute(TEST_SCRIPT1));
 }
 
-#if 0
 TEST_F(MockSddFixture, TescScript1ShortCut) {
 	// Arrange
 	EXPECT_CALL(m_mockSsd, writeData(_, _)).Times(TEST_SCRIPT1_ITERATION);
@@ -263,4 +262,3 @@ TEST_F(MockSddFixture, TescScript4ShortCut) {
 	// Act
 	EXPECT_NO_THROW(m_tespApp->cmdParserAndExcute(TEST_SCRIPT4_SHORT_CUT));
 }
-#endif

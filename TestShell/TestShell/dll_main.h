@@ -7,7 +7,7 @@
 #endif
 
 extern "C" {
-	typedef bool (*ExcueteCmd) (int numToken, char* tokens[]);
+	typedef bool (*ExcueteCmd) (int numToken, char tokens[10][100]);
 
 	struct AppCb {
 		ExcueteCmd excueteCmd;

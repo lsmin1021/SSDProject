@@ -26,11 +26,9 @@ TestScriptFactory& TestScriptFactory::getInstance()
 }
 
 TsInterface* TestScriptFactory::getTs(const string& name) const {
-	std::cout << "getTs" << name << "\n";
 	for (auto& cmd : m_supportedTs) {
 		vector<string> names = cmd->getName();
 		for (auto myName : names) {
-			std::cout << "getTs loop " << myName << "\n";
 			if (name == myName) {
 				return cmd;
 			}
