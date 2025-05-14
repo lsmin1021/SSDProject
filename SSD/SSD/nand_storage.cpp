@@ -19,8 +19,6 @@ void NandStorage::write(int lba, string value) {
 	else {
 		m_storage[lba] = value;
 	}
-
-	storeData();
 }
 
 void NandStorage::erase(int lba, int cnt) {
@@ -31,7 +29,9 @@ void NandStorage::erase(int lba, int cnt) {
 
 		m_storage.erase(targetLba);
 	}
+}
 
+void NandStorage::commit() {
 	storeData();
 }
 

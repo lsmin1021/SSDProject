@@ -15,6 +15,7 @@ public:
 	string read(int lba);
 	void write(int lba, string value);
 	void erase(int lba, int cnt);
+	void commit();
 
 private:
 	bool isEmptyLBA(int lba);

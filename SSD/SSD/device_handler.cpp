@@ -36,6 +36,8 @@ void DeviceHandler::flush() {
 			m_nandHandler.erase(cmd.getLba(), cmd.getSize());
 		}
 	}
+
+	m_nandHandler.commit();
 }
 
 void DeviceHandler::writeBuffer(int lba, string value) {
