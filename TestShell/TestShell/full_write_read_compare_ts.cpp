@@ -18,7 +18,7 @@ void FullWriteAndReadCompareTs::excuteCmd(const vector<string>& tokens) {
             CmdInterface* cmdObj = CmdFactory::getInstance().getCmd(readCmd[0]);
             cmdObj->excuteCmd(readCmd);
 #ifndef _DEBUG
-            if (getReadResult() != TEST_SCRIPT_VALUE)
+            if (cmdObj->getReadResult() != TEST_SCRIPT_VALUE)
             {
                 std::cout << "FAIL\n";
                 throw FailException();
