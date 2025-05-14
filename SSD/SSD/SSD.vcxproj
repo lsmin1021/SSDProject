@@ -129,8 +129,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /Y /I "$(TargetPath)" "..\..\TestShell\x64\Release\";
-xcopy /Y /I "$(TargetPath)" "..\..\TestShell\TestShell\";</Command>
+      <Command>xcopy /Y /I "$(TargetPath)" "..\..\TestShell\x64\Release\"
+xcopy /Y /I "$(TargetPath)" "..\..\TestShell\TestShell\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
