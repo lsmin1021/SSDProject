@@ -1,6 +1,7 @@
 #include "test_shell_app.h"
 #include "cmd_factory.h"
 #include "cmd_interface.h"
+#include "cmd_executer.h"
 #include "dll_driver.h"
 #include <windows.h>
 
@@ -15,14 +16,11 @@ bool TestShellApp::cmdParserAndExcute(const string& cmdString)
     if (tokens.empty()) {
         throw std::invalid_argument("Empty command");
     }
+    
+    bool result = CmdExecuter::getInstance().executeCmd(tokens);
+    if (result) return true;
+    
     string cmdName = tokens[0];
-    CmdInterface* cmdObj = CmdFactory::getInstance().getCmd(cmdName);
-    if (cmdObj != nullptr)
-    {
-        cmdObj->checkInvalidCmd(tokens);
-        cmdObj->excuteCmd(tokens);
-        return true;
-    }
     DllDriver::getInstance().getDllApi().executeTs(cmdName.c_str());
 
     return true;
