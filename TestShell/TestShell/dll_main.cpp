@@ -1,6 +1,7 @@
 ﻿#include "dll_main.h"
 #include "testscript_interface.h"
 #include "testscript_factory.h"
+#include "testscript_dll_driver.h"
 
 extern "C"{
     AppCb cb;
@@ -8,6 +9,7 @@ extern "C"{
     LIB_API__ void openDll(AppCb* appCb) {
         cb = *appCb;
         TestScriptFactory::generateTs();
+        TsDllDriver::getInstance();
     }
 
     LIB_API__ void executeTs(const vector<string>& cmdTokens) {

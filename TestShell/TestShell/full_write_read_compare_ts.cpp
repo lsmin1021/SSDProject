@@ -1,5 +1,4 @@
 #include "full_write_read_compare_ts.h"
-#include "cmd_factory.h"
 
 void FullWriteAndReadCompareTs::checkInvalidTs(const vector<string>& tokens) const {
 	checkNumToken(tokens);

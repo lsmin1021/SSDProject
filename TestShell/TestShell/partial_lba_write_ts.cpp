@@ -1,5 +1,4 @@
 #include "partial_lba_write_ts.h"
-#include "cmd_factory.h"
 
 void PartialLbaWriteTs::checkInvalidTs(const vector<string>& tokens) const {
 	checkNumToken(tokens);

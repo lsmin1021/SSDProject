@@ -1,5 +1,5 @@
 #include "testscript_interface.h"
-#include "testscript_factory.h"
+//#include "testscript_factory.h"
 #include <fstream>
 #include <stdexcept>
 #include <iostream>
@@ -11,7 +11,7 @@ string TsInterface::m_checkString;
 
 TsInterface::TsInterface(const string& name, int numToken) : m_name(name), m_numToken(numToken) {
     UpdateShortCutName();
-    TestScriptFactory::getInstance().registerTs(this);
+    //TestScriptFactory::getInstance().registerTs(this);
 }
 
 bool TsInterface::executeCmd(const vector<string>& cppTokens, const string& checkString) {

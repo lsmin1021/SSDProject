@@ -1,5 +1,4 @@
 #include "write_read_aging_ts.h"
-#include "cmd_factory.h"
 
 void WriteReadAging::checkInvalidTs(const vector<string>& tokens) const {
 	checkNumToken(tokens);

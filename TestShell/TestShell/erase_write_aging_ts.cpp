@@ -1,5 +1,4 @@
 #include "erase_write_aging_ts.h"
-#include "cmd_factory.h"
 
 void EraseAndWriteAgingTs::checkInvalidTs(const vector<string>& tokens) const {
     checkNumToken(tokens);

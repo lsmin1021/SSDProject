@@ -9,9 +9,9 @@
 void TestScriptFactory::generateTs(void)
 {
 	static FullWriteAndReadCompareTs fullWriteAndReadCompareTs;
-	static PartialLbaWriteTs partialLbaWriteTs;
-	static WriteReadAging writeReadAging;
-	static EraseAndWriteAgingTs eraseWriteAging;
+	//static PartialLbaWriteTs partialLbaWriteTs;
+	//static WriteReadAging writeReadAging;
+	//static EraseAndWriteAgingTs eraseWriteAging;
 }
 
 TestScriptFactory& TestScriptFactory::getInstance()
