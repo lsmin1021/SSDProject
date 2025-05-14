@@ -134,6 +134,7 @@
     <ClCompile Include="erase_range_cmd.cpp" />
     <ClCompile Include="erase_write_aging_ts.cpp" />
     <ClCompile Include="exit_cmd.cpp" />
+    <ClCompile Include="flush_cmd.cpp" />
     <ClCompile Include="full_read_cmd.cpp" />
     <ClCompile Include="full_write_cmd.cpp" />
     <ClCompile Include="full_write_read_compare_ts.cpp" />
@@ -160,6 +161,7 @@
     <ClInclude Include="erase_range_cmd.h" />
     <ClInclude Include="erase_write_aging_ts.h" />
     <ClInclude Include="exit_cmd.h" />
+    <ClInclude Include="flush_cmd.h" />
     <ClInclude Include="full_read_cmd.h" />
     <ClInclude Include="full_write_cmd.h" />
     <ClInclude Include="full_write_read_compare_ts.h" />
