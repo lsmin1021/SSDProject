@@ -72,6 +72,7 @@ void TestShellApp::runRunnerMode(const string& scriptFileName) {
 
         try {
             cmdParserAndExecute(line);
+            std::cout << "PASS\n";
         }
         catch (const std::invalid_argument&) {
             std::cout << "FAIL!" << std::endl;
@@ -96,16 +97,26 @@ bool TestShellApp::cmdParserAndExecute(const string& cmdString) {
         throw std::invalid_argument("Empty command");
     }
     
+    if (executeSsdComand(cmdTokens)) return true;
+        
+    if (executeTestScript(cmdTokens[0])) return true;;
+
+    return true;
+}
+
+bool TestShellApp::executeTestScript(string& tsName) {
+    DllDriver::getInstance().getDllApi().executeTs(tsName.c_str());
+    return true;
+}
+
+bool TestShellApp::executeSsdComand(vector<string> cmdTokens) {
+    CmdInterface* cmdObj = CmdFactory::getInstance().getCmd(cmdTokens[0]);
+    if (cmdObj == nullptr) return false;
+
     if (CmdExecuter::getInstance().executeCmd(cmdTokens)) {
         return true;
     }
-    
-    string cmdName = cmdTokens[0];
-    
-    DllDriver::getInstance().getDllApi().executeTs(cmdName.c_str());
-    std::cout << "PASS\n";
-
-    return true;
+    return false;
 }
 
 vector<string> TestShellApp::parseCmd(const string& cmdString) {

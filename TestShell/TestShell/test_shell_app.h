@@ -24,10 +24,12 @@ public:
 	~TestShellApp() = default;
 	void run(int argc, char* argv[]);
 	bool cmdParserAndExecute(const string& cmdcmdString);
-
 private:
 	void runBasicMode(void);
 	void runRunnerMode(const string& scriptFileName);
+	bool executeSsdComand(vector<string> cmdTokens);
+	bool executeTestScript(std::string& cmdName);
+
 	void printInvalidArgsMessage(const string& programName);
 
 	SsdInterface* m_ssd;
