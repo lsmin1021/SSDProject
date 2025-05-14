@@ -13,7 +13,7 @@ void FullWriteCmd::excuteCmd(const vector<string>& tokens) {
     fullWrite(dataString);
 }
 void FullWriteCmd::helpCmd() const {
-    string msg = "  fullwrite                      Write default data to all LBA addresses(0 ~99)\n";
+    string msg = "  fullwrite <DATA>               Write 4-byte DATA to all LBA addresses(0 ~ 99)\n";
     MSG_PRINT(msg);
 }
 
