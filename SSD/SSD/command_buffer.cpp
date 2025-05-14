@@ -26,15 +26,62 @@ int CommandBuffer::getUsableBufferSize() {
 }
 
 void CommandBuffer::insertCmdWrite(int lba, string value) {
-	m_buffer.push_back(Buffer(WRITE_CMD, value, lba, 0));
+	Buffer cmd(WRITE_CMD, value, lba, 0);
 
+	ignoreCommand(cmd);
+	m_buffer.push_back(cmd);
+	
 	storeDataToBuffer();
 }
 
 void CommandBuffer::insertCmdErase(int lba, int size) {
-	m_buffer.push_back(Buffer(ERASE_CMD, "", lba, size));
+	Buffer cmd(ERASE_CMD, "", lba, size);
+
+	ignoreCommand(cmd);
+	m_buffer.push_back(cmd);
 
 	storeDataToBuffer();
+}
+
+void CommandBuffer::ignoreCommand(Buffer& cmd) {
+	if (true == m_buffer.empty()) return;
+
+	if (WRITE_CMD == cmd.getCmd()) {
+		for (int i = m_buffer.size() - 1; i >= 0; i--) {
+			Buffer& preCmd = m_buffer[i];
+
+			if (WRITE_CMD == preCmd.getCmd()) {
+				if (preCmd.getLba() == cmd.getLba()) {
+					m_buffer.erase(m_buffer.begin() + i);
+				}
+			}
+			else if (ERASE_CMD == preCmd.getCmd()) {
+				if (preCmd.getLba() == cmd.getLba() && preCmd.getSize() == 1) {
+					m_buffer.erase(m_buffer.begin() + i);
+				}
+			}
+		}
+	}
+	else if (ERASE_CMD == cmd.getCmd()) {
+		for (int i = m_buffer.size() - 1; i >= 0; i--) {
+			Buffer& preCmd = m_buffer[i];
+
+			if (WRITE_CMD == preCmd.getCmd()) {
+				if (cmd.getSize() != 0 &&
+					cmd.getLba() <= preCmd.getLba() &&
+					cmd.getLba() + cmd.getSize() > preCmd.getLba()) {
+					m_buffer.erase(m_buffer.begin() + i);
+				}
+			}
+			else if (ERASE_CMD == preCmd.getCmd()) {
+				if (cmd.getSize() != 0 &&
+					cmd.getLba() <= preCmd.getLba() &&
+					cmd.getSize() + cmd.getLba() >= preCmd.getLba() + preCmd.getSize()) {
+					m_buffer.erase(m_buffer.begin() + i);
+				}
+			}
+		}
+	}
 }
 
 void CommandBuffer::clear() {
@@ -114,7 +161,7 @@ void CommandBuffer::loadBufferCmd(string cmd) {
 	if (0 == cmd_content.compare(EMPTY_CMD)) {
 		return;
 	}
-	
+
 	m_buffer.push_back(parseBufferCmd(cmd_content));
 }
 
@@ -124,9 +171,8 @@ Buffer CommandBuffer::parseBufferCmd(string bufferCmd) {
 	string::size_type posLba = bufferCmd.find('_', 2);
 	string lba = bufferCmd.substr(2, posLba - 2);
 
-	posLba += lba.length() - 1;
-	string::size_type posParam = bufferCmd.find('_', posLba);
-	string param = bufferCmd.substr(posLba, posParam - posLba);
+	string::size_type posParam = posLba + 1;
+	string param = bufferCmd.substr(posParam);
 
 	Buffer cb;
 	cb.setCmd(cmd);
