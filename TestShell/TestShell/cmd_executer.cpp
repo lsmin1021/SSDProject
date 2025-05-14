@@ -6,13 +6,13 @@ CmdExecuter& CmdExecuter::getInstance() {
 	static CmdExecuter instance;
 	return instance;
 }
-bool CmdExecuter::executeCmd(const vector<string>& tokens) {
+CmdInterface* CmdExecuter::executeCmd(const vector<string>& tokens) {
     string cmdName = tokens[0];
     CmdInterface* cmdObj = CmdFactory::getInstance().getCmd(cmdName);
-    if (cmdObj == nullptr) return false;
+    if (cmdObj == nullptr) return nullptr;
     cmdObj->checkInvalidCmd(tokens);
     cmdObj->excuteCmd(tokens);
-    return true;
+    return cmdObj;
 }
 vector<string> CmdExecuter::converTokenCtoCpp(int numToken, char tokens[10][100]) {
     vector<string> result;
@@ -22,7 +22,19 @@ vector<string> CmdExecuter::converTokenCtoCpp(int numToken, char tokens[10][100]
     }
     return result;
 }
+const char* NOT_CHECK_RESULT = "NOT_CHECK_RESULT";
+extern "C" bool executeCmd(int numToken, char tokens[10][100], const char checkString[100]) {
+    CmdInterface* cmdObj =  CmdExecuter::getInstance().executeCmd(CmdExecuter::converTokenCtoCpp(numToken, tokens));
+    if (cmdObj == nullptr) return false;
 
-extern "C" bool executeCmd(int numToken, char tokens[10][100]) {
-    return CmdExecuter::getInstance().executeCmd(CmdExecuter::converTokenCtoCpp(numToken, tokens));
+    //std::cout << "executeCmd : " << checkString << "\n";
+    int result = std::strcmp(checkString, NOT_CHECK_RESULT);
+    if (result) {
+        string mustString = checkString;
+        if (cmdObj->getReadResult() != mustString) {
+            std::cout << "FAIL\n";
+            throw FailException();
+        }
+    }
+    return true;
 }

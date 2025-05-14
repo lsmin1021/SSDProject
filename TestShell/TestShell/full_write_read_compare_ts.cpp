@@ -14,13 +14,11 @@ void FullWriteAndReadCompareTs::excuteTs(const vector<string>& tokens) {
 
         for (int addr = lba; addr < lba + TEST_LBA_STEP; addr++) {
             vector<string> readCmd = { "read", std::to_string(addr) };
+            
+#ifdef _DEBUG
             executeCmd(readCmd);
-#ifndef _DEBUG
-            if (cmdObj->getReadResult() != TEST_SCRIPT_VALUE)
-            {
-                std::cout << "FAIL\n";
-                throw FailException();
-            }
+#else
+            executeCmd(readCmd, TEST_SCRIPT_VALUE);
 #endif
         }
         lba += TEST_LBA_STEP;

@@ -5,7 +5,10 @@
 #include <iostream>
 #include <cstring>
 
+const string TsInterface::NOT_CHECK_RESULT = "NOT_CHECK_RESULT";
+
 char TsInterface::m_cbTokens[10][100] = {0,};
+char TsInterface::m_checkString[100];
 int TsInterface::m_numCbToken = 0;
 
 TsInterface::TsInterface(const string& name, int numToken) : m_numToken(numToken) {
@@ -13,7 +16,13 @@ TsInterface::TsInterface(const string& name, int numToken) : m_numToken(numToken
     m_names.push_back(name);
     TestScriptFactory::getInstance().registerTs(this);
 }
-
+bool TsInterface::executeCmd(const vector<string>& cppTokens, const string& checkString) {
+    m_numCbToken = converTokenCpptoC(cppTokens);
+    //std::cout << "TsInterface" << checkString << "\n";
+    strcpy_s(m_checkString, checkString.size()+ 1, checkString.c_str());
+    return cb.excueteCmd(m_numCbToken, m_cbTokens, m_checkString);
+    return true;
+}
 int TsInterface::converTokenCpptoC(const vector<string>& cppTokens) {
     int index = 0;
     for (auto cppToken : cppTokens){
