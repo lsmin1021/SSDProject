@@ -1,6 +1,5 @@
 #pragma once
 
-#include <exception>
 #include "cmd_interface.h"
 
 class ExitCmd : public CmdInterface {
