@@ -1,3 +1,4 @@
+#include <iostream>
 #include "command_handler.h"
 #include "output_handler.h"
 #include "command_write.h"
@@ -7,36 +8,16 @@
 
 std::unique_ptr<ICommand> CommandFactory::makeCommand(const string& cmd) {
     if ("W" == cmd) {
-        return std::make_unique<WriteCommand>(new NandHandler());
+        return std::make_unique<WriteCommand>();
     }
     else if ("R" == cmd) {
-        return std::make_unique<ReadCommand>(new NandHandler());
+        return std::make_unique<ReadCommand>();
     }
     else if ("E" == cmd) {
-        return std::make_unique<EraseCommand>(new NandHandler());
+        return std::make_unique<EraseCommand>();
     }
     else if ("F" == cmd) {
-        return std::make_unique<FlushCommand>(new NandHandler());
-    }
-
-    return nullptr;
-}
-
-std::unique_ptr<ICommand> CommandFactory::makeCommand(const string& cmd, NandHandler* handler) {
-    if (nullptr == handler) {
-        return makeCommand(cmd);
-    }
-    if ("W" == cmd) {
-        return std::make_unique<WriteCommand>(handler);
-    }
-    else if ("R" == cmd) {
-        return std::make_unique<ReadCommand>(handler);
-    }
-    else if ("E" == cmd) {
-        return std::make_unique<EraseCommand>(handler);
-    }
-    else if ("F" == cmd) {
-        return std::make_unique<FlushCommand>(handler);
+        return std::make_unique<FlushCommand>();
     }
 
     return nullptr;
@@ -45,16 +26,11 @@ std::unique_ptr<ICommand> CommandFactory::makeCommand(const string& cmd, NandHan
 CommandHandler::CommandHandler() {
 }
 
-CommandHandler::CommandHandler(NandHandler* handler) {
-    m_nandHandler = handler;
-}
-
 bool CommandHandler::handleCommand(const vector<string>& cmdArr) {
     if (false == isValidCommand(cmdArr)) {
         OutputHandler::getInstance().write("ERROR");
         return false;
     }
-
     executeCommand(cmdArr);
 
     return true;
@@ -63,7 +39,7 @@ bool CommandHandler::handleCommand(const vector<string>& cmdArr) {
 bool CommandHandler::isValidCommand(const vector<string>& cmdArr) {
     if (cmdArr.empty()) return false;
 
-    m_command = CommandFactory::makeCommand(cmdArr[0], m_nandHandler);
+    m_command = CommandFactory::makeCommand(cmdArr[0]);
     if (nullptr == m_command) {
         return false;
     }

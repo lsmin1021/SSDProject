@@ -1,6 +1,7 @@
 #include "command_flush.h"
+#include "device_handler.h"
 
-FlushCommand::FlushCommand(NandHandler* nandHandler) : ICommand(nandHandler) {}
+FlushCommand::FlushCommand() {}
 
 bool FlushCommand::isValid(const vector<string>& param) {
 	if (PARAMETER_COUNT != param.size()) {
@@ -15,5 +16,5 @@ void FlushCommand::execute(const vector<string>& param) {
 }
 
 void FlushCommand::flushBuffer() {
-	// TODO
+	DeviceHandler::getInstance().flush();
 }

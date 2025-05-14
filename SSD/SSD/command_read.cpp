@@ -1,7 +1,8 @@
 #include "command_read.h"
 #include "output_handler.h"
+#include "device_handler.h"
 
-ReadCommand::ReadCommand(NandHandler* nandHandler) : ICommand(nandHandler) { }
+ReadCommand::ReadCommand() {}
 
 bool ReadCommand::isValid(const vector<string>& param) {
 	if (PARAMETER_COUNT != param.size()) {
@@ -13,11 +14,16 @@ bool ReadCommand::isValid(const vector<string>& param) {
 
 void ReadCommand::execute(const vector<string>& param) {
 	int lba = std::stoi(param[LBA_INDEX]);
-	string ret = readDataOnAddr(lba);
+
+	string ret = DeviceHandler::getInstance().read(lba);
+	
+	if (true == ret.empty()) {
+		ret = readDataOnAddr(lba);
+	}
 
 	OutputHandler::getInstance().write(ret);
 }
 
 string ReadCommand::readDataOnAddr(int lba) {
-	return m_nandHandler->read(lba);
+	return DeviceHandler::getInstance().read(lba);
 }

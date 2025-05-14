@@ -3,7 +3,7 @@
 
 class ReadCommand : public ICommand {
 public:
-	ReadCommand(NandHandler* nandHandler);
+	ReadCommand();
 	bool isValid(const vector<string>& param) override;
 	void execute(const vector<string>& param) override;
 

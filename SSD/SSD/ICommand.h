@@ -3,15 +3,12 @@
 #include <string>
 #include <vector>
 
-#include "nand_handler.h"
-
 using std::string;
 using std::vector;
 
 class ICommand {
 public:
-	ICommand(NandHandler* nandHandler) : m_nandHandler(nandHandler) {}
-
+	ICommand() = default;
 	virtual bool isValid(const vector<string>& param) = 0;
 	virtual void execute(const vector<string>& param) = 0;
 
@@ -36,9 +33,6 @@ protected:
 		if (toInt(lbaStr, lba)) return (lba >= MIN_LBA && lba <= MAX_LBA);
 		return false;
 	}
-
-
-	NandHandler* m_nandHandler;
 
 	const int MAX_LBA = 99;
 	const int MIN_LBA = 0;
