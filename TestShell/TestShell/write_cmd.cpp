@@ -3,7 +3,6 @@
 #include "iostream"
 #include "msg_handler.h"
 
-using std::cout;
 void WriteCmd::checkInvalidCmd(const vector<string>& tokens) const {
 	checkNumToken(tokens);
     checkLbaArg(tokens[1]);

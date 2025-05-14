@@ -3,7 +3,6 @@
 #include "iostream"
 #include "msg_handler.h"
 
-using std::cout;
 void ReadCmd::checkInvalidCmd(const vector<string>& tokens) const {
 	checkNumToken(tokens);
 	checkLbaArg(tokens[1]);
@@ -18,6 +17,5 @@ void ReadCmd::helpCmd() const {
 
 void ReadCmd::read(const string& lbaString) {
 	m_ssd->readData(lbaString);
-	string msg = "[Read] LBA " + lbaString + " : " + getReadResult() + "\n";
-	MSG_PRINT(msg);
+	MSG_PRINT("[Read] LBA " + lbaString + " : " + getReadResult() + "\n");
 }

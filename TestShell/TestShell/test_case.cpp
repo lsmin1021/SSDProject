@@ -76,115 +76,115 @@ TEST_F(MockSddFixture, ReadSuccess) {
 	// Arrange
 	EXPECT_CALL(m_mockSsd, readData(TEST_LBA)).Times(1);
 	// Act
-	m_tespApp->cmdParserAndExcute(READ_SUCESS);
+	m_tespApp->cmdParserAndExecute(READ_SUCESS);
 }
 
 TEST_F(MockSddFixture, FullReadSuccess) {
 	// Arrange
 	EXPECT_CALL(m_mockSsd, readData(_)).Times(100);
 	// Act
-	m_tespApp->cmdParserAndExcute(FULL_READ_SUCESS);
+	m_tespApp->cmdParserAndExecute(FULL_READ_SUCESS);
 }
 
 TEST_F(MockSddFixture, WriteSucess) {
 	// Arrange
 	EXPECT_CALL(m_mockSsd, writeData(TEST_LBA, TEST_DATA)).Times(1);
 	// Act
-	m_tespApp->cmdParserAndExcute(WRITE_SUCESS);
+	m_tespApp->cmdParserAndExecute(WRITE_SUCESS);
 }
 
 TEST_F(MockSddFixture, FullWriteSucess) {
 	// Arrange
 	EXPECT_CALL(m_mockSsd, writeData(_, TEST_DATA)).Times(100);
 	// Act
-	m_tespApp->cmdParserAndExcute(FULL_WRITE_SUCESS);
+	m_tespApp->cmdParserAndExecute(FULL_WRITE_SUCESS);
 }
 
 TEST_F(MockSddFixture, InavlidCmd) {
 	// Arrange, Act
-	EXPECT_THROW(m_tespApp->cmdParserAndExcute(INVALID_CMD), std::invalid_argument);
+	EXPECT_THROW(m_tespApp->cmdParserAndExecute(INVALID_CMD), std::invalid_argument);
 }
 
 TEST_F(MockSddFixture, InvalidReadMoreNumAra) {
-	EXPECT_THROW({ m_tespApp->cmdParserAndExcute(READ_FAIL_MORE_NUM_ARG); }, std::invalid_argument);
+	EXPECT_THROW({ m_tespApp->cmdParserAndExecute(READ_FAIL_MORE_NUM_ARG); }, std::invalid_argument);
 }
 TEST_F(MockSddFixture, InvalidReadLessNumAra) {
-	EXPECT_THROW({ m_tespApp->cmdParserAndExcute(READ_FAIL_LESS_NUM_ARG); }, std::invalid_argument);
+	EXPECT_THROW({ m_tespApp->cmdParserAndExecute(READ_FAIL_LESS_NUM_ARG); }, std::invalid_argument);
 }
 TEST_F(MockSddFixture, InvalidReadInvalidLba) {
-	EXPECT_THROW({ m_tespApp->cmdParserAndExcute(READ_FAIL_INVALID_LBA); }, std::invalid_argument);
+	EXPECT_THROW({ m_tespApp->cmdParserAndExecute(READ_FAIL_INVALID_LBA); }, std::invalid_argument);
 }
 
 TEST_F(MockSddFixture, InvalidFullReadMoreNumAra) {
-	EXPECT_THROW({ m_tespApp->cmdParserAndExcute(FULL_READ_FAIL_MORE_NUM_ARG); }, std::invalid_argument);
+	EXPECT_THROW({ m_tespApp->cmdParserAndExecute(FULL_READ_FAIL_MORE_NUM_ARG); }, std::invalid_argument);
 }
 
 TEST_F(MockSddFixture, InvalidWriteMoreNumAra) {
-	EXPECT_THROW({ m_tespApp->cmdParserAndExcute(WRITE_FAIL_MORE_NUM_ARG); }, std::invalid_argument);
+	EXPECT_THROW({ m_tespApp->cmdParserAndExecute(WRITE_FAIL_MORE_NUM_ARG); }, std::invalid_argument);
 }
 TEST_F(MockSddFixture, InvalidWriteLessNumAra) {
-	EXPECT_THROW({ m_tespApp->cmdParserAndExcute(WRITE_FAIL_LESS_NUM_ARG); }, std::invalid_argument);
+	EXPECT_THROW({ m_tespApp->cmdParserAndExecute(WRITE_FAIL_LESS_NUM_ARG); }, std::invalid_argument);
 }
 TEST_F(MockSddFixture, InvalidWriteSmallLenData) {
-	EXPECT_THROW({ m_tespApp->cmdParserAndExcute(WRITE_FAIL_SMALL_LEN_DATA); }, std::invalid_argument);
+	EXPECT_THROW({ m_tespApp->cmdParserAndExecute(WRITE_FAIL_SMALL_LEN_DATA); }, std::invalid_argument);
 }
 TEST_F(MockSddFixture, InvalidWriteBigLenData) {
-	EXPECT_THROW({ m_tespApp->cmdParserAndExcute(WRITE_FAIL_BIC_LEN_DATA); }, std::invalid_argument);
+	EXPECT_THROW({ m_tespApp->cmdParserAndExecute(WRITE_FAIL_BIC_LEN_DATA); }, std::invalid_argument);
 }
 TEST_F(MockSddFixture, InvalidWriteNotHexData) {
-	EXPECT_THROW({ m_tespApp->cmdParserAndExcute(WRITE_FAIL_NOT_HEX_DATA); }, std::invalid_argument);
+	EXPECT_THROW({ m_tespApp->cmdParserAndExecute(WRITE_FAIL_NOT_HEX_DATA); }, std::invalid_argument);
 }
 TEST_F(MockSddFixture, InvalidWriteNotHexCharData) {
-	EXPECT_THROW({ m_tespApp->cmdParserAndExcute(WRITE_FAIL_NOT_HEX_CHAR_DATA); }, std::invalid_argument);
+	EXPECT_THROW({ m_tespApp->cmdParserAndExecute(WRITE_FAIL_NOT_HEX_CHAR_DATA); }, std::invalid_argument);
 }
 
 
 TEST_F(MockSddFixture, InvalidFullWriteMoreNumAra) {
-	EXPECT_THROW({ m_tespApp->cmdParserAndExcute(FULL_WRITE_FAIL_MORE_NUM_ARG); }, std::invalid_argument);
+	EXPECT_THROW({ m_tespApp->cmdParserAndExecute(FULL_WRITE_FAIL_MORE_NUM_ARG); }, std::invalid_argument);
 }
 
 TEST_F(MockSddFixture, InvalidFullWriteLessNumAra) {
-	EXPECT_THROW({ m_tespApp->cmdParserAndExcute(FULL_WRITE_FAIL_LESS_NUM_ARG); }, std::invalid_argument);
+	EXPECT_THROW({ m_tespApp->cmdParserAndExecute(FULL_WRITE_FAIL_LESS_NUM_ARG); }, std::invalid_argument);
 }
 
 TEST_F(MockSddFixture, InvalidFullWriteInvalidData) {
-	EXPECT_THROW({ m_tespApp->cmdParserAndExcute(FULL_WRITE_FAIL_INVALD_DATA); }, std::invalid_argument);
+	EXPECT_THROW({ m_tespApp->cmdParserAndExecute(FULL_WRITE_FAIL_INVALD_DATA); }, std::invalid_argument);
 }
 
 TEST_F(MockSddFixture, helpTest) {
 	// Arrange, Act
-	EXPECT_NO_THROW(m_tespApp->cmdParserAndExcute(HELP_CMD));
+	EXPECT_NO_THROW(m_tespApp->cmdParserAndExecute(HELP_CMD));
 }
 
 TEST_F(MockSddFixture, InvalidHelp) {
-	EXPECT_THROW({ m_tespApp->cmdParserAndExcute(INVALID_HELP_CMD); }, std::invalid_argument);
+	EXPECT_THROW({ m_tespApp->cmdParserAndExecute(INVALID_HELP_CMD); }, std::invalid_argument);
 }
 
 TEST_F(MockSddFixture, InvalidExit) {
-	EXPECT_THROW({ m_tespApp->cmdParserAndExcute(INVALID_EXIT_CMD); }, std::invalid_argument);
+	EXPECT_THROW({ m_tespApp->cmdParserAndExecute(INVALID_EXIT_CMD); }, std::invalid_argument);
 }
 
 TEST_F(MockSddFixture, EraseSize13) {
 	EXPECT_CALL(m_mockSsd, eraseData("0", "10"));
 	EXPECT_CALL(m_mockSsd, eraseData("10", "3"));
-	m_tespApp->cmdParserAndExcute(ERASE_SIZE_13);
+	m_tespApp->cmdParserAndExecute(ERASE_SIZE_13);
 }
 
 TEST_F(MockSddFixture, EraseTooBigSize) {
 	EXPECT_CALL(m_mockSsd, eraseData("90", "10"));
-	m_tespApp->cmdParserAndExcute(ERASE_TO0_BIG_SIZE);
+	m_tespApp->cmdParserAndExecute(ERASE_TO0_BIG_SIZE);
 }
 
 TEST_F(MockSddFixture, EraseEndFitSize) {
 	EXPECT_CALL(m_mockSsd, eraseData("99", "1"));
-	m_tespApp->cmdParserAndExcute(ERASE_END_FIT_SIZE);
+	m_tespApp->cmdParserAndExecute(ERASE_END_FIT_SIZE);
 }
 
 TEST_F(MockSddFixture, EraseRange0_13) {
 	EXPECT_CALL(m_mockSsd, eraseData("0", "10"));
 	EXPECT_CALL(m_mockSsd, eraseData("10", "4"));
 
-	m_tespApp->cmdParserAndExcute(ERASE_RANAGE_0_13);
+	m_tespApp->cmdParserAndExecute(ERASE_RANAGE_0_13);
 }
 
 

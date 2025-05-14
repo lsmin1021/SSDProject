@@ -3,7 +3,6 @@
 #include "iostream"
 #include "msg_handler.h"
 
-using std::cout;
 void EraseRangeCmd::checkInvalidCmd(const vector<string>& tokens) const {
     checkNumToken(tokens);
     string startLbaString = tokens[1];
@@ -27,6 +26,6 @@ void EraseRangeCmd::excuteCmd(const vector<string>& tokens) {
    EraseCmd::excuteCmd(newTokens);  
 }
 void EraseRangeCmd::helpCmd() const {
-    MSG_PRINT("  erase <START LBA>  <END LBA>       Erase 4-byte DATAs from START LBA to END LBA\n");
+    MSG_PRINT("  erase_range <START LBA>  <END LBA>    Erase 4-byte DATAs from START LBA to END LBA\n");
 }
 

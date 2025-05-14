@@ -3,7 +3,6 @@
 #include "iostream"
 #include "msg_handler.h"
 
-using std::cout;
 void FullReadCmd::checkInvalidCmd(const vector<string>& tokens) const {
 	checkNumToken(tokens);
 }
@@ -18,7 +17,6 @@ void FullReadCmd::fullRead() {
     for (int lba = 0; lba <= MAX_LBA; ++lba)
     {
         m_ssd->readData(std::to_string(lba));
-        string msg = "[Read] LBA " + std::to_string(lba) + " : " + getReadResult() + "\n";
-        MSG_PRINT(msg);
+        MSG_PRINT("[Read] LBA " + std::to_string(lba) + " : " + getReadResult() + "\n");
     }
 }
