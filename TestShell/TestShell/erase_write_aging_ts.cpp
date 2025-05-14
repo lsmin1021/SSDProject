@@ -1,5 +1,6 @@
 #include "erase_write_aging_ts.h"
 #include "cmd_factory.h"
+
 void EraseAndWriteAgingTs::checkInvalidCmd(const vector<string>& tokens) const {
     checkNumToken(tokens);
 }
@@ -46,7 +47,7 @@ void EraseAndWriteAgingTs::readAndCompare(const string& addr) const
 #ifndef _DEBUG
     if (cmdObj->getReadResult().compare(TEST_EXPECTED_VALUE) != 0)
     {
-        std::cout << "FAIL";
+        std::cout << "FAIL\n";
         throw FailException();
     }
 #endif

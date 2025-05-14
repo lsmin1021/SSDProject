@@ -7,7 +7,6 @@
 TestShellApp::TestShellApp(SsdInterface* m_ssd): m_ssd(m_ssd) {
     CmdFactory::getInstance().setSdd(m_ssd);
     DllDriver::getInstance().openDll();
-
 }
 
 bool TestShellApp::cmdParserAndExcute(const string& cmdString)

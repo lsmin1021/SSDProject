@@ -1,6 +1,7 @@
 #include "erase_cmd.h"
 #include "ssd_interface.h"
 #include "iostream"
+#include "msg_handler.h"
 
 using std::cout;
 
@@ -20,7 +21,7 @@ void EraseCmd::excuteCmd(const vector<string>& tokens) {
     }
 }
 void EraseCmd::helpCmd() const {
-    cout << "  erase <LBA>  <SIZE>       Erase 4-byte DATAs of SIZE from logical block address (LBA)\n";
+    MSG_PRINT("  erase <LBA>  <SIZE>       Erase 4-byte DATAs of SIZE from logical block address (LBA)\n");
 }
 
 void EraseCmd::checkSizeArg(const string& sizeString) const {
