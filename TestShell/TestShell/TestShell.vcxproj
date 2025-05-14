@@ -145,7 +145,6 @@
     <ClCompile Include="logger.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="msg_handler.cpp" />
-    <ClCompile Include="partial_lba_write_ts.cpp" />
     <ClCompile Include="read_cmd.cpp" />
     <ClCompile Include="ssd_driver.cpp" />
     <ClCompile Include="test_case.cpp" />
