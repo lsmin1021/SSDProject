@@ -4,12 +4,6 @@ NandHandler::NandHandler() {
 	m_ssdData = getSSDData(readNand());
 }
 
-NandHandler& NandHandler::getInstance() {
-	static NandHandler instance;
-
-	return instance;
-}
-
 string NandHandler::read(int lba) {
 	if (m_ssdData.find(lba) == m_ssdData.end()) {
 		return EMPTY_VALUE;

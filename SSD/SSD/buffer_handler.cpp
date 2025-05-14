@@ -1,5 +1,4 @@
 #include "buffer_handler.h"
-#include "nand_handler.h"
 
 CommandBufferHandler& CommandBufferHandler::getInstance() {
 	static CommandBufferHandler instance;
@@ -11,7 +10,7 @@ string CommandBufferHandler::readBuffer(int lba) {
 	string ret = m_commandBuffer.readDataOnBuffer(lba);
 
 	if (true == ret.empty()) {
-		ret = NandHandler::getInstance().read(lba);
+		ret = m_nandHandler.read(lba);
 	}
 
 	return ret;
@@ -31,10 +30,10 @@ void CommandBufferHandler::flush() {
 
 	for (Buffer cmd : cmdList) {
 		if ("W" == cmd.getCmd()) {
-			NandHandler::getInstance().write(cmd.getLba(), cmd.getValue());
+			m_nandHandler.write(cmd.getLba(), cmd.getValue());
 		}
 		else if ("E" == cmd.getCmd()) {
-			NandHandler::getInstance().erase(cmd.getLba(), cmd.getSize());
+			m_nandHandler.erase(cmd.getLba(), cmd.getSize());
 		}
 	}
 }
