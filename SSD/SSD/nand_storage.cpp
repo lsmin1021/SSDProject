@@ -24,17 +24,12 @@ void NandStorage::write(int lba, string value) {
 }
 
 void NandStorage::erase(int lba, int cnt) {
-	for (int i = 0; i < cnt; i++) {
-		int targetIndex = lba + i;
-		if (99 < targetIndex) {
-			break;
+	for (int targetLba = lba; targetLba < lba + cnt && targetLba <= MAX_LBA; targetLba++) {
+		if (true == isEmptyLBA(targetLba)) {
+			return;
 		}
 
-		if (true == isEmptyLBA(targetIndex)) {
-			continue;
-		}
-
-		m_storage.erase(targetIndex);
+		m_storage.erase(targetLba);
 	}
 
 	storeData();

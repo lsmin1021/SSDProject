@@ -21,10 +21,12 @@ private:
 
 	void loadData();
 	void storeData();
+
 	string loadDataFile();
 	void convertDataFile(string content);
 
 	map<int, string> m_storage;
 	const string FILE_NAME = "ssd_nand.txt";
 	const string EMPTY_VALUE = "0x00000000";
+	const int MAX_LBA = 99;
 };
