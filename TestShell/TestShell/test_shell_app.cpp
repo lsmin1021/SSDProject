@@ -15,43 +15,16 @@ TestShellApp::TestShellApp(SsdInterface* m_ssd): m_ssd(m_ssd) {
     DllDriver::getInstance().openDll();
 }
 
-bool TestShellApp::cmdParserAndExecute(const string& cmdString)
-{
-    vector<string> cmdTokens = parseCmd(cmdString);
-    if (cmdTokens.empty()) {
-        throw std::invalid_argument("Empty command");
-    }
-    
-    if (CmdExecuter::getInstance().executeCmd(cmdTokens)) return true;
-    
-    string cmdName = cmdTokens[0];
-    DllDriver::getInstance().getDllApi().executeTs(cmdName.c_str());
-
-    return true;
-}
-
-vector<string>  TestShellApp::parseCmd(const string& cmd) {
-    std::istringstream iss(cmd);
-    vector<string> tokens;
-    string token;
-
-    while (iss >> token) {
-        tokens.push_back(token);
-    }
-    return tokens;
-}
-
 void TestShellApp::run(int argc, char* argv[]) {
     if (argc == 1) {
         runBasic();
     }
-    else {
-        if (argc > 2) {
-            std::cerr << "Error: Invalid arguments for Runner Mode.\n";
-            std::cerr << "Usage: " << argv[0] << " <scripts_file>\n";
-            return;
-        }
+    else if (argc == 2) {
         runRunner(argv[1]);
+    }
+    else {
+        std::cerr << "Error: Invalid arguments for Runner Mode.\n";
+        std::cerr << "Usage: " << argv[0] << " <scripts_file>\n";
     }
 }
 
@@ -111,4 +84,30 @@ void TestShellApp::runRunner(string scriptFileName) {
         }
     }
     file.close();
+}
+
+bool TestShellApp::cmdParserAndExecute(const string& cmdString)
+{
+    vector<string> cmdTokens = parseCmd(cmdString);
+    if (cmdTokens.empty()) {
+        throw std::invalid_argument("Empty command");
+    }
+    
+    if (CmdExecuter::getInstance().executeCmd(cmdTokens)) return true;
+    
+    string cmdName = cmdTokens[0];
+    DllDriver::getInstance().getDllApi().executeTs(cmdName.c_str());
+
+    return true;
+}
+
+vector<string>  TestShellApp::parseCmd(const string& cmdString) {
+    std::istringstream iss(cmdString);
+    vector<string> cmdTokens;
+    string token;
+
+    while (iss >> token) {
+        cmdTokens.push_back(token);
+    }
+    return cmdTokens;
 }
