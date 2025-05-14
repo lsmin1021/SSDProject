@@ -404,4 +404,4 @@ FodyWeavers.xsd
 *.txt
 
 # Ignore SSD Command Buffer
-Buffer/
+[Bb]uffer/
