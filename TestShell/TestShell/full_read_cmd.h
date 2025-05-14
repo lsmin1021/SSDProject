@@ -1,6 +1,7 @@
 #pragma once
 
 #include "cmd_interface.h"
+
 class FullReadCmd : public CmdInterface {
 public:
 	FullReadCmd() : CmdInterface("fullread", 1) {}

@@ -174,7 +174,6 @@
     <ClInclude Include="msg_handler.h" />
     <ClInclude Include="output_handler_interface.h" />
     <ClInclude Include="null_ouput_handler.h" />
-    <ClInclude Include="partial_lba_write_ts.h" />
     <ClInclude Include="read_cmd.h" />
     <ClInclude Include="ssd_driver.h" />
     <ClInclude Include="ssd_interface.h" />

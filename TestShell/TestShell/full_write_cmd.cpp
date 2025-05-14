@@ -3,7 +3,6 @@
 #include "iostream"
 #include "msg_handler.h"
 
-using std::cout;
 void FullWriteCmd::checkInvalidCmd(const vector<string>& tokens) const {
 	checkNumToken(tokens);
     string dataString = tokens[1];
@@ -14,7 +13,7 @@ void FullWriteCmd::excuteCmd(const vector<string>& tokens) {
     fullWrite(dataString);
 }
 void FullWriteCmd::helpCmd() const {
-    string msg = "  fullwrite                      Write default data to all LBA addresses(0 ~99)\n";
+    string msg = "  fullwrite <DATA>               Write 4-byte DATA to all LBA addresses(0 ~ 99)\n";
     MSG_PRINT(msg);
 }
 

@@ -12,6 +12,9 @@ class SsdInterface;
 class FailException : public std::exception {
 };
 
+class ExitException : public std::exception {
+};
+
 class CmdInterface {
 public:
 	CmdInterface(const string& name, int numToken);

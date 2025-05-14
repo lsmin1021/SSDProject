@@ -1,6 +1,7 @@
 #pragma once
 
 #include "cmd_interface.h"
+
 class WriteCmd : public CmdInterface {
 public:
 	WriteCmd() : CmdInterface("write", 3) {}

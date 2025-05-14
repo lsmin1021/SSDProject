@@ -1,8 +1,7 @@
 #include "flush_cmd.h"
 #include "ssd_interface.h"
 #include "iostream"
-
-using std::cout;
+#include "msg_handler.h"
 
 void FlushCmd::checkInvalidCmd(const vector<string>& tokens) const {
 	checkNumToken(tokens);
@@ -13,5 +12,5 @@ void FlushCmd::excuteCmd(const vector<string>& tokens) {
 }
 
 void FlushCmd::helpCmd() const {
-	cout << "  flush                     Flush the buffered commands to Nand\n";
+	MSG_PRINT("  flush                     Flush the buffered commands to Nand\n");
 }
