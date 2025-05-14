@@ -204,8 +204,8 @@ TEST_F(CommandBufferFixture, FullWrites) {
 TEST_F(CommandBufferFixture, WriteAfterEraseWithMerge) {
 	vector<string> expected = {
 		  "0_E_40_5",
-		  "1_W_41_0xCAFEBABE",
-		  "2_W_44_0xDEAD1234",
+		  "1_W_44_0xDEAD1234",
+		  "2_W_41_0xCAFEBABE",
 		  "3_empty", 
 		  "4_empty"
 	};
@@ -223,8 +223,8 @@ TEST_F(CommandBufferFixture, WriteAfterEraseWithMerge) {
 TEST_F(CommandBufferFixture, WriteAfterEraseWithMerge2) {
 	vector<string> expected = {
 		"0_E_40_5",
-		"1_W_41_0xCAFEBEEF",
-		"2_W_44_0xDEAD1234",
+		"1_W_44_0xDEAD1234",
+		"2_W_41_0xCAFEBEEF",
 		"3_empty",
 		"4_empty"
 	};
@@ -260,10 +260,11 @@ TEST_F(CommandBufferFixture, OverlappingEraseMerge) {
 
 TEST_F(CommandBufferFixture, InterleavedEraseAndWrite) {
 	vector<string> expected = {
-		"0_E_68_6",
-		"1_W_70_0x11110000",
-		"2_W_71_0x22220000",
-		"3_empty", "4_empty"
+		"0_E_68_5",
+		"1_W_71_0x22220000",
+		"2_W_70_0x11110000",
+		"3_E_72_1",
+		"4_empty"
 	};
 
 	runTest({
@@ -286,7 +287,7 @@ TEST_F(CommandBufferFixture, OutOfOrderEraseMerge) {
 
 	runTest({
 		{ ERASE_COMMAND, "80", "3" },
-		{ WRITE_COMMAND, "85", "50xDEADDEAD" },
+		{ WRITE_COMMAND, "85", "0xDEADDEAD" },
 		{ ERASE_COMMAND, "83", "2" },
 		{ WRITE_COMMAND, "85", "0xDEADDEAD  " },
 		{ WRITE_COMMAND, "86", "0xEEEEEEEE" }
