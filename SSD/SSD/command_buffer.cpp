@@ -21,7 +21,7 @@ bool CommandBuffer::isFull() {
 	return false;
 }
 
-string CommandBuffer::readDataOnBuffer(int lba) {
+string CommandBuffer::readData(int lba) {
 	return getValueOnBuffer(lba);
 }
 
@@ -29,18 +29,7 @@ vector<Buffer> CommandBuffer::getBufferCommands() {
 	return m_buffer;
 }
 
-void CommandBuffer::insertCmdWrite(int lba, string value) {
-	Buffer cmd(WRITE_CMD, value, lba, 0);
-
-	ignoreCommand(cmd);
-	m_buffer.push_back(cmd);
-	
-	storeDataToBuffer();
-}
-
-void CommandBuffer::insertCmdErase(int lba, int size) {
-	Buffer cmd(ERASE_CMD, "", lba, size);
-
+void CommandBuffer::insertCmd(Buffer cmd) {
 	ignoreCommand(cmd);
 	m_buffer.push_back(cmd);
 

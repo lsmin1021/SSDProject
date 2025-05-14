@@ -7,7 +7,7 @@ DeviceHandler& DeviceHandler::getInstance() {
 }
 
 string DeviceHandler::read(int lba) {
-	string ret = m_commandBuffer.readDataOnBuffer(lba);
+	string ret = m_commandBuffer.readData(lba);
 
 	if (true == ret.empty()) {
 		ret = m_nandHandler.read(lba);
@@ -21,7 +21,7 @@ void DeviceHandler::write(int lba, string value) {
 		flush();
 	}
 
-	m_commandBuffer.insertCmdWrite(lba, value);
+	m_commandBuffer.insertCmd(Buffer("W", value, lba, 0));
 }
 
 void DeviceHandler::erase(int lba, int size) {
@@ -29,7 +29,7 @@ void DeviceHandler::erase(int lba, int size) {
 		flush();
 	}
 
-	m_commandBuffer.insertCmdErase(lba, size);
+	m_commandBuffer.insertCmd(Buffer("E", "", lba, size));
 }
 
 void DeviceHandler::flush() {

@@ -38,11 +38,10 @@ class CommandBuffer {
 public:
 	CommandBuffer();
 
-	bool isFull();
 	vector<Buffer> getBufferCommands();
-	string readDataOnBuffer(int lba);
-	void insertCmdErase(int lba, int size);
-	void insertCmdWrite(int lba, string value);
+	string readData(int lba);
+	void insertCmd(Buffer cmd);
+	bool isFull();
 	void clear();
 
 private:
