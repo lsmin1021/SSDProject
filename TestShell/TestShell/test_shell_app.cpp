@@ -87,7 +87,6 @@ void TestShellApp::runRunnerMode(const string& scriptFileName) {
             std::cout << "EXIT" << std::endl;
             break;
         }
-        std::cout << "PASS" << std::endl;
     }
     file.close();
 }
@@ -100,8 +99,8 @@ bool TestShellApp::cmdParserAndExecute(const string& cmdString) {
     }    
     
     if (executeSsdComand(cmdTokens)) {
-        if (getShellMode() == MODE_BASIC) {
-            MSG_PRINT("PASS\n");
+        if (getShellMode() == MODE_RUNNER) {
+            std::cout << "PASS" << std::endl;
         }
         return true;
     }
