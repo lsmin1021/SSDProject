@@ -8,23 +8,26 @@
 using std::string;
 using std::map;
 
-class NandHandler {
+class NandStorage {
 public:
-	static NandHandler& getInstance();
+	NandStorage();
 
 	string read(int lba);
 	void write(int lba, string value);
 	void erase(int lba, int cnt);
+	void commit();
 
 private:
-	NandHandler();
-
 	bool isEmptyLBA(int lba);
-	map<int, string> getSSDData(string ssdDataStr);
-	string readNand();
-	void storeDataToSSD();
 
-	map<int, string> m_ssdData;
+	void loadData();
+	void storeData();
+
+	string loadDataFile();
+	void convertDataFile(string content);
+
+	map<int, string> m_storage;
 	const string FILE_NAME = "ssd_nand.txt";
 	const string EMPTY_VALUE = "0x00000000";
+	const int MAX_LBA = 99;
 };

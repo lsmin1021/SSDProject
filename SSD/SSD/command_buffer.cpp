@@ -6,74 +6,81 @@
 namespace fs = std::filesystem;
 
 CommandBuffer::CommandBuffer() {
-	if (false == isDirectoryExist()) {
-		setBufferDir();
-	}
-
 	loadBuffer();
 }
 
-string CommandBuffer::readDataOnBuffer(int lba) {
+string CommandBuffer::readData(int lba) {
 	return getValueOnBuffer(lba);
 }
 
-vector<Buffer> CommandBuffer::getBufferCommands() {
+void CommandBuffer::insertCmd(Instruction cmd) {
+	ignoreCommand(cmd);
+	m_buffer.push_back(cmd);
+
+	storeDataToBuffer();
+}
+
+vector<Instruction> CommandBuffer::getBufferCommands() {
 	return m_buffer;
 }
 
-int CommandBuffer::getUsableBufferSize() {
-	return m_buffer.size();
+bool CommandBuffer::isFull() {
+	if (MAX_BUFFER_SIZE <= m_buffer.size()) {
+		return true;
+	}
+
+	return false;
 }
 
-void CommandBuffer::insertCmdWrite(int lba, string value) {
-	Buffer cmd(WRITE_CMD, value, lba, 0);
-
-	ignoreCommand(cmd);
-	m_buffer.push_back(cmd);
-	
-	storeDataToBuffer();
-}
-
-void CommandBuffer::insertCmdErase(int lba, int size) {
-	Buffer cmd(ERASE_CMD, "", lba, size);
-
-	ignoreCommand(cmd);
-	m_buffer.push_back(cmd);
+void CommandBuffer::clear() {
+	m_buffer.clear();
 
 	storeDataToBuffer();
 }
 
-void CommandBuffer::ignoreCommand(Buffer& cmd) {
+void CommandBuffer::loadBuffer() {
+	if (false == FileHandler::isDirectoryExist(DIR_NAME)) {
+		setBufferDir();
+		return;
+	}
+
+	vector<string> fileList = FileHandler::getFileList(DIR_NAME);
+	for (string fileName : fileList) {
+		loadBufferCmd(fileName);
+	}
+}
+
+void CommandBuffer::ignoreCommand(Instruction& cmd) {
 	if (true == m_buffer.empty()) return;
 
-	if (WRITE_CMD == cmd.getCmd()) {
+	if (true == cmd.isWriteCommand()) {
 		for (int i = m_buffer.size() - 1; i >= 0; i--) {
-			Buffer& preCmd = m_buffer[i];
+			Instruction& preCmd = m_buffer[i];
 
-			if (WRITE_CMD == preCmd.getCmd()) {
+			if (true == preCmd.isWriteCommand()) {
 				if (preCmd.getLba() == cmd.getLba()) {
 					m_buffer.erase(m_buffer.begin() + i);
 				}
 			}
-			else if (ERASE_CMD == preCmd.getCmd()) {
+			else if (true == preCmd.isEraseCommand()) {
 				if (preCmd.getLba() == cmd.getLba() && preCmd.getSize() == 1) {
 					m_buffer.erase(m_buffer.begin() + i);
 				}
 			}
 		}
 	}
-	else if (ERASE_CMD == cmd.getCmd()) {
+	else if (true == cmd.isEraseCommand()) {
 		for (int i = m_buffer.size() - 1; i >= 0; i--) {
-			Buffer& preCmd = m_buffer[i];
+			Instruction& preCmd = m_buffer[i];
 
-			if (WRITE_CMD == preCmd.getCmd()) {
+			if (true == preCmd.isWriteCommand()) {
 				if (cmd.getSize() != 0 &&
 					cmd.getLba() <= preCmd.getLba() &&
 					cmd.getLba() + cmd.getSize() > preCmd.getLba()) {
 					m_buffer.erase(m_buffer.begin() + i);
 				}
 			}
-			else if (ERASE_CMD == preCmd.getCmd()) {
+			else if (true == cmd.isEraseCommand()) {
 				if (cmd.getSize() != 0 &&
 					cmd.getLba() <= preCmd.getLba() &&
 					cmd.getSize() + cmd.getLba() >= preCmd.getLba() + preCmd.getSize()) {
@@ -84,22 +91,16 @@ void CommandBuffer::ignoreCommand(Buffer& cmd) {
 	}
 }
 
-void CommandBuffer::clear() {
-	m_buffer.clear();
-
-	storeDataToBuffer();
-}
-
 string CommandBuffer::getValueOnBuffer(int lba) {
 	string value = "";
 
-	for (Buffer cmd : m_buffer) {
-		if (WRITE_CMD == cmd.getCmd()) {
+	for (Instruction cmd : m_buffer) {
+		if (true == cmd.isWriteCommand()) {
 			if (cmd.getLba() == lba) {
 				value = cmd.getValue();
 			}
 		}
-		else if (ERASE_CMD == cmd.getCmd()) {
+		else if (true == cmd.isEraseCommand()) {
 			if (0 < cmd.getSize() &&
 				cmd.getLba() <= lba &&
 				cmd.getLba() + cmd.getSize() > lba) {
@@ -112,24 +113,19 @@ string CommandBuffer::getValueOnBuffer(int lba) {
 }
 
 void CommandBuffer::storeDataToBuffer() {
-	for (const auto& entry : fs::directory_iterator(DIR_NAME)) {
-		if (fs::is_regular_file(entry)) {
-			fs::remove(entry.path());
-		}
-	}
+	FileHandler::clearDir(DIR_NAME);
 
 	for (int i = 0; i < 5; i++) {
-		string fileName = DIR_NAME + "\\";
+		string fileName = DIR_NAME + "\\" + std::to_string(i);
 
 		if (i >= m_buffer.size()) {
-			fileName.append(std::to_string(i)).append("_").append(EMPTY_CMD);
+			fileName.append("_").append(EMPTY_CMD);
 		}
 		else {
-			fileName.append(makeBufferCmd(i, m_buffer[i]));
-		}	
+			fileName += m_buffer[i].getInstString();
+		}
 
-		std::ofstream f(fileName);
-		f.close();
+		FileHandler::makeFile(fileName);
 	}
 }
 
@@ -137,20 +133,11 @@ void CommandBuffer::setBufferDir() {
 	fs::create_directory(DIR_NAME);
 
 	for (int i = 0; i < 5; i++) {
-		string fileName = DIR_NAME + "\\";
+		string fileName = DIR_NAME + "\\" + std::to_string(i);
 
-		fileName.append(std::to_string(i)).append("_").append(EMPTY_CMD);
+		fileName.append("_").append(EMPTY_CMD);
 
-		std::ofstream f(fileName);
-		f.close();
-	}
-}
-
-void CommandBuffer::loadBuffer() {
-	for (const auto& entry : fs::directory_iterator(DIR_NAME)) {
-		if (fs::is_regular_file(entry)) {
-			loadBufferCmd(entry.path().filename().string());
-		}
+		FileHandler::makeFile(fileName);
 	}
 }
 
@@ -162,45 +149,38 @@ void CommandBuffer::loadBufferCmd(string cmd) {
 		return;
 	}
 
-	m_buffer.push_back(parseBufferCmd(cmd_content));
+	m_buffer.push_back(Instruction().setInstString(cmd_content));
 }
 
-Buffer CommandBuffer::parseBufferCmd(string bufferCmd) {
-	std::string cmd = bufferCmd.substr(0, 1);
-
-	string::size_type posLba = bufferCmd.find('_', 2);
-	string lba = bufferCmd.substr(2, posLba - 2);
-
-	string::size_type posParam = posLba + 1;
-	string param = bufferCmd.substr(posParam);
-
-	Buffer cb;
-	cb.setCmd(cmd);
-	cb.setLba(std::stoi(lba));
-	
-	if (WRITE_CMD == cmd) {cb.setValue(param);}
-	else if (ERASE_CMD == cmd) { cb.setSize(std::stoi(param)); }
-
-	return cb;
-}
-
-string CommandBuffer::makeBufferCmd(int index, Buffer& bufferCmd) {
-	string ret = "";
-
-	ret.append(std::to_string(index)).append("_");
-	ret.append(bufferCmd.getCmd()).append("_");
-	ret.append(std::to_string(bufferCmd.getLba())).append("_");
-
-	if (WRITE_CMD == bufferCmd.getCmd()) { ret.append(bufferCmd.getValue()); }
-	else if (ERASE_CMD == bufferCmd.getCmd()) { ret.append(std::to_string(bufferCmd.getSize())); }
-
-	return ret;
-}
-
-bool CommandBuffer::isDirectoryExist() {
-	if (fs::exists(DIR_NAME) && fs::is_directory(DIR_NAME)) {
+bool FileHandler::isDirectoryExist(const string& dir) {
+	if (fs::exists(dir) && fs::is_directory(dir)) {
 		return true;
 	}
 
 	return false;
+}
+
+void FileHandler::clearDir(const string& dir) {
+	for (const auto& entry : fs::directory_iterator(dir)) {
+		if (fs::is_regular_file(entry)) {
+			fs::remove(entry.path());
+		}
+	}
+}
+
+void FileHandler::makeFile(string path) {
+	std::ofstream f(path);
+	f.close();
+}
+
+vector<string> FileHandler::getFileList(string dir) {
+	vector<string> ret;
+
+	for (const auto& entry : fs::directory_iterator(dir)) {
+		if (fs::is_regular_file(entry)) {
+			ret.push_back(entry.path().filename().string());
+		}
+	}
+
+	return ret;
 }

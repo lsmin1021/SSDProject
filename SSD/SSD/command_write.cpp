@@ -1,5 +1,5 @@
 #include "command_write.h"
-#include "buffer_handler.h"
+#include "device_handler.h"
 
 WriteCommand::WriteCommand() {}
 
@@ -38,10 +38,5 @@ bool WriteCommand::isValidValue(const string& valueStr) {
 }
 
 void WriteCommand::writeDataOnAddr(int lba, string value) {
-	CommandBufferHandler& instance = CommandBufferHandler::getInstance();
-	if (true == instance.isFull()) {
-		instance.flush();
-	}
-
-	instance.writeBuffer(lba, value);
+	DeviceHandler::getInstance().write(lba, value);
 }

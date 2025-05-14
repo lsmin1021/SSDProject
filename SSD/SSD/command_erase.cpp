@@ -1,5 +1,5 @@
 #include "command_erase.h"
-#include "buffer_handler.h"
+#include "device_handler.h"
 
 EraseCommand::EraseCommand() {}
 
@@ -24,12 +24,7 @@ void EraseCommand::execute(const vector<string>& param) {
 }
 
 void EraseCommand::eraseData(int lba, int size) {
-	CommandBufferHandler& instance = CommandBufferHandler::getInstance();
-	if (true == instance.isFull()) {
-		instance.flush();
-	}
-
-	instance.eraseBuffer(lba, size);
+	DeviceHandler::getInstance().erase(lba, size);
 }
 
 bool EraseCommand::isValidSize(const string& sizeStr) {

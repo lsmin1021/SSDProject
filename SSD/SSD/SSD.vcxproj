@@ -120,6 +120,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <Optimization>Disabled</Optimization>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -129,7 +130,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="buffer_handler.cpp" />
+    <ClCompile Include="device_handler.cpp" />
     <ClCompile Include="command_buffer.cpp" />
     <ClCompile Include="command_erase.cpp" />
     <ClCompile Include="command_flush.cpp" />
@@ -140,8 +141,9 @@
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'"> %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <ClCompile Include="command_handler_testcase.cpp" />
+    <ClCompile Include="instruction.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="nand_handler.cpp">
+    <ClCompile Include="nand_storage.cpp">
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'"> %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <ClCompile Include="output_handler.cpp" />
@@ -153,14 +155,15 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="buffer_handler.h" />
+    <ClInclude Include="device_handler.h" />
     <ClInclude Include="command_buffer.h" />
     <ClInclude Include="command_erase.h" />
     <ClInclude Include="command_flush.h" />
     <ClInclude Include="command_handler.h" />
     <ClInclude Include="command_read.h" />
     <ClInclude Include="command_write.h" />
-    <ClInclude Include="nand_handler.h" />
+    <ClInclude Include="instruction.h" />
+    <ClInclude Include="nand_storage.h" />
     <ClInclude Include="output_handler.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

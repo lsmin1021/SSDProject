@@ -1,6 +1,5 @@
 #include "output_handler.h"
 
-
 OutputHandler::OutputHandler() {}
 
 OutputHandler& OutputHandler::getInstance() {
