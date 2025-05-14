@@ -94,11 +94,11 @@ void Logger::log(const string& className, const string& functionName, const stri
     string output = oss.str();
 
     if (logMode == LogMode::ConsoleAndFile) {
-        std::cout << message << std::endl;
+        std::cout << message;
     }
 
     if (logFile.is_open()) {
-        logFile << output << std::endl;
+        logFile << output;
         rotateIfNeeded();
     }
 }

@@ -1,6 +1,7 @@
 #include "full_write_cmd.h"
 #include "ssd_interface.h"
 #include "iostream"
+#include "msg_handler.h"
 
 using std::cout;
 void FullWriteCmd::checkInvalidCmd(const vector<string>& tokens) const {
@@ -13,7 +14,8 @@ void FullWriteCmd::excuteCmd(const vector<string>& tokens) {
     fullWrite(dataString);
 }
 void FullWriteCmd::helpCmd() const {
-    cout << std::setw(30) << "  fullwrite" << " Write default data to all LBA addresses(0 ~99)\n";
+    string msg = "  fullwrite                      Write default data to all LBA addresses(0 ~99)\n";
+    MSG_PRINT(msg);
 }
 
 void FullWriteCmd::fullWrite(const string& value) {

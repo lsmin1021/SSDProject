@@ -1,5 +1,6 @@
 #include "exit_cmd.h"
 #include "iostream"
+#include "msg_handler.h"
 
 using std::cout;
 void ExitCmd::checkInvalidCmd(const vector<string>& tokens) const {
@@ -9,5 +10,5 @@ void ExitCmd::excuteCmd(const vector<string>& tokens){
 	throw ExitException();
 }
 void ExitCmd::helpCmd() const {
-	cout << "  exit                     Exit the shell\n";
+	MSG_PRINT("  exit                     Exit the shell\n");
 }

@@ -99,6 +99,9 @@
     <ClCompile Include="write_cmd.cpp">
       <Filter>소스 파일\command</Filter>
     </ClCompile>
+    <ClCompile Include="msg_handler.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -108,9 +111,6 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="cmd_interface.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="mock_ssd.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="ssd_driver.h">
@@ -163,6 +163,24 @@
     </ClInclude>
     <ClInclude Include="write_cmd.h">
       <Filter>헤더 파일\command</Filter>
+    </ClInclude>
+    <ClInclude Include="console_handler.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="file_output_handler.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="output_handler_interface.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="null_ouput_handler.h">
+      <Filter>테스트 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="mock_ssd.h">
+      <Filter>테스트 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="msg_handler.h">
+      <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

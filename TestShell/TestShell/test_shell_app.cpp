@@ -3,8 +3,8 @@
 #include "cmd_interface.h"
 #include "testscript_factory.h"
 
-TestShellApp::TestShellApp(SsdInterface* m_ssd): m_ssd(m_ssd) {
-    CmdFactory::getInstance().setSdd(m_ssd);
+TestShellApp::TestShellApp(SsdInterface* ssd): m_ssd(ssd){
+    CmdFactory::getInstance().setSdd(ssd);
 }
 
 bool TestShellApp::cmdParserAndExcute(const string& cmdString)

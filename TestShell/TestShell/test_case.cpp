@@ -2,6 +2,8 @@
 
 #include <gmock/gmock.h>
 #include "mock_ssd.h"
+#include "null_ouput_handler.h"
+#include "msg_handler.h"
 #include "ssd_driver.h"
 #include "test_shell_app.h"
 #include "cmd_factory.h"
@@ -12,6 +14,8 @@ class MockSddFixture : public Test {
 protected:
 	void SetUp() {
 		m_tespApp = new TestShellApp(&m_mockSsd);
+		MsgHandler::getInstance().setMsgHandler(&outputHandler);
+		
 	}
 
 	void excuteFactoryTc(string cmdName){
@@ -62,6 +66,7 @@ public:
 	const int TEST_SCRIPT4_READ_REPEAT_NUM = 33 * TEST_SCRIPT4_ITERATION;
 	const int TEST_SCRIPT4_ERASE_REPEAT_NUM = 33 * TEST_SCRIPT4_ITERATION + 1;
 	NiceMock<MockSsd> m_mockSsd;
+	NullOutputHandler outputHandler;
 	TestShellApp* m_tespApp;
 
 	const CmdFactory& m_cmdFactory = CmdFactory::getInstance();
