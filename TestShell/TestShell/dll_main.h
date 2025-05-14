@@ -9,7 +9,7 @@
 extern "C" {
 	typedef void (*OpenDll)(void);
 	typedef void (*ExecuteTs)(const char*);
-	typedef void (*ExcueteCmd) (int numArg, char* args[]);
+	typedef void (*ExcueteCmd) (int numToken, char* tokens[]);
 	
 	struct AppCb {
 

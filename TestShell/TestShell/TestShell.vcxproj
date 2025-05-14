@@ -131,6 +131,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="cmd_executer.cpp" />
+    <ClCompile Include="cmd_executer.h" />
     <ClCompile Include="cmd_factory.cpp" />
     <ClCompile Include="cmd_interface.cpp" />
     <ClCompile Include="dll_driver.cpp" />
