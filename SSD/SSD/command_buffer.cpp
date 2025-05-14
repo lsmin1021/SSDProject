@@ -17,6 +17,8 @@ void CommandBuffer::insertCmd(Instruction cmd) {
 	ignoreCommand(cmd);
 	m_buffer.push_back(cmd);
 
+	mergeCommand();
+
 	storeDataToBuffer();
 }
 
@@ -53,42 +55,82 @@ void CommandBuffer::loadBuffer() {
 void CommandBuffer::ignoreCommand(Instruction& cmd) {
 	if (true == m_buffer.empty()) return;
 
-	if (true == cmd.isWriteCommand()) {
-		for (int i = m_buffer.size() - 1; i >= 0; i--) {
-			Instruction& preCmd = m_buffer[i];
+	for (int i = m_buffer.size() - 1; i >= 0; i--) {
+		Instruction& preCmd = m_buffer[i];
 
-			if (true == preCmd.isWriteCommand()) {
-				if (preCmd.getLba() == cmd.getLba()) {
-					m_buffer.erase(m_buffer.begin() + i);
-				}
+		if (true == cmd.isWriteCommand()) {
+			if (true == preCmd.isWriteCommand() && preCmd.getLba() == cmd.getLba()) {
+				m_buffer.erase(m_buffer.begin() + i);
 			}
-			else if (true == preCmd.isEraseCommand()) {
-				if (preCmd.getLba() == cmd.getLba() && preCmd.getSize() == 1) {
-					m_buffer.erase(m_buffer.begin() + i);
-				}
+			else if (true == preCmd.isEraseCommand() && preCmd.getLba() == cmd.getLba() && preCmd.getSize() == 1) {
+				m_buffer.erase(m_buffer.begin() + i);
+			}
+		}
+		else if (true == cmd.isEraseCommand()) {
+			if (true == preCmd.isWriteCommand() && cmd.getLba() <= preCmd.getLba() && cmd.getLbaTo() >= preCmd.getLba()) {
+				m_buffer.erase(m_buffer.begin() + i);
+			}
+			else if (true == cmd.isEraseCommand() && cmd.getLba() <= preCmd.getLba() && cmd.getLbaTo() >= preCmd.getLbaTo()) {
+				m_buffer.erase(m_buffer.begin() + i);
 			}
 		}
 	}
-	else if (true == cmd.isEraseCommand()) {
-		for (int i = m_buffer.size() - 1; i >= 0; i--) {
-			Instruction& preCmd = m_buffer[i];
+}
 
-			if (true == preCmd.isWriteCommand()) {
-				if (cmd.getSize() != 0 &&
-					cmd.getLba() <= preCmd.getLba() &&
-					cmd.getLba() + cmd.getSize() > preCmd.getLba()) {
-					m_buffer.erase(m_buffer.begin() + i);
-				}
-			}
-			else if (true == cmd.isEraseCommand()) {
-				if (cmd.getSize() != 0 &&
-					cmd.getLba() <= preCmd.getLba() &&
-					cmd.getSize() + cmd.getLba() >= preCmd.getLba() + preCmd.getSize()) {
-					m_buffer.erase(m_buffer.begin() + i);
-				}
-			}
+void CommandBuffer::mergeCommand() {
+	if (true == m_buffer.empty()) {
+		return;
+	}
+
+	if (true == m_buffer.back().isWriteCommand()) {
+		return;
+	}
+
+	Instruction latestInst = m_buffer.back();
+	m_buffer.pop_back();
+
+	vector<int> writeLbaList;
+	for (int i = m_buffer.size() - 1; i >= 0; i--) {
+		Instruction& targetInst = m_buffer[i];
+
+		if (true == targetInst.isWriteCommand()) {
+			writeLbaList.push_back(targetInst.getLba());
+			continue;
+		}
+		if (true == isConflicted(targetInst, writeLbaList)) {
+			continue;
+		}
+
+		if (true == Instruction::isMergeable(latestInst, targetInst)) {
+			latestInst = Instruction::mergeInst(latestInst, targetInst);
+
+			m_buffer.erase(m_buffer.begin() + i);
 		}
 	}
+
+	insertMergedInst(latestInst);
+}
+
+bool CommandBuffer::isConflicted(Instruction& targetInst, vector<int>& writeLbaList) {
+	bool ret = false;
+	for (int lba : writeLbaList) {
+		if (targetInst.getLba() <= lba && targetInst.getLbaTo() >= lba) {
+			ret = true;
+		}
+	}
+
+	return ret;
+}
+
+void CommandBuffer::insertMergedInst(Instruction& mergedInst) {
+	while (MAX_ERASE_SIZE < mergedInst.getSize()) {
+		m_buffer.push_back(Instruction().setCmdErase().setLba(mergedInst.getLba()).setSize(MAX_ERASE_SIZE));
+
+		mergedInst.setLba(mergedInst.getLba() + MAX_ERASE_SIZE);
+		mergedInst.setSize(mergedInst.getSize() - MAX_ERASE_SIZE);
+	}
+
+	m_buffer.push_back(mergedInst);
 }
 
 string CommandBuffer::getValueOnBuffer(int lba) {
@@ -101,9 +143,7 @@ string CommandBuffer::getValueOnBuffer(int lba) {
 			}
 		}
 		else if (true == cmd.isEraseCommand()) {
-			if (0 < cmd.getSize() &&
-				cmd.getLba() <= lba &&
-				cmd.getLba() + cmd.getSize() > lba) {
+			if (cmd.getLba() <= lba && cmd.getLbaTo() >= lba) {
 				value = EMPTY_VALUE;
 			}
 		}
@@ -133,10 +173,7 @@ void CommandBuffer::setBufferDir() {
 	fs::create_directory(DIR_NAME);
 
 	for (int i = 0; i < 5; i++) {
-		string fileName = DIR_NAME + "\\" + std::to_string(i);
-
-		fileName.append("_").append(EMPTY_CMD);
-
+		string fileName = DIR_NAME + "\\" + std::to_string(i) + "_" + EMPTY_CMD;
 		FileHandler::makeFile(fileName);
 	}
 }

@@ -25,6 +25,7 @@ void DeviceHandler::write(int lba, string value) {
 }
 
 void DeviceHandler::erase(int lba, int size) {
+	if (0 == size) return;
 	if (true == m_commandBuffer.isFull()) {
 		flush();
 	}

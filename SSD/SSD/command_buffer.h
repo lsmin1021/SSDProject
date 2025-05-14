@@ -25,9 +25,13 @@ public:
 private:
 	void loadBuffer();
 
-	// Develope command buffer algorithm
 	string getValueOnBuffer(int lba);
+
 	void ignoreCommand(Instruction& cmd);
+
+	void mergeCommand();
+	void insertMergedInst(Instruction& mergedInst);
+	bool isConflicted(Instruction& targetInst, vector<int>& writeLbaList);
 
 	void setBufferDir();
 	void loadBufferCmd(string cmd);
@@ -40,6 +44,7 @@ private:
 	const string DIR_SEARCH_PATTERN = "buffer\\*";
 	
 	const string EMPTY_CMD = "empty";
+	const int MAX_ERASE_SIZE = 10;
 
 	const int MAX_BUFFER_SIZE = 5;
 };

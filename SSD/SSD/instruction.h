@@ -19,6 +19,7 @@ public:
 	string getCmd();
 	string getValue();
 	int getLba();
+	int getLbaTo();
 	int getSize();
 
 	Instruction& setInstString(const string& instStr);
@@ -26,6 +27,9 @@ public:
 
 	bool isWriteCommand();
 	bool isEraseCommand();
+
+	static bool isMergeable(Instruction& inst1, Instruction& inst2);
+	static Instruction mergeInst(Instruction& inst1, Instruction& inst2);
 
 	void show();
 
