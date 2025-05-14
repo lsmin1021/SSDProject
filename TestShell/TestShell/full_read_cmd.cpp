@@ -18,5 +18,7 @@ void FullReadCmd::fullRead() {
     for (int lba = 0; lba <= MAX_LBA; ++lba)
     {
         m_ssd->readData(std::to_string(lba));
+        string msg = "[Read] LBA " + std::to_string(lba) + " : " + getReadResult() + "\n";
+        MSG_PRINT(msg);
     }
 }
