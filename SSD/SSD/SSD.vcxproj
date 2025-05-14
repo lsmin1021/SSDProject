@@ -134,6 +134,7 @@ xcopy /Y /I "$(TargetPath)" "..\..\TestShell\TestShell\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="command_buffer_testcase.cpp" />
     <ClCompile Include="device_handler.cpp" />
     <ClCompile Include="command_buffer.cpp" />
     <ClCompile Include="command_erase.cpp" />
