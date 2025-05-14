@@ -114,6 +114,32 @@ void CommandBuffer::mergeCommand() {
 			i += 1;
 		}
 	}
+
+	for (int i = 0; i < m_buffer.size() - 1; i++) {
+		Instruction& oldestInst = m_buffer[i];
+		if (true == oldestInst.isWriteCommand()) continue;
+		else if (MAX_ERASE_SIZE == oldestInst.getSize()) continue;
+
+		bool isMerged = false;
+		for (int j = i + 1; j < m_buffer.size(); j++) {
+			Instruction& targetInst = m_buffer[j];
+
+			if (true == targetInst.isWriteCommand()) {
+				continue;
+			}
+
+			if (true == Instruction::isMergeable(oldestInst, targetInst)) {
+				oldestInst = Instruction::mergeInst(oldestInst, targetInst);
+
+				m_buffer.erase(m_buffer.begin() + j);
+				isMerged = true;
+			}
+		}
+
+		if (true == isMerged) {
+			insertMergedInst(oldestInst, i);
+		}
+	}
 }
 
 bool CommandBuffer::isConflicted(Instruction& targetInst, vector<int>& writeLbaList) {
