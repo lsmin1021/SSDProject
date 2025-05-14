@@ -8,7 +8,6 @@ class CmdInterface;
 class CmdExecuter {
 public:
 	static CmdExecuter& getInstance();
-	static vector<string> converTokenCtoCpp(int numToken, char tokens[10][100]);
 	CmdInterface* executeCmd(const vector<string>& tokens);
 private:
 };

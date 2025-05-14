@@ -19,7 +19,7 @@ public:
 		m_supportedTs.push_back(ts);
 	}
 
-	TsInterface* getTs(const string& name) const;
+	TsInterface* getTs(const string& tsName) const;
 	const vector<TsInterface*>& getSsupportedCmds() const {
 		return m_supportedTs;
 	}

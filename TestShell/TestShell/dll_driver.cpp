@@ -1,7 +1,7 @@
 #include "dll_driver.h"
 #include "dll_main.h"
-extern "C" bool executeCmd(int numToken, char tokens[10][100], const char checkString[100]);
-static AppCb appCb = { executeCmd ,};
+extern "C" bool executeCmdCb(const vector<string>& cmdTokens, const string& checkString);
+static AppCb appCb = { executeCmdCb ,};
 
 DllDriver& DllDriver::getInstance()
 {

@@ -14,8 +14,6 @@ using std::string;
 using std::vector;
 using std::ifstream;
 
-
-typedef void (*ExecuteTs)(const char*);
 class SsdInterface;
 
 enum ShellMode {
@@ -34,7 +32,7 @@ private:
 	void runBasicMode(void);
 	void runRunnerMode(const string& scriptFileName);
 	bool executeSsdComand(vector<string> cmdTokens);
-	void executeTestScript(std::string& cmdName);
+	void executeTestScript(const vector<string>& cmdTokens);
 
 	void printInvalidArgsMessage(const string& programName);
 
@@ -46,7 +44,6 @@ private:
 	}
 
 	SsdInterface* m_ssd;
-	ExecuteTs m_executeTs;
 	vector<string>  parseCmd(const string& cmd);
 
 	ShellMode m_shellMode;
