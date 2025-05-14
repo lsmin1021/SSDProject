@@ -289,7 +289,7 @@ TEST_F(CommandBufferFixture, OutOfOrderEraseMerge) {
 		{ ERASE_COMMAND, "80", "3" },
 		{ WRITE_COMMAND, "85", "0xDEADDEAD" },
 		{ ERASE_COMMAND, "83", "2" },
-		{ WRITE_COMMAND, "85", "0xDEADDEAD  " },
+		{ WRITE_COMMAND, "85", "0xDEADDEAD" },
 		{ WRITE_COMMAND, "86", "0xEEEEEEEE" }
 		},
 		expected);
@@ -307,8 +307,8 @@ TEST_F(CommandBufferFixture, EraseIgnoreWriteMerge) {
 		{ ERASE_COMMAND, "90", "4" },
 		{ WRITE_COMMAND, "91", "0xAAAA0000" },
 		{ ERASE_COMMAND, "92", "2" },
-		{ WRITE_COMMAND, "91", "0xAAAA0000  " },
-		{ WRITE_COMMAND, "93", "0xBBBB1111" }
+		{ WRITE_COMMAND, "93", "0xBBBB1111" },
+		{ WRITE_COMMAND, "91", "0xAAAA0000" }
 		},
 		expected);
 }
