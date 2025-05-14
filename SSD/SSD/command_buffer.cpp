@@ -22,6 +22,61 @@ void CommandBuffer::insertCmd(Instruction cmd) {
 	storeDataToBuffer();
 }
 
+vector<Instruction> CommandBuffer::getBufferCommands() {
+	return m_buffer;
+}
+
+bool CommandBuffer::isFull() {
+	if (MAX_BUFFER_SIZE <= m_buffer.size()) {
+		return true;
+	}
+
+	return false;
+}
+
+void CommandBuffer::clear() {
+	m_buffer.clear();
+
+	storeDataToBuffer();
+}
+
+void CommandBuffer::loadBuffer() {
+	if (false == FileHandler::isDirectoryExist(DIR_NAME)) {
+		setBufferDir();
+		return;
+	}
+
+	vector<string> fileList = FileHandler::getFileList(DIR_NAME);
+	for (string fileName : fileList) {
+		loadBufferCmd(fileName);
+	}
+}
+
+void CommandBuffer::ignoreCommand(Instruction& cmd) {
+	if (true == m_buffer.empty()) return;
+
+	for (int i = m_buffer.size() - 1; i >= 0; i--) {
+		Instruction& preCmd = m_buffer[i];
+
+		if (true == cmd.isWriteCommand()) {
+			if (true == preCmd.isWriteCommand() && preCmd.getLba() == cmd.getLba()) {
+				m_buffer.erase(m_buffer.begin() + i);
+			}
+			else if (true == preCmd.isEraseCommand() && preCmd.getLba() == cmd.getLba() && preCmd.getSize() == 1) {
+				m_buffer.erase(m_buffer.begin() + i);
+			}
+		}
+		else if (true == cmd.isEraseCommand()) {
+			if (true == preCmd.isWriteCommand() && cmd.getLba() <= preCmd.getLba() && cmd.getLbaTo() >= preCmd.getLba()) {
+				m_buffer.erase(m_buffer.begin() + i);
+			}
+			else if (true == cmd.isEraseCommand() && cmd.getLba() <= preCmd.getLba() && cmd.getLbaTo() >= preCmd.getLbaTo()) {
+				m_buffer.erase(m_buffer.begin() + i);
+			}
+		}
+	}
+}
+
 void CommandBuffer::mergeCommand() {
 	if (true == m_buffer.empty()) {
 		return;
@@ -63,7 +118,7 @@ bool CommandBuffer::isConflicted(Instruction& targetInst, vector<int>& writeLbaL
 			ret = true;
 		}
 	}
-	
+
 	return ret;
 }
 
@@ -76,73 +131,6 @@ void CommandBuffer::insertMergedInst(Instruction& mergedInst) {
 	}
 
 	m_buffer.push_back(mergedInst);
-}
-
-vector<Instruction> CommandBuffer::getBufferCommands() {
-	return m_buffer;
-}
-
-bool CommandBuffer::isFull() {
-	if (MAX_BUFFER_SIZE <= m_buffer.size()) {
-		return true;
-	}
-
-	return false;
-}
-
-void CommandBuffer::clear() {
-	m_buffer.clear();
-
-	storeDataToBuffer();
-}
-
-void CommandBuffer::loadBuffer() {
-	if (false == FileHandler::isDirectoryExist(DIR_NAME)) {
-		setBufferDir();
-		return;
-	}
-
-	vector<string> fileList = FileHandler::getFileList(DIR_NAME);
-	for (string fileName : fileList) {
-		loadBufferCmd(fileName);
-	}
-}
-
-void CommandBuffer::ignoreCommand(Instruction& cmd) {
-	if (true == m_buffer.empty()) return;
-
-	if (true == cmd.isWriteCommand()) {
-		for (int i = m_buffer.size() - 1; i >= 0; i--) {
-			Instruction& preCmd = m_buffer[i];
-
-			if (true == preCmd.isWriteCommand()) {
-				if (preCmd.getLba() == cmd.getLba()) {
-					m_buffer.erase(m_buffer.begin() + i);
-				}
-			}
-			else if (true == preCmd.isEraseCommand()) {
-				if (preCmd.getLba() == cmd.getLba() && preCmd.getSize() == 1) {
-					m_buffer.erase(m_buffer.begin() + i);
-				}
-			}
-		}
-	}
-	else if (true == cmd.isEraseCommand()) {
-		for (int i = m_buffer.size() - 1; i >= 0; i--) {
-			Instruction& preCmd = m_buffer[i];
-
-			if (true == preCmd.isWriteCommand()) {
-				if (cmd.getLba() <= preCmd.getLba() && cmd.getLbaTo() >= preCmd.getLba()) {
-					m_buffer.erase(m_buffer.begin() + i);
-				}
-			}
-			else if (true == cmd.isEraseCommand()) {
-				if (cmd.getLba() <= preCmd.getLba() && cmd.getLbaTo() >= preCmd.getLbaTo()) {
-					m_buffer.erase(m_buffer.begin() + i);
-				}
-			}
-		}
-	}
 }
 
 string CommandBuffer::getValueOnBuffer(int lba) {
@@ -185,10 +173,7 @@ void CommandBuffer::setBufferDir() {
 	fs::create_directory(DIR_NAME);
 
 	for (int i = 0; i < 5; i++) {
-		string fileName = DIR_NAME + "\\" + std::to_string(i);
-
-		fileName.append("_").append(EMPTY_CMD);
-
+		string fileName = DIR_NAME + "\\" + std::to_string(i) + "_" + EMPTY_CMD;
 		FileHandler::makeFile(fileName);
 	}
 }
