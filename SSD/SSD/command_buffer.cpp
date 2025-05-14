@@ -54,34 +54,34 @@ void CommandBuffer::loadBuffer() {
 void CommandBuffer::ignoreCommand(Instruction& cmd) {
 	if (true == m_buffer.empty()) return;
 
-	if (WRITE_CMD == cmd.getCmd()) {
+	if (true == cmd.isWriteCommand()) {
 		for (int i = m_buffer.size() - 1; i >= 0; i--) {
 			Instruction& preCmd = m_buffer[i];
 
-			if (WRITE_CMD == preCmd.getCmd()) {
+			if (true == preCmd.isWriteCommand()) {
 				if (preCmd.getLba() == cmd.getLba()) {
 					m_buffer.erase(m_buffer.begin() + i);
 				}
 			}
-			else if (ERASE_CMD == preCmd.getCmd()) {
+			else if (true == preCmd.isEraseCommand()) {
 				if (preCmd.getLba() == cmd.getLba() && preCmd.getSize() == 1) {
 					m_buffer.erase(m_buffer.begin() + i);
 				}
 			}
 		}
 	}
-	else if (ERASE_CMD == cmd.getCmd()) {
+	else if (true == cmd.isEraseCommand()) {
 		for (int i = m_buffer.size() - 1; i >= 0; i--) {
 			Instruction& preCmd = m_buffer[i];
 
-			if (WRITE_CMD == preCmd.getCmd()) {
+			if (true == preCmd.isWriteCommand()) {
 				if (cmd.getSize() != 0 &&
 					cmd.getLba() <= preCmd.getLba() &&
 					cmd.getLba() + cmd.getSize() > preCmd.getLba()) {
 					m_buffer.erase(m_buffer.begin() + i);
 				}
 			}
-			else if (ERASE_CMD == preCmd.getCmd()) {
+			else if (true == cmd.isEraseCommand()) {
 				if (cmd.getSize() != 0 &&
 					cmd.getLba() <= preCmd.getLba() &&
 					cmd.getSize() + cmd.getLba() >= preCmd.getLba() + preCmd.getSize()) {
@@ -96,12 +96,12 @@ string CommandBuffer::getValueOnBuffer(int lba) {
 	string value = "";
 
 	for (Instruction cmd : m_buffer) {
-		if (WRITE_CMD == cmd.getCmd()) {
+		if (true == cmd.isWriteCommand()) {
 			if (cmd.getLba() == lba) {
 				value = cmd.getValue();
 			}
 		}
-		else if (ERASE_CMD == cmd.getCmd()) {
+		else if (true == cmd.isEraseCommand()) {
 			if (0 < cmd.getSize() &&
 				cmd.getLba() <= lba &&
 				cmd.getLba() + cmd.getSize() > lba) {
@@ -172,8 +172,8 @@ Instruction CommandBuffer::parseBufferCmd(string bufferCmd) {
 	cb.setCmd(cmd);
 	cb.setLba(std::stoi(lba));
 	
-	if (WRITE_CMD == cmd) {cb.setValue(param);}
-	else if (ERASE_CMD == cmd) { cb.setSize(std::stoi(param)); }
+	if (true == cb.isWriteCommand()) {cb.setValue(param);}
+	else if (cb.isEraseCommand()) { cb.setSize(std::stoi(param)); }
 
 	return cb;
 }
@@ -185,8 +185,8 @@ string CommandBuffer::makeBufferCmd(int index, Instruction& bufferCmd) {
 	ret.append(bufferCmd.getCmd()).append("_");
 	ret.append(std::to_string(bufferCmd.getLba())).append("_");
 
-	if (WRITE_CMD == bufferCmd.getCmd()) { ret.append(bufferCmd.getValue()); }
-	else if (ERASE_CMD == bufferCmd.getCmd()) { ret.append(std::to_string(bufferCmd.getSize())); }
+	if (true == bufferCmd.isWriteCommand()) { ret.append(bufferCmd.getValue()); }
+	else if (true == bufferCmd.isEraseCommand()) { ret.append(std::to_string(bufferCmd.getSize())); }
 
 	return ret;
 }

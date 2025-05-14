@@ -25,6 +25,9 @@ public:
 	int getLba();
 	int getSize();
 
+	bool isWriteCommand();
+	bool isEraseCommand();
+
 	void show();
 
 private:
@@ -32,4 +35,7 @@ private:
 	string m_value;
 	int m_lba = -1;
 	int m_size = -1;
+
+	const string WRITE_CMD = "W";
+	const string ERASE_CMD = "E";
 };

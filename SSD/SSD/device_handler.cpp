@@ -37,10 +37,10 @@ void DeviceHandler::flush() {
 	m_commandBuffer.clear();
 
 	for (Instruction cmd : cmdList) {
-		if ("W" == cmd.getCmd()) {
+		if (true == cmd.isWriteCommand()) {
 			m_nandHandler.write(cmd.getLba(), cmd.getValue());
 		}
-		else if ("E" == cmd.getCmd()) {
+		else if (true == cmd.isEraseCommand()) {
 			m_nandHandler.erase(cmd.getLba(), cmd.getSize());
 		}
 	}
