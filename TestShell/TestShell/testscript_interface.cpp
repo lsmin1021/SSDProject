@@ -6,7 +6,16 @@
 
 TsInterface::TsInterface(const string& name, int numToken) : m_numToken(numToken) {
     m_names.push_back(name.substr(0, 2));
-    TestScriptFactory::getInstance().registerCmd(this);
+    TestScriptFactory::getInstance().registerTs(this);
+}
+
+int TsInterface::converTokenCpptoC(const vector<string>& cppTokens, char* cTokens[]) {
+    int index = 0;
+    for (auto cppToken : cppTokens){
+        cTokens[index] = (char*)cppToken.c_str();
+        ++index;
+    }
+    return cppTokens.size();
 }
 
 string TsInterface::getReadResult() const {

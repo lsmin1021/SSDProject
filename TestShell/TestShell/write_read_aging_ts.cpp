@@ -1,7 +1,7 @@
 #include "write_read_aging_ts.h"
 #include "cmd_factory.h"
 
-void WriteReadAging::checkInvalidCmd(const vector<string>& tokens) const {
+void WriteReadAging::checkInvalidTs(const vector<string>& tokens) const {
 	checkNumToken(tokens);
 }
 
@@ -17,7 +17,7 @@ string WriteReadAging::generateRandomHexString() {
     return ss.str();
 }
 
-void WriteReadAging::excuteCmd(const vector<string>& tokens) {
+void WriteReadAging::excuteTs(const vector<string>& tokens) {
     string valueForStartLba = "";
     string valueForEndLba = "";
 
@@ -26,18 +26,13 @@ void WriteReadAging::excuteCmd(const vector<string>& tokens) {
         valueForEndLba = generateRandomHexString();
 
         vector<string> writeCmd = { "write", START_LBA, valueForStartLba };
-        // LDY TODO
-        //CmdInterface* cmdObj = CmdFactory::getInstance().getCmd(writeCmd[0]);
-        //cmdObj->excuteCmd(writeCmd);
+        executeCmd(writeCmd);
 
         writeCmd = { "write", END_LBA, valueForEndLba };
-        // LDY TODO
-        //cmdObj->excuteCmd(writeCmd);
+        executeCmd(writeCmd);
 
         vector<string> readCmd = { "read", START_LBA };
-        // LDY TODO
-        //CmdInterface* cmdObj2 = CmdFactory::getInstance().getCmd(readCmd[0]);
-        //cmdObj2->excuteCmd(readCmd);
+        executeCmd(readCmd);
 
 #ifndef _DEBUG
         if (cmdObj->getReadResult().compare(valueForStartLba) != 0)
@@ -47,8 +42,7 @@ void WriteReadAging::excuteCmd(const vector<string>& tokens) {
         }
 #endif
         readCmd = { "read", END_LBA };
-        // LDY TODO
-        //cmdObj2->excuteCmd(readCmd);
+        executeCmd(readCmd);
 #ifndef _DEBUG
         if (cmdObj->getReadResult().compare(valueForEndLba) != 0)
         {

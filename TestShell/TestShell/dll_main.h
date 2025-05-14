@@ -7,17 +7,16 @@
 #endif
 
 extern "C" {
-	typedef void (*OpenDll)(void);
-	typedef void (*ExecuteTs)(const char*);
-	typedef void (*ExcueteCmd) (int numToken, char* tokens[]);
-	
-	struct AppCb {
+	typedef bool (*ExcueteCmd) (int numToken, char* tokens[]);
 
+	struct AppCb {
 		ExcueteCmd excueteCmd;
 	};
+	typedef void (*OpenDll)(AppCb*);
+	typedef void (*ExecuteTs)(const char*);
 
 	LIB_API__ void executeTs(const char* tsName);
-	LIB_API__ void openDll(void);
+	LIB_API__ void openDll(AppCb* appCb);
 }
 
 

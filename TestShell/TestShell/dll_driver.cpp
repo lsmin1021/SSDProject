@@ -1,6 +1,6 @@
 #include "dll_driver.h"
 #include "dll_main.h"
-
+extern "C" bool executeCmd(int numToken, char* tokens[]);
 
 DllDriver& DllDriver::getInstance()
 {
@@ -15,7 +15,8 @@ void DllDriver::openTestShellLib() {
         return;
     }
     m_dllApi.openDll = (OpenDll)GetProcAddress(m_dll, "openDll");
-    if (m_dllApi.openDll)  m_dllApi.openDll();
+    static AppCb appCb = { executeCmd };
+    if (m_dllApi.openDll) m_dllApi.openDll(&appCb);
     else {
         std::cerr << "openDll symbol search fali!" << std::endl;
         FreeLibrary(m_dll);

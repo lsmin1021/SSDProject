@@ -42,9 +42,3 @@ CmdInterface* CmdFactory::getCmd(const string& name) const {
 	}
 	return nullptr;
 }
-
-CmdInterface* CmdFactory::getTs(const string& name) const {
-	CmdInterface* tsObj = getCmd(name);
-	if(tsObj == nullptr)throw std::invalid_argument("Invalid command: " + name);
-	return tsObj;
-}

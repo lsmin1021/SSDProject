@@ -7,8 +7,8 @@
 class WriteReadAging : public TsInterface {
 public:
 	WriteReadAging() : TsInterface("3_WriteReadAging", 1) {}
-	void checkInvalidCmd(const vector<string>& tokens) const override;
-	void excuteCmd(const vector<string>& tokens) override;
+	void checkInvalidTs(const vector<string>& tokens) const override;
+	void excuteTs(const vector<string>& tokens) override;
 private:
 	static const int TEST_MAX_ITERATE = 200;
 	const string TEST_SCRIPT_VALUE = "0x5A5A5A5A";
