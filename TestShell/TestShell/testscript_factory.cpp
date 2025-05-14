@@ -6,11 +6,6 @@
 #include "erase_write_aging_ts.h"
 #include "ssd_interface.h"
 #include "dll_main.h"
-static FullWriteAndReadCompareTs fullWriteAndReadCompareTs;
-static PartialLbaWriteTs partialLbaWriteTs;
-static WriteReadAging writeReadAging;
-static EraseAndWriteAgingTs eraseWriteAging;
-
 void TestScriptFactory::generateTs(void)
 {
 	static FullWriteAndReadCompareTs fullWriteAndReadCompareTs;
