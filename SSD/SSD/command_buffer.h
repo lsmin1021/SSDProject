@@ -4,6 +4,13 @@
 
 using std::vector;
 
+class FileHandler {
+public:
+	static void clearDir(const string& dir);
+	static void makeFile(string path);
+	static vector<string> getFileList(string dir);
+};
+
 class CommandBuffer {
 public:
 	CommandBuffer();
@@ -25,8 +32,6 @@ private:
 	void setBufferDir();
 	void loadBufferCmd(string cmd);
 	void storeDataToBuffer();
-	Instruction parseBufferCmd(string bufferCmd);
-	string makeBufferCmd(int index, Instruction& bufferCmd);
 
 	vector<Instruction> m_buffer;
 

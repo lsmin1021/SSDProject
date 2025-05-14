@@ -38,6 +38,33 @@ int Instruction::getSize() {
 	return m_size; 
 }
 
+Instruction& Instruction::setInstString(const string& instStr) {
+	m_cmd = instStr.substr(0, 1);
+
+	string::size_type posLba = instStr.find('_', 2);
+	m_lba = std::stoi(instStr.substr(2, posLba - 2));
+
+	string::size_type posParam = posLba + 1;
+	string param = instStr.substr(posParam);
+
+	if (true == isWriteCommand()) { m_value = param; }
+	else if (true == isEraseCommand()) { m_size = std::stoi(param); }
+
+	return *this;
+}
+
+string Instruction::getInstString() {
+	string ret = DELIMITER + m_cmd + DELIMITER + std::to_string(m_lba) + DELIMITER;
+	if (WRITE_CMD == m_cmd) {
+		ret += m_value;
+	}
+	else if (ERASE_CMD == m_cmd) {
+		ret += std::to_string(m_size);
+	}
+
+	return ret;
+}
+
 bool Instruction::isWriteCommand() {
 	if (WRITE_CMD == m_cmd) {
 		return true;

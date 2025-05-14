@@ -21,6 +21,9 @@ public:
 	int getLba();
 	int getSize();
 
+	Instruction& setInstString(const string& instStr);
+	string getInstString();
+
 	bool isWriteCommand();
 	bool isEraseCommand();
 
@@ -34,4 +37,5 @@ private:
 
 	string WRITE_CMD = "W";
 	string ERASE_CMD = "E";
+	string DELIMITER = "_";
 };

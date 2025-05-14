@@ -114,24 +114,19 @@ string CommandBuffer::getValueOnBuffer(int lba) {
 }
 
 void CommandBuffer::storeDataToBuffer() {
-	for (const auto& entry : fs::directory_iterator(DIR_NAME)) {
-		if (fs::is_regular_file(entry)) {
-			fs::remove(entry.path());
-		}
-	}
+	FileHandler::clearDir(DIR_NAME);
 
 	for (int i = 0; i < 5; i++) {
-		string fileName = DIR_NAME + "\\";
+		string fileName = DIR_NAME + "\\" + std::to_string(i);
 
 		if (i >= m_buffer.size()) {
-			fileName.append(std::to_string(i)).append("_").append(EMPTY_CMD);
+			fileName.append("_").append(EMPTY_CMD);
 		}
 		else {
-			fileName.append(makeBufferCmd(i, m_buffer[i]));
-		}	
+			fileName += m_buffer[i].getInstString();
+		}
 
-		std::ofstream f(fileName);
-		f.close();
+		FileHandler::makeFile(fileName);
 	}
 }
 
@@ -139,12 +134,11 @@ void CommandBuffer::setBufferDir() {
 	fs::create_directory(DIR_NAME);
 
 	for (int i = 0; i < 5; i++) {
-		string fileName = DIR_NAME + "\\";
+		string fileName = DIR_NAME + "\\" + std::to_string(i);
 
-		fileName.append(std::to_string(i)).append("_").append(EMPTY_CMD);
+		fileName.append("_").append(EMPTY_CMD);
 
-		std::ofstream f(fileName);
-		f.close();
+		FileHandler::makeFile(fileName);
 	}
 }
 
@@ -156,38 +150,7 @@ void CommandBuffer::loadBufferCmd(string cmd) {
 		return;
 	}
 
-	m_buffer.push_back(parseBufferCmd(cmd_content));
-}
-
-Instruction CommandBuffer::parseBufferCmd(string bufferCmd) {
-	std::string cmd = bufferCmd.substr(0, 1);
-
-	string::size_type posLba = bufferCmd.find('_', 2);
-	string lba = bufferCmd.substr(2, posLba - 2);
-
-	string::size_type posParam = posLba + 1;
-	string param = bufferCmd.substr(posParam);
-
-	Instruction cb;
-	cb.setCmd(cmd).setLba(std::stoi(lba));
-	
-	if (true == cb.isWriteCommand()) {cb.setValue(param);}
-	else if (cb.isEraseCommand()) { cb.setSize(std::stoi(param)); }
-
-	return cb;
-}
-
-string CommandBuffer::makeBufferCmd(int index, Instruction& bufferCmd) {
-	string ret = "";
-
-	ret.append(std::to_string(index)).append("_");
-	ret.append(bufferCmd.getCmd()).append("_");
-	ret.append(std::to_string(bufferCmd.getLba())).append("_");
-
-	if (true == bufferCmd.isWriteCommand()) { ret.append(bufferCmd.getValue()); }
-	else if (true == bufferCmd.isEraseCommand()) { ret.append(std::to_string(bufferCmd.getSize())); }
-
-	return ret;
+	m_buffer.push_back(Instruction().setInstString(cmd_content));
 }
 
 bool CommandBuffer::isDirectoryExist() {
@@ -196,4 +159,24 @@ bool CommandBuffer::isDirectoryExist() {
 	}
 
 	return false;
+}
+
+
+void FileHandler::clearDir(const string& dir) {
+	for (const auto& entry : fs::directory_iterator(dir)) {
+		if (fs::is_regular_file(entry)) {
+			fs::remove(entry.path());
+		}
+	}
+}
+
+void FileHandler::makeFile(string path) {
+	std::ofstream f(path);
+	f.close();
+}
+
+vector<string> FileHandler::getFileList(string dir) {
+	vector<string> ret;
+
+	return ret;
 }
