@@ -3,7 +3,6 @@
 #include "iostream"
 #include "msg_handler.h"
 
-using std::cout;
 void EraseRangeCmd::checkInvalidCmd(const vector<string>& tokens) const {
     checkNumToken(tokens);
     string startLbaString = tokens[1];

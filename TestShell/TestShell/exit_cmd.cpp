@@ -2,7 +2,6 @@
 #include "iostream"
 #include "msg_handler.h"
 
-using std::cout;
 void ExitCmd::checkInvalidCmd(const vector<string>& tokens) const {
 	checkNumToken(tokens);
 }

@@ -3,7 +3,6 @@
 #include "iostream"
 #include "msg_handler.h"
 
-using std::cout;
 void FullWriteCmd::checkInvalidCmd(const vector<string>& tokens) const {
 	checkNumToken(tokens);
     string dataString = tokens[1];

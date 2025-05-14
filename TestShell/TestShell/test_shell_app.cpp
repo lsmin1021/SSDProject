@@ -31,11 +31,11 @@ void TestShellApp::runBasicMode(void) {
     
     string input;
     while (true) {
-        std::cout << "Shell> ";
+        MSG_PRINT("Shell> ");
         std::getline(std::cin, input);
 
         if (input.empty()) {
-            std::cout << std::endl;
+            MSG_PRINT(std::endl);
             continue;
         }
 
