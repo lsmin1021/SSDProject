@@ -27,6 +27,9 @@ public:
 	bool isWriteCommand();
 	bool isEraseCommand();
 
+	static bool isMergeable(Instruction& inst1, Instruction& inst2);
+	static Instruction mergeInst(Instruction& inst1, Instruction& inst2);
+
 	void show();
 
 private:

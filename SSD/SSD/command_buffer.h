@@ -33,8 +33,6 @@ private:
 	void setBufferDir();
 	void loadBufferCmd(string cmd);
 	void storeDataToBuffer();
-	bool isMergeable(Instruction& inst1, Instruction& inst2);
-	Instruction merge(Instruction& inst1, Instruction& inst2);
 
 	vector<Instruction> m_buffer;
 
