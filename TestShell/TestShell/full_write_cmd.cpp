@@ -13,13 +13,13 @@ void FullWriteCmd::excuteCmd(const vector<string>& tokens) {
     fullWrite(dataString);
 }
 void FullWriteCmd::helpCmd() const {
-    string msg = "  fullwrite <DATA>               Write 4-byte DATA to all LBA addresses(0 ~ 99)\n";
-    MSG_PRINT(msg);
+    MSG_PRINT("  fullwrite <DATA>               Write 4-byte DATA to all LBA addresses(0 ~ 99)\n");
 }
 
 void FullWriteCmd::fullWrite(const string& value) {
     for (int lba = 0; lba <= MAX_LBA; ++lba) {
 		m_ssd->writeData(std::to_string(lba), value);
     }
+    MSG_PRINT("[FullWrite] DONE\n");
 }
 
