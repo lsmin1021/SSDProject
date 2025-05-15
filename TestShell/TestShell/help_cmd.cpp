@@ -24,5 +24,7 @@ void HelpCmd::excuteCmd(const vector<string>& tokens)  {
     }
 }
 void HelpCmd::helpCmd() const {
-    MSG_PRINT("  help                     Show this help message\n");
+    std::stringstream formatted;
+    formatted << std::left << std::setw(30) << "  help" << "Show this help message\n";
+    MSG_PRINT(formatted.str());
 }

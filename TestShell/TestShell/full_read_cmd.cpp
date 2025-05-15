@@ -10,7 +10,9 @@ void FullReadCmd::excuteCmd(const vector<string>& tokens) {
     fullRead();
 }
 void FullReadCmd::helpCmd() const {
-    MSG_PRINT("  fullread                 Read all data from LBA addresses (0 ~ 99)\n");
+    std::stringstream formatted;
+    formatted << std::left << std::setw(30) << "  fullread" << "Read all data from LBA addresses (0 ~ 99)\n\n";
+    MSG_PRINT(formatted.str());
 }
 
 void FullReadCmd::fullRead() {

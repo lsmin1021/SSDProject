@@ -9,5 +9,7 @@ void ExitCmd::excuteCmd(const vector<string>& tokens){
 	throw ExitException();
 }
 void ExitCmd::helpCmd() const {
-	MSG_PRINT("  exit                     Exit the shell\n");
+	std::stringstream formatted;
+	formatted << std::left << std::setw(30) << "  exit" << "Exit the shell\n";
+	MSG_PRINT(formatted.str());
 }
