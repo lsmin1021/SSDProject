@@ -8,9 +8,14 @@ void FlushCmd::checkInvalidCmd(const vector<string>& tokens) const {
 }
 
 void FlushCmd::excuteCmd(const vector<string>& tokens) {
-	m_ssd->flush();
+	flush();
 }
 
 void FlushCmd::helpCmd() const {
 	MSG_PRINT("  flush                     Flush the buffered commands to Nand\n");
+}
+
+void FlushCmd::flush() {
+	m_ssd->flush();
+	MSG_PRINT("[Flush] DONE\n");
 }
