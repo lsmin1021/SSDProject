@@ -5,8 +5,6 @@ void SsdDriver::readData(const string& lba) {
 	string cmd = READ_CMD + lba;
 	int ret = system(cmd.c_str());
 	LOG_PRINT("SsdDriver", cmd + "\n");
-	LOG_PRINT("SsdDriver", "read result : " + getReadResult() + "\n");
-
 }
 void SsdDriver::writeData(const string& lba, const string& data) {
 	string cmd = WRITE_CMD + lba + " " + data;
@@ -27,15 +25,16 @@ void SsdDriver::flush(void) {
 }
 
 string SsdDriver::getReadResult() {
-	std::ifstream file("ssd_output.txt");
+	std::ifstream resultHandler(FILE_NAME);
+	string result = "";
 
-	if (!file.is_open()) {
-		return "";
+	if(resultHandler.is_open()) {
+		getline(resultHandler, result);
+		LOG_PRINT("SsdDriver", result + "\n");
 	}
-
-	string result;
-	getline(file, result);
-	file.close();
+	else {
+		LOG_PRINT("SsdDriver", "ssd_output.txt can`t be opend\n");
+	}
 
 	return result;
 }
