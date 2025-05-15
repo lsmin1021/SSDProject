@@ -28,6 +28,7 @@ public:
 	bool isWriteCommand();
 	bool isEraseCommand();
 
+	static bool canIgnoreCommand(Instruction& target, Instruction& base);
 	static bool isMergeable(Instruction& inst1, Instruction& inst2);
 	static Instruction mergeInst(Instruction& inst1, Instruction& inst2);
 

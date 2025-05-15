@@ -30,8 +30,7 @@ private:
 	void ignoreCommand(Instruction& cmd);
 
 	void mergeCommand();
-	void insertMergedInst(Instruction& mergedInst, int pos);
-	bool isConflicted(Instruction& targetInst, vector<int>& writeLbaList);
+	void splitEraseCommand();
 
 	void setBufferDir();
 	void loadBufferCmd(string cmd);
