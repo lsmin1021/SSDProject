@@ -10,7 +10,7 @@ string DeviceHandler::read(int lba) {
 	string ret = m_commandBuffer.readData(lba);
 
 	if (true == ret.empty()) {
-		ret = m_nandHandler.read(lba);
+		ret = m_nandStorage.read(lba);
 	}
 
 	return ret;
@@ -39,13 +39,13 @@ void DeviceHandler::flush() {
 
 	for (Instruction cmd : cmdList) {
 		if (true == cmd.isWriteCommand()) {
-			m_nandHandler.write(cmd.getLba(), cmd.getValue());
+			m_nandStorage.write(cmd.getLba(), cmd.getValue());
 		}
 		else if (true == cmd.isEraseCommand()) {
-			m_nandHandler.erase(cmd.getLba(), cmd.getSize());
+			m_nandStorage.erase(cmd.getLba(), cmd.getSize());
 		}
 	}
 
-	m_nandHandler.commit();
+	m_nandStorage.commit();
 }
 
