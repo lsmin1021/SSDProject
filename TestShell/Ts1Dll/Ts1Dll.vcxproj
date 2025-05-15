@@ -129,6 +129,9 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy /Y /I "$(TargetPath)" "$(SolutionDir)TestShell\"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
