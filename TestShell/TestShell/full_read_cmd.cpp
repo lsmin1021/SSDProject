@@ -1,7 +1,7 @@
 #include "full_read_cmd.h"
 #include "ssd_interface.h"
-#include "iostream"
 #include "msg_handler.h"
+#include "logger.h"
 
 void FullReadCmd::checkInvalidCmd(const vector<string>& tokens) const {
 	checkNumToken(tokens);
@@ -10,7 +10,7 @@ void FullReadCmd::excuteCmd(const vector<string>& tokens) {
     fullRead();
 }
 void FullReadCmd::helpCmd() const {
-    MSG_PRINT("  fullread                 Read all data from LBA addresses (0 ~ 99)\n");
+    MSG_PRINT(getFormattedHelpString("fullread", "Read all DATA from all LBA addresses (0 ~ 99)"));
 }
 
 void FullReadCmd::fullRead() {

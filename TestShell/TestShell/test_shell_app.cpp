@@ -7,6 +7,7 @@
 #include "file_output_handler.h"
 #include "dll_driver.h"
 #include <windows.h>
+#include "logger.h"
 
 TestShellApp::TestShellApp(SsdInterface* m_ssd): m_ssd(m_ssd), m_shellMode(MODE_NULL) {
     CmdFactory::getInstance().setSdd(m_ssd);
@@ -15,11 +16,9 @@ TestShellApp::TestShellApp(SsdInterface* m_ssd): m_ssd(m_ssd), m_shellMode(MODE_
 
 void TestShellApp::run(int argc, char* argv[]) {
     if (argc == 1) {
-        setShellMode(MODE_BASIC);
         runBasicMode();
     }
     else if (argc == 2) {
-        setShellMode(MODE_RUNNER);
         runRunnerMode(argv[1]);
     }
     else {
@@ -28,6 +27,9 @@ void TestShellApp::run(int argc, char* argv[]) {
 }
 
 void TestShellApp::runBasicMode(void) {
+    LOG_PRINT("TestShellApp", "Start Basic Shell Mode\n");
+    setShellMode(MODE_BASIC);
+
     ConsoleOutputHandler outputHandler;
     MsgHandler::getInstance().setMsgHandler(&outputHandler);
     
@@ -40,15 +42,18 @@ void TestShellApp::runBasicMode(void) {
             MSG_PRINT("\n");
             continue;
         }
+        LOG_PRINT("TestShellApp", "Shell Input \'" + input +"\'\n");
 
         try {
             cmdParserAndExecute(input);
         }
         catch (const std::invalid_argument&) {
             MSG_PRINT("INVALID COMMAND\n");
+            LOG_PRINT("TestShellApp", "\'" + input + "\' is invalid\n");
         }
         catch (const FailException&) {
             MSG_PRINT("FAIL\n");
+            LOG_PRINT("TestShellApp", "\'" + input + "\' failed\n");
         }
         catch (const ExitException&) {
             break;
@@ -56,9 +61,14 @@ void TestShellApp::runBasicMode(void) {
 
         MSG_PRINT("\n");
     }
+
+    LOG_PRINT("TestShellApp", "Exit the basic shell\n");
 }
 
 void TestShellApp::runRunnerMode(const string& scriptFileName) {
+    LOG_PRINT("TestShellApp", "Start Runner Shell Mode\n");
+    setShellMode(MODE_RUNNER); 
+
     FileOutputHandler outputHandler;
     MsgHandler::getInstance().setMsgHandler(&outputHandler);
 
@@ -70,25 +80,30 @@ void TestShellApp::runRunnerMode(const string& scriptFileName) {
 
     string line;
     while (std::getline(file, line)) {
+        LOG_PRINT("TestShellApp", "Runner Input \'" + line + "\'\n");
         std::cout << line << "  ---  Run...";
 
         try {
             cmdParserAndExecute(line);
         }
         catch (const std::invalid_argument&) {
+            LOG_PRINT("TestShellApp", "Input \'" + line + "\' is Invalid\n");
             std::cout << "FAIL!" << std::endl;
             break;
         }
         catch (const FailException&) {
+            LOG_PRINT("TestShellApp", "\'" + line + "\' failed\n");
             std::cout << "FAIL!" << std::endl;
             break;
         }
         catch (const ExitException&) {
+            LOG_PRINT("TestShellApp", "Exit\n");
             std::cout << "EXIT" << std::endl;
             break;
         }
     }
     file.close();
+    LOG_PRINT("TestShellApp", "Exit the runner mode shell\n");
 }
 
 bool TestShellApp::cmdParserAndExecute(const string& cmdString) {
@@ -112,14 +127,17 @@ bool TestShellApp::cmdParserAndExecute(const string& cmdString) {
 static vector<string> tsTokensToDll;
 void TestShellApp::executeTestScript(const vector<string>& tsTokens) {
     tsTokensToDll = tsTokens;
+    LOG_PRINT("TestShellApp", "Execute \'" + tsTokens[0] + "\'\n");
     DllDriver::getInstance().getDllApi().executeTs(tsTokensToDll);
     if (getShellMode() != MODE_NULL) {
         std::cout << "PASS\n";
     }
+    LOG_PRINT("TestShellApp", "Success \'" + tsTokens[0] + "\'\n");
 }
 
 bool TestShellApp::executeSsdComand(vector<string> cmdTokens) {
     if (CmdExecuter::getInstance().executeCmd(cmdTokens)) {
+        LOG_PRINT("TestShellApp", "Success \'" + cmdTokens[0] + "\'\n");
         return true;
     }
     return false;
@@ -139,4 +157,6 @@ vector<string> TestShellApp::parseCmd(const string& cmdString) {
 void TestShellApp::printInvalidArgsMessage(const std::string& programName) {
     std::cerr << "Error: Invalid arguments for Runner Mode.\n";
     std::cerr << "Usage: " << programName << " <scripts_file>\n";
+
+    LOG_PRINT("TestShellApp", "Error: Invalid arguments for Runner Mode.\n");
 }

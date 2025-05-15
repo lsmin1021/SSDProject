@@ -1,7 +1,7 @@
 #include "help_cmd.h"
 #include "cmd_factory.h"
-#include "iostream"
 #include "msg_handler.h"
+#include "logger.h"
 
 void HelpCmd::checkInvalidCmd(const vector<string>& tokens) const {
 	checkNumToken(tokens);
@@ -24,5 +24,5 @@ void HelpCmd::excuteCmd(const vector<string>& tokens)  {
     }
 }
 void HelpCmd::helpCmd() const {
-    MSG_PRINT("  help                     Show this help message\n");
+    MSG_PRINT(getFormattedHelpString("help", "Show this help message"));
 }

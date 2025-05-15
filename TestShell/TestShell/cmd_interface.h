@@ -22,7 +22,10 @@ public:
 	virtual void checkInvalidCmd(const vector<string>& tokens) const = 0;
 	virtual void excuteCmd(const vector<string>& tokens) = 0;
 	virtual void helpCmd() const = 0;
+
 	string getReadResult() const;
+
+	string getFormattedHelpString(const string& cmdStr, const string& helpStr) const;
 
 	string  getName() const {
 		return m_name;

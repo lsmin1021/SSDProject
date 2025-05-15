@@ -1,7 +1,7 @@
 #include "read_cmd.h"
 #include "ssd_driver.h"
-#include "iostream"
 #include "msg_handler.h"
+#include "logger.h"
 
 void ReadCmd::checkInvalidCmd(const vector<string>& tokens) const {
 	checkNumToken(tokens);
@@ -12,7 +12,7 @@ void ReadCmd::excuteCmd(const vector<string>& tokens) {
 	read(lba);
 }
 void ReadCmd::helpCmd() const {
-	MSG_PRINT("  read <LBA>               Read data from the specified LBA\n");
+	MSG_PRINT(getFormattedHelpString("read <LBA>", "Read 4-byte data from the specified LBA"));
 }
 
 void ReadCmd::read(const string& lbaString) {

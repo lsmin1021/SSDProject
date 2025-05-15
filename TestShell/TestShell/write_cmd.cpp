@@ -1,7 +1,7 @@
 #include "write_cmd.h"
 #include "ssd_driver.h"
-#include "iostream"
 #include "msg_handler.h"
+#include "logger.h"
 
 void WriteCmd::checkInvalidCmd(const vector<string>& tokens) const {
 	checkNumToken(tokens);
@@ -14,7 +14,7 @@ void WriteCmd::excuteCmd(const vector<string>& tokens) {
     write(lba, value);
 }
 void WriteCmd::helpCmd() const {
-    MSG_PRINT("  write <LBA> <DATA>       Write 4-byte DATA to logical block address (LBA)\n");
+    MSG_PRINT(getFormattedHelpString("write <LBA> <DATA>", "Write a 4-byte DATA to the specified LBA"));
 
 }
 
