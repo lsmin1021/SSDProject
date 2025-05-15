@@ -86,16 +86,29 @@ if (condition) {
 ## 🏗️ **SSD 기능**
 
 ### ✅ **Write**
-- `ssd_nand.txt` 파일이 없으면 **생성 후 데이터 기록**
-- **`ssd_nand.txt` 파일에만 데이터 기록 (콘솔 출력 없음)**
+- `ssd_nand.txt` 파일이 없으면 **생성**
+- 입력한 명령어는 buffer에 기록 **(`ssd_nand.txt`에 바로 반영하지 않음)**
+- 콘솔 출력 없음
 - 잘못된 LBA 입력 시 `ssd_output.txt`에 `"ERROR"` 기록
 
 ### ✅ **Read**
-- `ssd_nand.txt` 파일이 없으면 **생성 후 데이터 읽기**
-- `ssd_nand.txt`에서 데이터를 읽어와 **`ssd_output.txt`에 기록 (콘솔 출력 없음)**
+- `ssd_nand.txt` 파일이 없으면 **생성**
+- 버퍼 내 write 작업 중, 해당 LBA에 작성한 내용이 있으면 해당 데이터 사용(Fast Read, `ssd_nand.txt`는 확인하지 않음)
+- 버퍼에서 취득 불가 시, `ssd_nand.txt`에서 데이터 취득
+- 취득한 데이터는 **`ssd_output.txt`에 기록 (콘솔 출력 없음)**
 - `ssd_output.txt`에는 **항상 마지막 Read 결과 덮어쓰기 저장**
 - 기록되지 않은 LBA를 읽으면 `0x00000000` 반환
 - 잘못된 LBA 입력 시 `ssd_output.txt`에 `"ERROR"` 기록
+
+### ✅ **Erase**
+- 지정된 LBA에서부터 지정된 개수(Size)만큼 데이터 삭제
+- 삭제할 데이터 크기는 최소 0개에서 최대 10개
+- 0개일 경우, 동작하는 사항은 없음(buffer에도 저장하지 않음)
+
+### ✅ **Flush**
+- Buffer에 저장한 명령어를 일괄 실행
+- Write/Erase 결과를 **ssd_nand.txt에 반영**
+- Buffer 내 명령어가 Full인 상태에서 W/E 명령어 입력 시, **자동으로 flush 수행**
 
 ### ✅ **데이터 범위**
 - **LBA**: 0 ~ 99 (10진수 입력)
@@ -122,15 +135,18 @@ if (condition) {
 
 ## 🧪 **Test Shell**
 
-### ✅ **Test Shell command**
-| 명령어      | 설명                                       |
-|-------------|------------------------------------------|
-| `write`     | 특정 LBA에 Value 기록                     |
-| `read`      | 특정 LBA에서 데이터 읽기                  |
-| `fullwrite` | LBA 0 ~ 99까지 모든 영역 Write 수행        |
-| `fullread`  | LBA 0 ~ 99까지 모든 영역 Read 수행         |
-| `help`      | 제작자 이름 및 각 명령어 사용법 출력      |
-| `exit`      | Test Shell 종료                           |
+### ✅ **Test Shell command **
+| 명령어        | 설명                                        |
+|---------------|---------------------------------------------|
+| `write`       | 특정 LBA에 Value 기록                        |
+| `read`        | 특정 LBA에서 데이터 읽기                      |
+| `erase`       | 특정 LBA부터 지정된 크기만큼 데이터 삭제       |
+| `erase_range` | 특정 LBA부터 다음 LBA 사이의 모든 데이터 삭제  |
+| `flush`       | 버퍼에 저장한 모든 명령어 일괄 실행            |
+| `fullwrite`   | LBA 0 ~ 99까지 모든 영역 Write 수행           |
+| `fullread`    | LBA 0 ~ 99까지 모든 영역 Read 수행            |
+| `help`        | 제작자 이름 및 각 명령어 사용법 출력           |
+| `exit`        | Test Shell 종료                              |
 
 ---
 
