@@ -7,6 +7,7 @@
 #include "file_output_handler.h"
 #include "dll_driver.h"
 #include <windows.h>
+#include "logger.h"
 
 TestShellApp::TestShellApp(SsdInterface* m_ssd): m_ssd(m_ssd), m_shellMode(MODE_NULL) {
     CmdFactory::getInstance().setSdd(m_ssd);

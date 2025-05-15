@@ -1,7 +1,7 @@
 #include "full_read_cmd.h"
 #include "ssd_interface.h"
-#include "iostream"
 #include "msg_handler.h"
+#include "logger.h"
 
 void FullReadCmd::checkInvalidCmd(const vector<string>& tokens) const {
 	checkNumToken(tokens);

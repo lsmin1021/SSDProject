@@ -1,7 +1,7 @@
 #include "write_cmd.h"
 #include "ssd_driver.h"
-#include "iostream"
 #include "msg_handler.h"
+#include "logger.h"
 
 void WriteCmd::checkInvalidCmd(const vector<string>& tokens) const {
 	checkNumToken(tokens);

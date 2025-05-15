@@ -1,7 +1,7 @@
 #include "flush_cmd.h"
 #include "ssd_interface.h"
-#include "iostream"
 #include "msg_handler.h"
+#include "logger.h"
 
 void FlushCmd::checkInvalidCmd(const vector<string>& tokens) const {
 	checkNumToken(tokens);

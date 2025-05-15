@@ -1,6 +1,5 @@
 #include "erase_cmd.h"
 #include "ssd_interface.h"
-#include "iostream"
 #include "msg_handler.h"
 #include "logger.h"
 
@@ -21,7 +20,9 @@ void EraseCmd::excuteCmd(const vector<string>& tokens) {
     MSG_PRINT("[Erase] DONE\n");
 }
 void EraseCmd::helpCmd() const {
-    MSG_PRINT("  erase <LBA>  <SIZE>       Erase 4-byte DATAs of SIZE from logical block address (LBA)\n");
+    std::stringstream formatted;
+    formatted << std::left << std::setw(30) << "  erase <LBA>  <SIZE>" << "Erase 4-byte DATAs of SIZE from logical block address (LBA)\n";
+    MSG_PRINT(formatted.str());
 }
 
 void EraseCmd::checkSizeArg(const string& sizeString) const {

@@ -1,6 +1,6 @@
 #include "exit_cmd.h"
-#include "iostream"
 #include "msg_handler.h"
+#include "logger.h"
 
 void ExitCmd::checkInvalidCmd(const vector<string>& tokens) const {
 	checkNumToken(tokens);

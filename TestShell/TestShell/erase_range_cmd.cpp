@@ -1,7 +1,7 @@
 #include "erase_range_cmd.h"
 #include "ssd_interface.h"
-#include "iostream"
 #include "msg_handler.h"
+#include "logger.h"
 
 void EraseRangeCmd::checkInvalidCmd(const vector<string>& tokens) const {
     checkNumToken(tokens);
@@ -26,6 +26,8 @@ void EraseRangeCmd::excuteCmd(const vector<string>& tokens) {
    EraseCmd::excuteCmd(newTokens);  
 }
 void EraseRangeCmd::helpCmd() const {
-    MSG_PRINT("  erase_range <START LBA>  <END LBA>    Erase 4-byte DATAs from START LBA to END LBA\n");
+    std::stringstream formatted;
+    formatted << std::left << std::setw(30) << "  erase_range <START LBA>  <END LBA>" << "Erase 4-byte DATAs from START LBA to END LBA\n";
+    MSG_PRINT(formatted.str());
 }
 

@@ -1,7 +1,8 @@
 #include "cmd_executer.h"
 #include "cmd_interface.h"
 #include "cmd_factory.h"
-#include <iostream>
+#include "logger.h"
+
 CmdExecuter& CmdExecuter::getInstance() {
 	static CmdExecuter instance;
 	return instance;

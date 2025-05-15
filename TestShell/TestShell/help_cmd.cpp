@@ -1,7 +1,7 @@
 #include "help_cmd.h"
 #include "cmd_factory.h"
-#include "iostream"
 #include "msg_handler.h"
+#include "logger.h"
 
 void HelpCmd::checkInvalidCmd(const vector<string>& tokens) const {
 	checkNumToken(tokens);
