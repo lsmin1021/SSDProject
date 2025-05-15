@@ -49,9 +49,11 @@ void TestShellApp::runBasicMode(void) {
         }
         catch (const std::invalid_argument&) {
             MSG_PRINT("INVALID COMMAND\n");
+            LOG_PRINT("TestShellApp", "\'" + input + "\' is invalid\n");
         }
         catch (const FailException&) {
             MSG_PRINT("FAIL\n");
+            LOG_PRINT("TestShellApp", "\'" + input + "\' failed\n");
         }
         catch (const ExitException&) {
             break;
@@ -59,6 +61,8 @@ void TestShellApp::runBasicMode(void) {
 
         MSG_PRINT("\n");
     }
+
+    LOG_PRINT("TestShellApp", "Exit the basic shell\n");
 }
 
 void TestShellApp::runRunnerMode(const string& scriptFileName) {
@@ -99,6 +103,7 @@ void TestShellApp::runRunnerMode(const string& scriptFileName) {
         }
     }
     file.close();
+    LOG_PRINT("TestShellApp", "Exit the runner mode shell\n");
 }
 
 bool TestShellApp::cmdParserAndExecute(const string& cmdString) {
