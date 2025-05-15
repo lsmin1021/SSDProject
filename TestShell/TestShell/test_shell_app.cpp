@@ -27,7 +27,7 @@ void TestShellApp::run(int argc, char* argv[]) {
 }
 
 void TestShellApp::runBasicMode(void) {
-    LOG_PRINT("TestShellApp", "Run Basic Shell Mode\n");
+    LOG_PRINT("TestShellApp", "Start Basic Shell Mode\n");
     setShellMode(MODE_BASIC);
 
     ConsoleOutputHandler outputHandler;
@@ -66,7 +66,7 @@ void TestShellApp::runBasicMode(void) {
 }
 
 void TestShellApp::runRunnerMode(const string& scriptFileName) {
-    LOG_PRINT("TestShellApp", "Run Runner Shell Mode\n");
+    LOG_PRINT("TestShellApp", "Start Runner Shell Mode\n");
     setShellMode(MODE_RUNNER); 
 
     FileOutputHandler outputHandler;
