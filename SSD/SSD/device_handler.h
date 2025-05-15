@@ -15,5 +15,5 @@ private:
 	DeviceHandler() {};
 
 	CommandBuffer m_commandBuffer;
-	NandStorage m_nandHandler;
+	NandStorage m_nandStorage;
 };
