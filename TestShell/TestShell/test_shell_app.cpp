@@ -16,11 +16,9 @@ TestShellApp::TestShellApp(SsdInterface* m_ssd): m_ssd(m_ssd), m_shellMode(MODE_
 
 void TestShellApp::run(int argc, char* argv[]) {
     if (argc == 1) {
-        setShellMode(MODE_BASIC);
         runBasicMode();
     }
     else if (argc == 2) {
-        setShellMode(MODE_RUNNER);
         runRunnerMode(argv[1]);
     }
     else {
@@ -29,6 +27,9 @@ void TestShellApp::run(int argc, char* argv[]) {
 }
 
 void TestShellApp::runBasicMode(void) {
+    LOG_PRINT("TestShellApp", "Run Basic Shell Mode\n");
+    setShellMode(MODE_BASIC);
+
     ConsoleOutputHandler outputHandler;
     MsgHandler::getInstance().setMsgHandler(&outputHandler);
     
@@ -41,6 +42,7 @@ void TestShellApp::runBasicMode(void) {
             MSG_PRINT("\n");
             continue;
         }
+        LOG_PRINT("TestShellApp", "Shell Input \'" + input +"\'\n");
 
         try {
             cmdParserAndExecute(input);
@@ -60,6 +62,9 @@ void TestShellApp::runBasicMode(void) {
 }
 
 void TestShellApp::runRunnerMode(const string& scriptFileName) {
+    LOG_PRINT("TestShellApp", "Run Runner Shell Mode\n");
+    setShellMode(MODE_RUNNER); 
+
     FileOutputHandler outputHandler;
     MsgHandler::getInstance().setMsgHandler(&outputHandler);
 
@@ -71,6 +76,7 @@ void TestShellApp::runRunnerMode(const string& scriptFileName) {
 
     string line;
     while (std::getline(file, line)) {
+        LOG_PRINT("TestShellApp", "Runner Input: " + line + "\n");
         std::cout << line << "  ---  Run...";
 
         try {
@@ -113,14 +119,17 @@ bool TestShellApp::cmdParserAndExecute(const string& cmdString) {
 static vector<string> tsTokensToDll;
 void TestShellApp::executeTestScript(const vector<string>& tsTokens) {
     tsTokensToDll = tsTokens;
+    LOG_PRINT("TestShellApp", "Execute " + tsTokens[0] + "\n");
     DllDriver::getInstance().getDllApi().executeTs(tsTokensToDll);
     if (getShellMode() != MODE_NULL) {
         std::cout << "PASS\n";
     }
+    LOG_PRINT("TestShellApp", "Success " + tsTokens[0] + "\n");
 }
 
 bool TestShellApp::executeSsdComand(vector<string> cmdTokens) {
     if (CmdExecuter::getInstance().executeCmd(cmdTokens)) {
+        LOG_PRINT("TestShellApp", "Success " + cmdTokens[0] + "\n");
         return true;
     }
     return false;
@@ -140,4 +149,6 @@ vector<string> TestShellApp::parseCmd(const string& cmdString) {
 void TestShellApp::printInvalidArgsMessage(const std::string& programName) {
     std::cerr << "Error: Invalid arguments for Runner Mode.\n";
     std::cerr << "Usage: " << programName << " <scripts_file>\n";
+
+    LOG_PRINT("TestShellApp", "Error: Invalid arguments for Runner Mode.\n");
 }
