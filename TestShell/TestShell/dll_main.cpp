@@ -7,9 +7,7 @@ extern "C"{
     AppCb cb;
     
     LIB_API__ void openDll(AppCb* appCb) {
-        cb = *appCb;
-        TestScriptFactory::generateTs();
-        TsDllDriver::getInstance();
+        TsDllDriver::getInstance(appCb);
     }
 
     LIB_API__ void executeTs(const vector<string>& cmdTokens) {

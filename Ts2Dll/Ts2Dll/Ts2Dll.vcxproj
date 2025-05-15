@@ -19,20 +19,20 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\TestShell\TestShell\dll_testscript.cpp" />
-    <ClCompile Include="..\..\TestShell\TestShell\full_write_read_compare_ts.cpp" />
-    <ClCompile Include="..\..\TestShell\TestShell\testscript_interface.cpp" />
+    <ClInclude Include="..\..\TestShell\TestShell\dll.h" />
+    <ClInclude Include="..\..\TestShell\TestShell\partial_lba_write_ts.h" />
+    <ClInclude Include="..\..\TestShell\TestShell\testscript_interface.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\TestShell\TestShell\dll.h" />
-    <ClInclude Include="..\..\TestShell\TestShell\full_write_read_compare_ts.h" />
-    <ClInclude Include="..\..\TestShell\TestShell\testscript_interface.h" />
+    <ClCompile Include="..\..\TestShell\TestShell\dll_testscript.cpp" />
+    <ClCompile Include="..\..\TestShell\TestShell\partial_lba_write_ts.cpp" />
+    <ClCompile Include="..\..\TestShell\TestShell\testscript_interface.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{e58b8146-2690-4f7a-8f36-5d1a4eb50d3b}</ProjectGuid>
-    <RootNamespace>Ts1Dll</RootNamespace>
+    <ProjectGuid>{4e2faaeb-37a0-4a26-b6b8-e7d848112f15}</ProjectGuid>
+    <RootNamespace>Ts2Dll</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -84,7 +84,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;TS1DLL_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;TS2DLL_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
@@ -101,7 +101,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;TS1DLL_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;TS2DLL_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
@@ -118,7 +118,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;TS1DLL_EXPORTS;_WINDOWS;_USRDLL;TSLIB_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>TSLIB_EXPORTS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
@@ -136,7 +136,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;TS1DLL_EXPORTS;_WINDOWS;_USRDLL;TSLIB_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>TSLIB_EXPORTS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>

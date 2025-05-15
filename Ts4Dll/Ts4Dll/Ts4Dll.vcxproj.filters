@@ -15,25 +15,25 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\TestShell\TestShell\full_write_read_compare_ts.cpp">
+    <ClInclude Include="..\..\TestShell\TestShell\dll.h">
       <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\TestShell\TestShell\testscript_interface.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\TestShell\TestShell\dll_testscript.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\TestShell\TestShell\full_write_read_compare_ts.h">
+    </ClInclude>
+    <ClInclude Include="..\..\TestShell\TestShell\erase_write_aging_ts.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
     <ClInclude Include="..\..\TestShell\TestShell\testscript_interface.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\TestShell\TestShell\dll.h">
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\TestShell\TestShell\dll_testscript.cpp">
       <Filter>소스 파일</Filter>
-    </ClInclude>
+    </ClCompile>
+    <ClCompile Include="..\..\TestShell\TestShell\erase_write_aging_ts.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\TestShell\TestShell\testscript_interface.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

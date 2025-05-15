@@ -1,17 +1,17 @@
 #include "testscript_factory.h"
-
-#include "full_write_read_compare_ts.h"
-#include "partial_lba_write_ts.h"
-#include "write_read_aging_ts.h"
-#include "erase_write_aging_ts.h"
-#include "ssd_interface.h"
+#include "testscript_interface.h"
 #include "dll_main.h"
-void TestScriptFactory::generateTs(void)
-{
-	static FullWriteAndReadCompareTs fullWriteAndReadCompareTs;
-	//static PartialLbaWriteTs partialLbaWriteTs;
-	//static WriteReadAging writeReadAging;
-	//static EraseAndWriteAgingTs eraseWriteAging;
+
+class DummyTestScript :public TsInterface {
+public :
+	DummyTestScript() : TsInterface("dumy", 0, nullptr) {}
+	virtual void checkInvalidTs(const vector<string>& tokens) {}
+	virtual void excuteTs(const vector<string>& tokens) {}
+};
+
+
+TsInterface* TsInterface::getInstance(AppCb* appCb) {
+	return nullptr;
 }
 
 TestScriptFactory& TestScriptFactory::getInstance()

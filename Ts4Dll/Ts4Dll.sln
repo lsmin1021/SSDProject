@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35931.197 d17.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Ts4Dll", "Ts4Dll\Ts4Dll.vcxproj", "{53EFAE6F-2F1A-4089-A6F6-9E94B91681EA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{53EFAE6F-2F1A-4089-A6F6-9E94B91681EA}.Debug|x64.ActiveCfg = Debug|x64
+		{53EFAE6F-2F1A-4089-A6F6-9E94B91681EA}.Debug|x64.Build.0 = Debug|x64
+		{53EFAE6F-2F1A-4089-A6F6-9E94B91681EA}.Debug|x86.ActiveCfg = Debug|Win32
+		{53EFAE6F-2F1A-4089-A6F6-9E94B91681EA}.Debug|x86.Build.0 = Debug|Win32
+		{53EFAE6F-2F1A-4089-A6F6-9E94B91681EA}.Release|x64.ActiveCfg = Release|x64
+		{53EFAE6F-2F1A-4089-A6F6-9E94B91681EA}.Release|x64.Build.0 = Release|x64
+		{53EFAE6F-2F1A-4089-A6F6-9E94B91681EA}.Release|x86.ActiveCfg = Release|Win32
+		{53EFAE6F-2F1A-4089-A6F6-9E94B91681EA}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {35C74320-15AB-478E-B6DE-2120C357ACCC}
+	EndGlobalSection
+EndGlobal

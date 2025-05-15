@@ -6,7 +6,7 @@
 #include "testscript_interface.h"
 class WriteReadAging : public TsInterface {
 public:
-	WriteReadAging() : TsInterface("3_WriteReadAging", 1) {}
+	WriteReadAging(AppCb* appCb) : TsInterface("3_WriteReadAging", 1, appCb) {}
 	void checkInvalidTs(const vector<string>& tokens) const override;
 	void excuteTs(const vector<string>& tokens) override;
 private:

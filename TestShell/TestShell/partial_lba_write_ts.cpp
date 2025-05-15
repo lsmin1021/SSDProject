@@ -1,5 +1,11 @@
 #include "partial_lba_write_ts.h"
 
+TsInterface* TsInterface::getInstance(AppCb* appCb) {
+    static PartialLbaWriteTs instance(appCb);
+    return &instance;
+}
+
+
 void PartialLbaWriteTs::checkInvalidTs(const vector<string>& tokens) const {
 	checkNumToken(tokens);
 }

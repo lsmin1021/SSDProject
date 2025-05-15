@@ -6,16 +6,16 @@ using std::string;
 using std::vector;
 
 class TsInterface;
-
+#include "testscript_interface.h"
 class TestScriptFactory {
 public:
 	TestScriptFactory() = default;
 	~TestScriptFactory() = default;
 
 	static TestScriptFactory& getInstance();
-	static void generateTs();
 
 	void registerTs(TsInterface* ts) {
+		std::cout<< "registerTs" << ts->getName() << "\n";
 		m_supportedTs.push_back(ts);
 	}
 
