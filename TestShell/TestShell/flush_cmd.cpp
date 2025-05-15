@@ -12,9 +12,7 @@ void FlushCmd::excuteCmd(const vector<string>& tokens) {
 }
 
 void FlushCmd::helpCmd() const {
-	std::stringstream formatted;
-	formatted << std::left << std::setw(30) << "  flush" << "Flush the buffered commands to Nand\n";
-	MSG_PRINT(formatted.str());
+	MSG_PRINT(getFormattedHelpString("flush", "Flush the buffered commands to Nand"));
 }
 
 void FlushCmd::flush() {

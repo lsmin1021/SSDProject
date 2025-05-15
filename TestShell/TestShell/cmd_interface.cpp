@@ -51,3 +51,9 @@ string CmdInterface::getReadResult() const {
     else
         return "";
 }
+
+string CmdInterface::getFormattedHelpString(const string& cmdStr, const string& helpStr) const {
+    std::stringstream formatted;
+    formatted << std::left << std::setw(40) << "  " + cmdStr << helpStr << std::endl;
+    return formatted.str();
+}

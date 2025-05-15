@@ -14,9 +14,7 @@ void WriteCmd::excuteCmd(const vector<string>& tokens) {
     write(lba, value);
 }
 void WriteCmd::helpCmd() const {
-    std::stringstream formatted;
-    formatted << std::left << std::setw(30) << "  write <LBA> <DATA>" << "Write 4-byte DATA to logical block address (LBA)\n";
-    MSG_PRINT(formatted.str());
+    MSG_PRINT(getFormattedHelpString("write <LBA> <DATA>", "Write 4-byte DATA to logical block address (LBA)"));
 
 }
 

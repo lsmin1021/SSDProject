@@ -13,9 +13,7 @@ void FullWriteCmd::excuteCmd(const vector<string>& tokens) {
     fullWrite(dataString);
 }
 void FullWriteCmd::helpCmd() const {
-    std::stringstream formatted;
-    formatted << std::left << std::setw(30) << "  fullwrite <DATA>" << "Write 4-byte DATA to all LBA addresses(0 ~ 99)\n";
-    MSG_PRINT(formatted.str());
+    MSG_PRINT(getFormattedHelpString("fullwrite <DATA>", "Write 4-byte DATA to all LBA addresses(0 ~ 99)"));
 }
 
 void FullWriteCmd::fullWrite(const string& value) {
