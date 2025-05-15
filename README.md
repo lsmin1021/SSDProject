@@ -26,6 +26,30 @@
 
 ---
 
+## 💻 실행 방법
+
+### ✅ **SSD**
+- **Solution:** `SSD\SSD.sln`
+- **Debug Build:** 실행 시 `SSD`의Unit Test가 수행됩니다.
+- **Release Build:** 실행 시 `SSD.exe`가 구동되어 명령어를 직접 입력할 수 있습니다.
+```bash
+# 실행 예시
+./SSD.exe <Command> <Parameter>
+```
+
+### ✅ **TestShell**
+- **Solution:** `TestShell\TestShell.sln`
+- **빌드 시 주의사항:** 라이브러리 빌드를 위해 전체 솔루션 빌드가 먼저 수행되어야 합니다.
+- **Debug Build:** 실행 시 `TestShell`의 Unit Test가 수행됩니다.
+- **Release Build:** 실행 시 `TestShell.exe`가 구동되며, 명령어를 직접 입력할 수 있습니다. 인자로 스크립트 파일명을 전달하면 **Runner mode**로 실행됩니다.
+```bash
+# Basic mode 실행 예시
+./TestShell.exe
+
+# Runner mode 실행 예시
+./TestShell.exe <FileName>
+```
+
 ## 💻 **코딩 규칙**
 
 ### ✅ **네이밍 규칙**
