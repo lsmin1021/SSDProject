@@ -10,7 +10,7 @@ void FullReadCmd::excuteCmd(const vector<string>& tokens) {
     fullRead();
 }
 void FullReadCmd::helpCmd() const {
-    MSG_PRINT(getFormattedHelpString("fullread", "Read all data from LBA addresses (0 ~ 99)"));
+    MSG_PRINT(getFormattedHelpString("fullread", "Read all DATA from all LBA addresses (0 ~ 99)"));
 }
 
 void FullReadCmd::fullRead() {

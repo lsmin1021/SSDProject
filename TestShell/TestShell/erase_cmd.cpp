@@ -20,7 +20,7 @@ void EraseCmd::excuteCmd(const vector<string>& tokens) {
     MSG_PRINT("[Erase] DONE\n");
 }
 void EraseCmd::helpCmd() const {
-    MSG_PRINT(getFormattedHelpString("erase <LBA>  <SIZE>", "Erase 4-byte DATAs of SIZE from logical block address (LBA)"));
+    MSG_PRINT(getFormattedHelpString("erase <LBA>  <SIZE>", "Erase 4-byte DATAs of SIZE starting from the specified LBA"));
 }
 
 void EraseCmd::checkSizeArg(const string& sizeString) const {

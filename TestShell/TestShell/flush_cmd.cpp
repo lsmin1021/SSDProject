@@ -12,7 +12,7 @@ void FlushCmd::excuteCmd(const vector<string>& tokens) {
 }
 
 void FlushCmd::helpCmd() const {
-	MSG_PRINT(getFormattedHelpString("flush", "Flush the buffered commands to Nand"));
+	MSG_PRINT(getFormattedHelpString("flush", "Flush all buffered commands to NAND Storage"));
 }
 
 void FlushCmd::flush() {
