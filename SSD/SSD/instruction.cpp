@@ -82,6 +82,8 @@ bool Instruction::isEraseCommand() {
 }
 
 bool Instruction::isMergeable(Instruction& inst1, Instruction& inst2) {
+	if (true == inst1.isWriteCommand() || true == inst2.isWriteCommand()) return false;
+
 	int lbaFrom1 = inst1.getLba();
 	int lbaTo1 = inst1.getLbaTo();
 	int lbaFrom2 = inst2.getLba();

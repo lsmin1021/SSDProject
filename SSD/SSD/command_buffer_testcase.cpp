@@ -297,10 +297,10 @@ TEST_F(CommandBufferFixture, OutOfOrderEraseMerge) {
 
 TEST_F(CommandBufferFixture, MergeAndSeperate) {
 	vector<string> expected = {
-		"0_W_35_0xCAFE0035",
-		"1_E_5_10",
-		"2_E_15_10",
-		"3_E_25_1",
+		"0_E_5_10",
+		"1_E_15_10",
+		"2_E_25_1",
+		"3_W_35_0xCAFE0035",
 		"4_empty"
 	};
 
@@ -311,7 +311,7 @@ TEST_F(CommandBufferFixture, MergeAndSeperate) {
 		{ ERASE_COMMAND, "16", "10"}
 		},
 		expected);
-}
+} 
 
 TEST_F(CommandBufferFixture, EraseIgnoreWriteMerge) {
 	vector<string> expected = {
@@ -333,8 +333,8 @@ TEST_F(CommandBufferFixture, EraseIgnoreWriteMerge) {
 
 TEST_F(CommandBufferFixture, EraseIgnoreWriteMerge2) {
 	vector<string> expected = {
-		"0_W_93_0xBBBB1111",
-		"1_E_5_8",
+		"0_E_5_8",
+		"1_W_93_0xBBBB1111",
 		"2_empty",
 		"3_empty", 
 		"4_empty"
@@ -363,6 +363,24 @@ TEST_F(CommandBufferFixture, MergeReverse) {
 		{ ERASE_COMMAND, "5", "5" },
 		{ WRITE_COMMAND, "7", "0xCAFEBEEF" },
 		{ ERASE_COMMAND, "9", "3" },
+		},
+		expected);
+}
+
+
+TEST_F(CommandBufferFixture, EditionalTest) {
+	vector<string> expected = {
+		"0_E_0_10",
+		"1_empty",
+		"2_empty",
+		"3_empty",
+		"4_empty"
+	};
+
+	runTest({
+		{ ERASE_COMMAND, "0", "2" },
+		{ ERASE_COMMAND, "5", "1" },
+		{ ERASE_COMMAND, "2", "8" },
 		},
 		expected);
 }

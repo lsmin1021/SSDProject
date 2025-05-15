@@ -81,83 +81,33 @@ void CommandBuffer::mergeCommand() {
 	if (true == m_buffer.empty()) {
 		return;
 	}
-	
-	for (int i = m_buffer.size() - 1; i >= 1; i--) {
-		Instruction latestInst = m_buffer[i];
-		if (true == latestInst.isWriteCommand()) continue;
-
-		vector<int> writeLbaList;
-		bool isMerged = false;
-
-		for (int j = i - 1; j >= 0; j--) {
-			Instruction targetInst = m_buffer[j];
-
-			if (true == targetInst.isWriteCommand()) {
-				writeLbaList.push_back(targetInst.getLba());
-				continue;
-			}
-			if (true == isConflicted(targetInst, writeLbaList)) {
-				continue;
-			}
-
-			if (true == Instruction::isMergeable(latestInst, targetInst)) {
-				m_buffer[i] = Instruction::mergeInst(latestInst, targetInst);
-
-				m_buffer.erase(m_buffer.begin() + j);
-				i--;
-				isMerged = true;
-			}
-		}
-		if (true == isMerged) {
-			insertMergedInst(i);
-			i += 1;
-		}
-	}
 
 	for (int i = 0; i < m_buffer.size() - 1; i++) {
-		Instruction oldestInst = m_buffer[i];
-		if (true == oldestInst.isWriteCommand()) continue;
+		if (true == m_buffer[i].isWriteCommand()) continue;
 
-		bool isMerged = false;
 		for (int j = i + 1; j < m_buffer.size(); j++) {
+			Instruction oldestInst = m_buffer[i];
 			Instruction targetInst = m_buffer[j];
 
-			if (true == targetInst.isWriteCommand()) {
-				continue;
-			}
+			if (false == Instruction::isMergeable(oldestInst, targetInst)) continue;
 
-			if (true == Instruction::isMergeable(oldestInst, targetInst)) {
-				m_buffer[i] = Instruction::mergeInst(oldestInst, targetInst);
-
-				m_buffer.erase(m_buffer.begin() + j);
-				isMerged = true;
-			}
-		}
-
-		if (true == isMerged) {
-			insertMergedInst(i);
-		}
-	}
-}
-
-bool CommandBuffer::isConflicted(Instruction& targetInst, vector<int>& writeLbaList) {
-	bool ret = false;
-	for (int lba : writeLbaList) {
-		if (targetInst.getLba() <= lba && targetInst.getLbaTo() >= lba) {
-			ret = true;
+			m_buffer[i] = Instruction::mergeInst(oldestInst, targetInst);
+			m_buffer.erase(m_buffer.begin() + j);
+			j--;
 		}
 	}
 
-	return ret;
+	splitEraseCommand();
 }
 
-void CommandBuffer::insertMergedInst(int pos) {
-	while (MAX_ERASE_SIZE < m_buffer[pos].getSize()) {
-		m_buffer.insert(m_buffer.begin() + pos, Instruction().setCmdErase().setLba(m_buffer[pos].getLba()).setSize(MAX_ERASE_SIZE));
-		pos += 1;
+void CommandBuffer::splitEraseCommand() {
+	for (int i = 0; i < m_buffer.size(); i++) {
+		while (MAX_ERASE_SIZE < m_buffer[i].getSize()) {
+			m_buffer.insert(m_buffer.begin() + i, Instruction().setCmdErase().setLba(m_buffer[i].getLba()).setSize(MAX_ERASE_SIZE));
 
-		m_buffer[pos].setLba(m_buffer[pos].getLba() + MAX_ERASE_SIZE);
-		m_buffer[pos].setSize(m_buffer[pos].getSize() - MAX_ERASE_SIZE);
+			m_buffer[i + 1].setLba(m_buffer[i + 1].getLba() + MAX_ERASE_SIZE);
+			m_buffer[i + 1].setSize(m_buffer[i + 1].getSize() - MAX_ERASE_SIZE);
+		}
 	}
 }
 
