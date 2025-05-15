@@ -31,7 +31,6 @@ GetInstance TsDllDriver::getInstanceApi(string flleName){
     }
     GetInstance getInstance = (GetInstance)GetProcAddress(m_dll, "getInstance");
     if (getInstance == nullptr) {
-        std::cerr << "getInstance symbol search fali!" << std::endl;
         FreeLibrary(m_dll);
         return nullptr;
     }

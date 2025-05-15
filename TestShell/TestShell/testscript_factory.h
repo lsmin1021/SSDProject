@@ -15,7 +15,6 @@ public:
 	static TestScriptFactory& getInstance();
 
 	void registerTs(TsInterface* ts) {
-		std::cout<< "registerTs" << ts->getName() << "\n";
 		m_supportedTs.push_back(ts);
 	}
 
