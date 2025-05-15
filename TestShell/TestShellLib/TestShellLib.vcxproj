@@ -19,17 +19,18 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\TestShell\TestShell\dll_main.cpp" />
-    <ClCompile Include="..\..\..\TestShell\TestShell\testscript_dll_driver.cpp" />
-    <ClCompile Include="..\..\..\TestShell\TestShell\testscript_factory.cpp" />
-    <ClCompile Include="..\..\..\TestShell\TestShell\testscript_interface.cpp" />
+    <ClCompile Include="..\TestShell\dll_main.cpp" />
+    <ClCompile Include="..\TestShell\testscript_dll_driver.cpp" />
+    <ClCompile Include="..\TestShell\testscript_factory.cpp" />
+    <ClCompile Include="..\TestShell\testscript_interface.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\TestShell\TestShell\dll.h" />
-    <ClInclude Include="..\..\..\TestShell\TestShell\dll_main.h" />
-    <ClInclude Include="..\..\..\TestShell\TestShell\testscript_dll_driver.h" />
-    <ClInclude Include="..\..\..\TestShell\TestShell\testscript_factory.h" />
-    <ClInclude Include="..\..\..\TestShell\TestShell\testscript_interface.h" />
+    <ClInclude Include="..\TestShell\dll.h" />
+    <ClInclude Include="..\TestShell\dll_driver.h" />
+    <ClInclude Include="..\TestShell\dll_main.h" />
+    <ClInclude Include="..\TestShell\testscript_dll_driver.h" />
+    <ClInclude Include="..\TestShell\testscript_factory.h" />
+    <ClInclude Include="..\TestShell\testscript_interface.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
