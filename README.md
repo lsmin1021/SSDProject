@@ -6,6 +6,15 @@
 
 ---
 
+## **작성자**
+### git 설정이 미흡하여 담당자가 여러 작성자로 commit 되었음에 주의바랍니다.
+| 담당자          | 작성자     |
+|----------------|------------|
+| 이도영          | ldy <ldy@example.com> / eedoyoung1234 <2do00531@gmail.com> |
+| 이승민          | Heeseung Yoo <heeseung.yoo@samsung.com> / lsmin1021 <dltmdals826@gmail.com> |
+| 추창래          | Wontae Jeong <dev.jeong@samsung.com> / akachoochoo <cl.choo@samsung.com> | 
+| 한창희          | CHANGHEE-H <jaduwvad2@naver.com> |
+
 ## 📝 **역할 분담**
 
 | 역할            | 담당자       |
