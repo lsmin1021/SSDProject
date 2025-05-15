@@ -76,21 +76,24 @@ void TestShellApp::runRunnerMode(const string& scriptFileName) {
 
     string line;
     while (std::getline(file, line)) {
-        LOG_PRINT("TestShellApp", "Runner Input: " + line + "\n");
+        LOG_PRINT("TestShellApp", "Runner Input \'" + line + "\'\n");
         std::cout << line << "  ---  Run...";
 
         try {
             cmdParserAndExecute(line);
         }
         catch (const std::invalid_argument&) {
+            LOG_PRINT("TestShellApp", "Input \'" + line + "\' is Invalid\n");
             std::cout << "FAIL!" << std::endl;
             break;
         }
         catch (const FailException&) {
+            LOG_PRINT("TestShellApp", "\'" + line + "\' failed\n");
             std::cout << "FAIL!" << std::endl;
             break;
         }
         catch (const ExitException&) {
+            LOG_PRINT("TestShellApp", "Exit\n");
             std::cout << "EXIT" << std::endl;
             break;
         }
@@ -119,17 +122,17 @@ bool TestShellApp::cmdParserAndExecute(const string& cmdString) {
 static vector<string> tsTokensToDll;
 void TestShellApp::executeTestScript(const vector<string>& tsTokens) {
     tsTokensToDll = tsTokens;
-    LOG_PRINT("TestShellApp", "Execute " + tsTokens[0] + "\n");
+    LOG_PRINT("TestShellApp", "Execute \'" + tsTokens[0] + "\'\n");
     DllDriver::getInstance().getDllApi().executeTs(tsTokensToDll);
     if (getShellMode() != MODE_NULL) {
         std::cout << "PASS\n";
     }
-    LOG_PRINT("TestShellApp", "Success " + tsTokens[0] + "\n");
+    LOG_PRINT("TestShellApp", "Success \'" + tsTokens[0] + "\'\n");
 }
 
 bool TestShellApp::executeSsdComand(vector<string> cmdTokens) {
     if (CmdExecuter::getInstance().executeCmd(cmdTokens)) {
-        LOG_PRINT("TestShellApp", "Success " + cmdTokens[0] + "\n");
+        LOG_PRINT("TestShellApp", "Success \'" + cmdTokens[0] + "\'\n");
         return true;
     }
     return false;
