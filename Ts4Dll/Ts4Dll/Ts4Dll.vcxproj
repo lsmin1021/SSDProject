@@ -18,11 +18,21 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\TestShell\TestShell\dll.h" />
+    <ClInclude Include="..\..\TestShell\TestShell\erase_write_aging_ts.h" />
+    <ClInclude Include="..\..\TestShell\TestShell\testscript_interface.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\TestShell\TestShell\dll_testscript.cpp" />
+    <ClCompile Include="..\..\TestShell\TestShell\erase_write_aging_ts.cpp" />
+    <ClCompile Include="..\..\TestShell\TestShell\testscript_interface.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{c1588d21-0ec1-47d2-9c4b-7f008ec6aade}</ProjectGuid>
-    <RootNamespace>TestShellLib</RootNamespace>
+    <ProjectGuid>{53efae6f-2f1a-4089-a6f6-9e94b91681ea}</ProjectGuid>
+    <RootNamespace>Ts4Dll</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -74,7 +84,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;TESTSHELLLIB_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;TS4DLL_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
@@ -91,7 +101,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;TESTSHELLLIB_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;TS4DLL_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
@@ -108,10 +118,11 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;TESTSHELLLIB_EXPORTS;_WINDOWS;_USRDLL;MYLIBRARY_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>TSLIB_EXPORTS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -125,10 +136,11 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;TESTSHELLLIB_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>TSLIB_EXPORTS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -138,37 +150,7 @@
       <EnableUAC>false</EnableUAC>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="..\..\..\TestShell\TestShell\dll_main.cpp" />
-    <ClCompile Include="..\..\..\TestShell\TestShell\erase_write_aging_ts.cpp" />
-    <ClCompile Include="..\..\..\TestShell\TestShell\full_write_read_compare_ts.cpp" />
-    <ClCompile Include="..\..\..\TestShell\TestShell\partial_lba_write_ts.cpp" />
-    <ClCompile Include="..\..\..\TestShell\TestShell\testscript_factory.cpp" />
-    <ClCompile Include="..\..\..\TestShell\TestShell\testscript_interface.cpp" />
-    <ClCompile Include="..\..\..\TestShell\TestShell\write_read_aging_ts.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\..\TestShell\TestShell\dll_main.h" />
-    <ClInclude Include="..\..\..\TestShell\TestShell\erase_write_aging_ts.h" />
-    <ClInclude Include="..\..\..\TestShell\TestShell\full_write_read_compare_ts.h" />
-    <ClInclude Include="..\..\..\TestShell\TestShell\partial_lba_write_ts.h" />
-    <ClInclude Include="..\..\..\TestShell\TestShell\testscript_factory.h" />
-    <ClInclude Include="..\..\..\TestShell\TestShell\testscript_interface.h" />
-    <ClInclude Include="..\..\..\TestShell\TestShell\write_read_aging_ts.h" />
-    <ClInclude Include="dll_main.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\..\TestShell\TestShell\packages.config" />
-    <None Include="packages.config" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
-    <Import Project="..\packages\gmock.1.11.0\build\native\gmock.targets" Condition="Exists('..\packages\gmock.1.11.0\build\native\gmock.targets')" />
   </ImportGroup>
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>이 프로젝트는 이 컴퓨터에 없는 NuGet 패키지를 참조합니다. 해당 패키지를 다운로드하려면 NuGet 패키지 복원을 사용하십시오. 자세한 내용은 http://go.microsoft.com/fwlink/?LinkID=322105를 참조하십시오. 누락된 파일은 {0}입니다.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\gmock.1.11.0\build\native\gmock.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\gmock.1.11.0\build\native\gmock.targets'))" />
-  </Target>
 </Project>

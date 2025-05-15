@@ -15,34 +15,25 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\TestShell\TestShell\dll_main.cpp">
+    <ClInclude Include="..\..\TestShell\TestShell\dll.h">
       <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\TestShell\TestShell\testscript_factory.cpp">
+    </ClInclude>
+    <ClInclude Include="..\..\TestShell\TestShell\partial_lba_write_ts.h">
       <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\TestShell\TestShell\testscript_interface.cpp">
+    </ClInclude>
+    <ClInclude Include="..\..\TestShell\TestShell\testscript_interface.h">
       <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\TestShell\TestShell\testscript_dll_driver.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\TestShell\TestShell\dll_main.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\TestShell\TestShell\testscript_factory.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\TestShell\TestShell\testscript_interface.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\TestShell\TestShell\testscript_dll_driver.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\TestShell\TestShell\dll.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
+    <ClCompile Include="..\..\TestShell\TestShell\partial_lba_write_ts.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\TestShell\TestShell\testscript_interface.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\TestShell\TestShell\dll_testscript.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -1,5 +1,9 @@
 #include "write_read_aging_ts.h"
-#include "cmd_factory.h"
+
+TsInterface* TsInterface::getInstance(AppCb* appCb) {
+    static WriteReadAging instance(appCb);
+    return &instance;
+}
 
 void WriteReadAging::checkInvalidTs(const vector<string>& tokens) const {
 	checkNumToken(tokens);

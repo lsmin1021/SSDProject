@@ -1,5 +1,10 @@
 #include "full_write_read_compare_ts.h"
-#include "cmd_factory.h"
+
+
+TsInterface* TsInterface::getInstance(AppCb* appCb){
+    static FullWriteAndReadCompareTs instance(appCb);
+    return &instance;
+}
 
 void FullWriteAndReadCompareTs::checkInvalidTs(const vector<string>& tokens) const {
 	checkNumToken(tokens);

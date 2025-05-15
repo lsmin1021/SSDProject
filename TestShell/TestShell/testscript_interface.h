@@ -1,18 +1,16 @@
 #pragma once
-
 #include <string>
 #include <vector>
 #include <iomanip>
 #include <iostream>
-#include "dll_main.h"
+#include "dll.h"
+
 using std::string;
 using std::vector;
 
-extern AppCb cb;
-
 class TsInterface {
 public:
-	TsInterface(const string& name, int numToken);
+	TsInterface(const string& name, int numToken, AppCb* appCb);
 	virtual ~TsInterface() = default;
 
 	const string&  getName() const {
@@ -33,6 +31,7 @@ public:
 
 	bool executeCmd(const vector<string>& cppTokens, const string& checkString = NOT_CHECK_RESULT);
 
+	static TsInterface* getInstance(AppCb* appCb);
 private:
 	bool isValidNumToken(const vector<string>& tokens) const {
 		return (tokens.size() == m_numToken);
@@ -53,4 +52,5 @@ protected:
 	static const int MAX_LBA = 99;
 	static const int MIN_LBA = 0;
 	int m_numToken;
+	AppCb& m_appCb;
 };

@@ -1,23 +1,20 @@
 #include "testscript_interface.h"
-#include "testscript_factory.h"
 #include <fstream>
 #include <stdexcept>
 #include <iostream>
 
 const string TsInterface::NOT_CHECK_RESULT = "NOT_CHECK_RESULT";
-
 vector<string> TsInterface::m_cbTokens;
 string TsInterface::m_checkString;
 
-TsInterface::TsInterface(const string& name, int numToken) : m_name(name), m_numToken(numToken) {
+TsInterface::TsInterface(const string& name, int numToken, AppCb* appCb) : m_name(name), m_numToken(numToken), m_appCb(*appCb){
     UpdateShortCutName();
-    TestScriptFactory::getInstance().registerTs(this);
 }
 
 bool TsInterface::executeCmd(const vector<string>& cppTokens, const string& checkString) {
     m_cbTokens = cppTokens;
     m_checkString = checkString;
-    return cb.excueteCmd(m_cbTokens, m_checkString);
+    return m_appCb.excueteCmd(m_cbTokens, m_checkString);
 }
 
 

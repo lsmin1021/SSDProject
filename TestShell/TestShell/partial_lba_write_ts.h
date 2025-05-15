@@ -5,7 +5,7 @@
 
 class PartialLbaWriteTs : public TsInterface {
 public:
-	PartialLbaWriteTs() : TsInterface("2_PartialLBAWrite", 1) {}
+	PartialLbaWriteTs(AppCb* appCb) : TsInterface("2_PartialLBAWrite", 1, appCb) {}
 	void checkInvalidTs(const vector<string>& tokens) const override;
 	void excuteTs(const vector<string>& tokens) override;
 private:

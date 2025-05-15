@@ -1,5 +1,9 @@
 #include "erase_write_aging_ts.h"
-#include "cmd_factory.h"
+
+TsInterface* TsInterface::getInstance(AppCb* appCb) {
+    static EraseAndWriteAgingTs instance(appCb);
+    return &instance;
+}
 
 void EraseAndWriteAgingTs::checkInvalidTs(const vector<string>& tokens) const {
     checkNumToken(tokens);

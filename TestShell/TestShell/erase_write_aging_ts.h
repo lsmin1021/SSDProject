@@ -4,7 +4,7 @@
 
 class EraseAndWriteAgingTs : public TsInterface {
 public:
-	EraseAndWriteAgingTs() : TsInterface("4_EraseAndWriteAging", 1) {}
+	EraseAndWriteAgingTs(AppCb* appCb) : TsInterface("4_EraseAndWriteAging", 1, appCb) {}
 	void checkInvalidTs(const vector<string>& tokens) const override;
 	void excuteTs(const vector<string>& tokens) override;
 private:

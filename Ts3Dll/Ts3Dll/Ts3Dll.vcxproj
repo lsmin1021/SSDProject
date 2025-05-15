@@ -19,23 +19,20 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\TestShell\TestShell\dll_main.cpp" />
-    <ClCompile Include="..\..\..\TestShell\TestShell\testscript_dll_driver.cpp" />
-    <ClCompile Include="..\..\..\TestShell\TestShell\testscript_factory.cpp" />
-    <ClCompile Include="..\..\..\TestShell\TestShell\testscript_interface.cpp" />
+    <ClInclude Include="..\..\TestShell\TestShell\dll.h" />
+    <ClInclude Include="..\..\TestShell\TestShell\testscript_interface.h" />
+    <ClInclude Include="..\..\TestShell\TestShell\write_read_aging_ts.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\TestShell\TestShell\dll.h" />
-    <ClInclude Include="..\..\..\TestShell\TestShell\dll_main.h" />
-    <ClInclude Include="..\..\..\TestShell\TestShell\testscript_dll_driver.h" />
-    <ClInclude Include="..\..\..\TestShell\TestShell\testscript_factory.h" />
-    <ClInclude Include="..\..\..\TestShell\TestShell\testscript_interface.h" />
+    <ClCompile Include="..\..\TestShell\TestShell\dll_testscript.cpp" />
+    <ClCompile Include="..\..\TestShell\TestShell\testscript_interface.cpp" />
+    <ClCompile Include="..\..\TestShell\TestShell\write_read_aging_ts.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{790c7124-57ed-4c21-adf2-a877547f9d02}</ProjectGuid>
-    <RootNamespace>TestShellLib</RootNamespace>
+    <ProjectGuid>{60732733-ed41-41ef-9c58-d54cbd172335}</ProjectGuid>
+    <RootNamespace>Ts3Dll</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -87,7 +84,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;TESTSHELLLIB_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;TS3DLL_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
@@ -104,7 +101,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;TESTSHELLLIB_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;TS3DLL_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
@@ -121,7 +118,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;TESTSHELLLIB_EXPORTS;_WINDOWS;_USRDLL;MYLIBRARY_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>TSLIB_EXPORTS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
@@ -132,9 +129,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
     </Link>
-    <PostBuildEvent>
-      <Command>xcopy /Y /I "$(TargetPath)" "..\..\..\TestShell\x64\$(Configuration)\"</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -142,7 +136,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;TESTSHELLLIB_EXPORTS;_WINDOWS;_USRDLL;MYLIBRARY_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>TSLIB_EXPORTS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
@@ -155,9 +149,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
     </Link>
-    <PostBuildEvent>
-      <Command>xcopy /Y /I "$(TargetPath)" "..\..\..\TestShell\x64\$(Configuration)\"</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
