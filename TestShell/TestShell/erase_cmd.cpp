@@ -18,6 +18,7 @@ void EraseCmd::excuteCmd(const vector<string>& tokens) {
     for (auto arg : args) {
         m_ssd->eraseData(arg.lbaString, arg.sizeString);
     }
+    MSG_PRINT("[Erase] DONE\n");
 }
 void EraseCmd::helpCmd() const {
     MSG_PRINT("  erase <LBA>  <SIZE>       Erase 4-byte DATAs of SIZE from logical block address (LBA)\n");
