@@ -58,21 +58,8 @@ void CommandBuffer::ignoreCommand(Instruction& cmd) {
 	for (int i = m_buffer.size() - 1; i >= 0; i--) {
 		Instruction& preCmd = m_buffer[i];
 
-		if (true == cmd.isWriteCommand()) {
-			if (true == preCmd.isWriteCommand() && preCmd.getLba() == cmd.getLba()) {
-				m_buffer.erase(m_buffer.begin() + i);
-			}
-			else if (true == preCmd.isEraseCommand() && preCmd.getLba() == cmd.getLba() && preCmd.getSize() == 1) {
-				m_buffer.erase(m_buffer.begin() + i);
-			}
-		}
-		else if (true == cmd.isEraseCommand()) {
-			if (true == preCmd.isWriteCommand() && cmd.getLba() <= preCmd.getLba() && cmd.getLbaTo() >= preCmd.getLba()) {
-				m_buffer.erase(m_buffer.begin() + i);
-			}
-			else if (true == cmd.isEraseCommand() && cmd.getLba() <= preCmd.getLba() && cmd.getLbaTo() >= preCmd.getLbaTo()) {
-				m_buffer.erase(m_buffer.begin() + i);
-			}
+		if (true == Instruction::canIgnoreCommand(preCmd, cmd)) {
+			m_buffer.erase(m_buffer.begin() + i);
 		}
 	}
 }

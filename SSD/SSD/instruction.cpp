@@ -81,6 +81,27 @@ bool Instruction::isEraseCommand() {
 	return false;
 }
 
+bool Instruction::canIgnoreCommand(Instruction& target, Instruction& base) {
+	if (true == base.isWriteCommand()) {
+		if (true == target.isWriteCommand() && target.getLba() == base.getLba()) {
+			return true;
+		}
+		else if (true == target.isEraseCommand() && target.getLba() == base.getLba() && target.getSize() == 1) {
+			return true;
+		}
+	}
+	else if (true == base.isEraseCommand()) {
+		if (true == target.isWriteCommand() && base.getLba() <= target.getLba() && base.getLbaTo() >= target.getLba()) {
+			return true;
+		}
+		else if (true == base.isEraseCommand() && base.getLba() <= target.getLba() && base.getLbaTo() >= target.getLbaTo()) {
+			return true;
+		}
+	}
+
+	return false;
+}
+
 bool Instruction::isMergeable(Instruction& inst1, Instruction& inst2) {
 	if (true == inst1.isWriteCommand() || true == inst2.isWriteCommand()) return false;
 
