@@ -4,8 +4,6 @@
 #include "testscript_dll_driver.h"
 
 extern "C"{
-    AppCb cb;
-    
     LIB_API__ void openDll(AppCb* appCb) {
         TsDllDriver::getInstance(appCb);
     }
